@@ -4,11 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MULTIPUNTO</title>
-    <!-- Fuente Phosphor (iconos) -->
+    <!-- Phosphor Icons -->
     <link rel="stylesheet" href="https://unpkg.com/phosphor-icons@2.1.1/src/css/phosphor.css" />
-    <!-- Fuente personalizada (si tienes Autobús Ómnibus, la cargas aquí) -->
     <style>
-        /* ========== ESTILOS GENERALES ========== */
+        /* ========== RESET Y BASE ========== */
         * {
             margin: 0;
             padding: 0;
@@ -16,109 +15,168 @@
         }
 
         body {
-            background-color: #000000;      /* fondo negro */
-            color: #FFFFFF;                /* texto blanco */
-            font-family: 'Autobús Ómnibus', Arial, sans-serif; /* si no la tienes, usará Arial */
+            /* Fondo con imagen (cambia 'fondo.jpg' por tu archivo) */
+            background-image: url('fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* efecto parallax suave */
+            background-color: #000000;    /* color de respaldo */
+
+            color: #FFFFFF;
+            font-family: 'Autobús Ómnibus', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 2rem 1rem;
+
+            /* Sutil superposición oscura para que el texto destaque */
+            position: relative;
+        }
+        /* Capa oscura semitransparente sobre la imagen */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* oscurece la imagen */
+            z-index: 0;
         }
 
-        /* Contenedor principal */
+        /* Todo el contenido por encima de la capa */
         .container {
+            position: relative;
+            z-index: 1;
             max-width: 900px;
             width: 100%;
             text-align: center;
         }
 
-        /* Logo y título */
+        /* ========== LOGO Y TÍTULO ========== */
         .logo {
-            width: 120px;               /* ajusta según tu logo */
+            width: 130px;
             height: auto;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            /* Sombra sutil al logo */
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
         }
         .nombre-emprendimiento {
-            font-size: 2.5rem;
-            font-weight: bold;
+            font-size: 3rem;
+            font-weight: 700;
             color: #FFFFFF;
             letter-spacing: 2px;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
         }
         .descripcion {
-            font-size: 1.1rem;
-            color: #CCCCCC;            /* gris claro para contraste */
-            margin-bottom: 2.5rem;
+            font-size: 1.2rem;
             font-weight: 300;
+            color: #E0E0E0;
+            margin-bottom: 2.5rem;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.5);
         }
 
-        /* ========== TARJETAS (CARDS) ========== */
+        /* ========== TARJETAS (ESTILO APPLE) ========== */
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 1.5rem;
             margin-top: 1rem;
         }
 
         .card {
-            background-color: #FFFFFF;
+            background-color: rgba(255, 255, 255, 0.9); /* fondo blanco con transparencia */
+            backdrop-filter: blur(8px);                /* efecto vidrio */
+            -webkit-backdrop-filter: blur(8px);
             color: #000000;
-            border-radius: 16px;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            text-decoration: none;        /* quita subrayado del enlace */
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            border: 2px solid #1800FF;    /* borde azul eléctrico */
-            box-shadow: 0 8px 0 #1800FF;  /* sombra para efecto 3D */
+            border-radius: 24px;                       /* más redondeado */
+            padding: 1.5rem 0.8rem;
+            text-decoration: none;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3); /* borde muy sutil */
+            will-change: transform, box-shadow;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 0 #1800FF;
+        /* Efecto hover / toque (Apple) */
+        .card:hover,
+        .card:active {
+            transform: scale(1.04) translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25), 0 6px 12px rgba(0,0,0,0.1);
+            background-color: rgba(255, 255, 255, 0.98);
+            border-color: #1800FF; /* toque de color al borde */
         }
 
-        /* Icono (Phosphor) */
+        /* Iconos */
         .card i {
-            font-size: 3.5rem;
-            color: #1800FF;              /* azul eléctrico */
+            font-size: 3.2rem;
+            color: #1800FF;
             margin-bottom: 0.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .card:hover i {
+            color: #4D4DFF; /* variante más clara */
+            transform: scale(1.1);
         }
 
         .card .red-social {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 600;
-            color: #000000;
+            color: #1A1A1A; /* gris oscuro en lugar de negro puro */
+            letter-spacing: 0.3px;
         }
-
         .card .usuario {
-            font-size: 0.9rem;
-            color: #666666;              /* gris oscuro */
-            margin-top: 0.2rem;
+            font-size: 0.85rem;
+            color: #888888;
+            margin-top: 0.25rem;
+            font-weight: 400;
         }
 
         /* ========== PIE DE PÁGINA ========== */
         .footer {
-            margin-top: 3rem;
+            margin-top: 3.5rem;
             font-size: 0.9rem;
-            color: #888888;
-            border-top: 1px solid #333333;
+            color: #CCCCCC;
+            border-top: 1px solid rgba(255,255,255,0.15);
             padding-top: 1.5rem;
             width: 100%;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
 
-        /* ========== RESPONSIVE (para móviles) ========== */
-        @media (max-width: 500px) {
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 600px) {
             .nombre-emprendimiento {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+            .descripcion {
+                font-size: 1rem;
             }
             .cards {
                 grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+            .card {
+                padding: 1.2rem 0.5rem;
+                border-radius: 20px;
+            }
+            .card i {
+                font-size: 2.6rem;
+            }
+        }
+        @media (max-width: 400px) {
+            .cards {
+                grid-template-columns: 1fr;
+                max-width: 280px;
+                margin: 0 auto;
             }
         }
     </style>
@@ -126,51 +184,51 @@
 <body>
     <div class="container">
 
-        <!-- 🔹 LOGO (cambia la ruta por la tuya) -->
-        <img src="logo_multipunto.png" alt="Logo" class="logo" />
+        <!-- LOGO -->
+        <img src="logo_multipunto.png" alt="Logo MULTIPUNTO" class="logo" />
         <h1 class="nombre-emprendimiento">MULTIPUNTO</h1>
         <p class="descripcion">Impresión de documentos y servicios varios</p>
 
-        <!-- 🔹 TARJETAS DE REDES SOCIALES -->
+        <!-- TARJETAS -->
         <div class="cards">
 
-            <!-- Facebook -->
+            <!-- 1. Facebook -->
             <a href="https://www.facebook.com/share/1K3kUguy7p/" target="_blank" class="card">
                 <i class="ph ph-facebook-logo"></i>
                 <span class="red-social">Facebook</span>
                 <span class="usuario">@ce</span>
             </a>
 
-            <!-- Instagram -->
+            <!-- 2. Instagram -->
             <a href="https://www.instagram.com/multipunto.stgodecuba?igsi=MXY2cnI0aTlsYzQ5bA==" target="_blank" class="card">
                 <i class="ph ph-instagram-logo"></i>
                 <span class="red-social">Instagram</span>
                 <span class="usuario">@multipunto.stgodecuba</span>
             </a>
 
-            <!-- YouTube -->
-            <a href="" target="_blank" class="card">
-                <i class="ph ph-youtube-logo"></i>
-                <span class="red-social">YouTube</span>
-                <span class="usuario">EN CONSTRUCCIÓN</span>
-            </a>
-
-            <!-- WhatsApp -->
+            <!-- 3. WhatsApp -->
             <a href="https://wa.me/5358815215" target="_blank" class="card">
                 <i class="ph ph-whatsapp-logo"></i>
                 <span class="red-social">WhatsApp</span>
-                <span class="usuario">+5358815215</span>
+                <span class="usuario">+53 58815215</span>
             </a>
 
-            <!-- Email -->
+            <!-- 4. Email -->
             <a href="mailto:multipunto.admin@gmail.com" class="card">
                 <i class="ph ph-envelope"></i>
                 <span class="red-social">Email</span>
                 <span class="usuario">multipunto.admin@gmail.com</span>
             </a>
 
-            <!-- Threads -->
-            <a href="https://threads.net/@tusuario" target="_blank" class="card">
+            <!-- 5. YouTube (al final) -->
+            <a href="#" target="_blank" class="card">
+                <i class="ph ph-youtube-logo"></i>
+                <span class="red-social">YouTube</span>
+                <span class="usuario">EN CONSTRUCCIÓN</span>
+            </a>
+
+            <!-- 6. Threads (al final) -->
+            <a href="#" target="_blank" class="card">
                 <i class="ph ph-threads-logo"></i>
                 <span class="red-social">Threads</span>
                 <span class="usuario">EN CONSTRUCCIÓN</span>
@@ -179,7 +237,7 @@
         </div>
 
         <div class="footer">
-            © 2026 📍MULTIPUNTO Santiago de Cuba - Impresión de documentos y servicios varios 
+            © 2026 📍 MULTIPUNTO Santiago de Cuba — Impresión y servicios
         </div>
     </div>
 </body>
