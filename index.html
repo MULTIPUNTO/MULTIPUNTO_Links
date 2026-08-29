@@ -15,11 +15,11 @@
     <link rel="stylesheet" href="https://unpkg.com/phosphor-icons@2.1.1/src/css/phosphor.css" />
     
     <style>
-        /* ========== CARGA DE FUENTE PERSONALIZADA (aAutobusOmnibus.otf) ========== */
+        /* ========== CARGA DE FUENTE PERSONALIZADA ========== */
         @font-face {
             font-family: 'Autobús Ómnibus';
             src: url('aAutobusOmnibus.otf') format('opentype');
-            font-weight: 700; /* para que coincida con el peso del título */
+            font-weight: 700;
             font-style: normal;
             font-display: swap;
         }
@@ -37,7 +37,6 @@
             background-position: center;
             background-attachment: fixed;
             color: #FFFFFF;
-            /* Fuente general: Arial y respaldo sans-serif */
             font-family: Arial, Helvetica, sans-serif;
             min-height: 100vh;
             display: flex;
@@ -84,7 +83,6 @@
             text-shadow: 0 2px 10px rgba(0,0,0,0.7);
         }
 
-        /* ===== RESTO DEL TEXTO: Arial (por herencia) ===== */
         .descripcion {
             font-size: 1.2rem;
             font-weight: 300;
@@ -119,7 +117,7 @@
             will-change: transform, box-shadow;
         }
 
-        /* Efecto hover: sombra azul en lugar de borde azul */
+        /* Efecto hover: sombra azul + elevación */
         .card:hover,
         .card:active {
             transform: scale(1.04) translateY(-6px);
@@ -148,11 +146,18 @@
             color: #1A1A1A;
             letter-spacing: 0.3px;
         }
+
+        /* ===== USUARIO: ahora en azul y con transición ===== */
         .card .usuario {
             font-size: 0.85rem;
-            color: #888888;
-            margin-top: 0.25rem;
             font-weight: 400;
+            margin-top: 0.25rem;
+            color: #1800FF;               /* azul eléctrico */
+            transition: color 0.3s ease;   /* suaviza el cambio de color */
+        }
+        /* Al hacer hover, el usuario se aclara */
+        .card:hover .usuario {
+            color: #4D4DFF;               /* azul más claro */
         }
 
         /* ========== PIE DE PÁGINA ========== */
@@ -200,7 +205,6 @@
 <body>
     <div class="container">
         <img src="logo_multipunto.png" alt="Logo MULTIPUNTO" class="logo" />
-        <!-- TÍTULO CON FUENTE AUTOBÚS ÓMNIBUS -->
         <h1 class="nombre-emprendimiento">MULTIPUNTO</h1>
         <p class="descripcion">Impresión de documentos y servicios varios</p>
 
@@ -229,13 +233,13 @@
                 <span class="red-social">Email</span>
                 <span class="usuario">multipunto.admin@gmail.com</span>
             </a>
-            <!-- YouTube (al final) -->
+            <!-- YouTube -->
             <a href="#" target="_blank" class="card">
                 <i class="ph ph-youtube-logo"></i>
                 <span class="red-social">YouTube</span>
                 <span class="usuario">EN CONSTRUCCIÓN</span>
             </a>
-            <!-- Threads (al final) -->
+            <!-- Threads -->
             <a href="#" target="_blank" class="card">
                 <i class="ph ph-threads-logo"></i>
                 <span class="red-social">Threads</span>
