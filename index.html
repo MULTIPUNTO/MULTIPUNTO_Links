@@ -15,10 +15,10 @@
     <link rel="stylesheet" href="https://unpkg.com/phosphor-icons@2.1.1/src/css/phosphor.css" />
     
     <style>
-        /* ========== CARGA DE FUENTE PERSONALIZADA ========== */
+        /* ========== CARGA DE FUENTE PERSONALIZADA (aAutobusOmnibus.otf) ========== */
         @font-face {
             font-family: 'Autobús Ómnibus';
-            src: url('autobus.ttf') format('truetype');
+            src: url('aAutobusOmnibus.otf') format('opentype');
             font-weight: normal;
             font-style: normal;
             font-display: swap;
@@ -87,6 +87,7 @@
             text-shadow: 0 2px 6px rgba(0,0,0,0.5);
         }
 
+        /* ========== TARJETAS ========== */
         .cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -109,17 +110,22 @@
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0,0,0,0.05);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            will-change: transform, box-shadow;
+            will-change: transform, box-shadow, border-color;
         }
 
+        /* Efecto hover: sombra azul en lugar de borde azul */
         .card:hover,
         .card:active {
             transform: scale(1.04) translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25), 0 6px 12px rgba(0,0,0,0.1);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.25),     /* sombra negra de elevación */
+                0 0 30px rgba(24, 0, 255, 0.3);      /* Sombra azul difusa (nuevo) */
             background-color: rgba(255, 255, 255, 0.98);
-            border-color: #1800FF;
+            /* Eliminamos el cambio de borde, mantenemos el mismo borde sutil */
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
+        /* Iconos */
         .card i {
             font-size: 3.2rem;
             color: #1800FF;
@@ -144,6 +150,7 @@
             font-weight: 400;
         }
 
+        /* ========== PIE DE PÁGINA ========== */
         .footer {
             margin-top: 3.5rem;
             font-size: 0.9rem;
@@ -156,6 +163,7 @@
             letter-spacing: 0.5px;
         }
 
+        /* ========== RESPONSIVE ========== */
         @media (max-width: 600px) {
             .nombre-emprendimiento {
                 font-size: 2.2rem;
@@ -215,13 +223,13 @@
                 <span class="red-social">Email</span>
                 <span class="usuario">multipunto.admin@gmail.com</span>
             </a>
-            <!-- YouTube -->
+            <!-- YouTube (al final) -->
             <a href="#" target="_blank" class="card">
                 <i class="ph ph-youtube-logo"></i>
                 <span class="red-social">YouTube</span>
                 <span class="usuario">EN CONSTRUCCIÓN</span>
             </a>
-            <!-- Threads -->
+            <!-- Threads (al final) -->
             <a href="#" target="_blank" class="card">
                 <i class="ph ph-threads-logo"></i>
                 <span class="red-social">Threads</span>
