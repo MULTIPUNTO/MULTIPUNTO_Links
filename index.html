@@ -204,7 +204,7 @@
             animation: pulse-soft 3s ease-in-out infinite;
         }
 
-        /* Las tarjetas que no deben tener pulso (como la de Quienes Somos) */
+        /* Las tarjetas que no deben tener pulso */
         .card-no-pulse {
             animation: none !important;
         }
@@ -698,12 +698,19 @@
                 </a>
             </div>
 
-            <!-- Sorpresas -->
+            <!-- Sorpresas (con ruleta interactiva) -->
             <div id="sorpresas" class="cards-grid hidden">
-                <div class="card" onclick="verificarSorpresaDiaria()" style="cursor: pointer;">
-                    <i class="fas fa-roulette" style="font-size: 4rem;"></i>
+                <!-- Tarjeta de la ruleta -->
+                <div class="card" id="ruletaCard" style="cursor: pointer;">
+                    <i class="fas fa-roulette" id="ruletaIcono" style="font-size: 4rem; transition: transform 0.1s linear;"></i>
                     <span class="servicio-nombre" style="font-size: 1.3rem;">🎰 ¡Gira y Gana!</span>
                     <span class="servicio-desc" id="mensaje-sorpresa">Haz clic para descubrir tu premio</span>
+                    <!-- Contenedor para mostrar el código del premio -->
+                    <div id="codigoPremio" style="margin-top: 10px; font-weight: bold; font-size: 1.2rem; color: #1800FF; min-height: 2rem;"></div>
+                </div>
+                <!-- Mensaje legal -->
+                <div style="grid-column: 1 / -1; font-size: 0.75rem; color: #888888; margin-top: 0.5rem; text-align: center; line-height: 1.4; padding: 0 1rem;">
+                    Solo puede existir un ganador. Ante cualquier intento de incumplir las normas, la empresa se reserva el derecho de entregar o no el premio.
                 </div>
             </div>
         </div>
@@ -770,8 +777,7 @@
             window.open(aleatoria, '_blank');
         }
 
-        // ===== SISTEMA DE SORPRESA DIARIA POR IP =====
-        // Obtener o generar un ID único basado en la IP (usando una API externa)
+        // ===== OBTENER IDENTIFICADOR ÚNICO (IP o huella digital) =====
         function obtenerIdentificadorUsuario() {
             return new Promise((resolve) => {
                 // Intentar obtener la IP real desde una API externa
@@ -788,32 +794,83 @@
             });
         }
 
+        // ===== GENERAR CÓDIGO DE PREMIO =====
+        function generarCodigoPremio() {
+            const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let codigo = 'MULTI-';
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 4; j++) {
+                    codigo += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+                }
+                if (i < 2) codigo += '-';
+            }
+            return codigo;
+        }
+
+        // ===== VARIABLE PARA CONTROLAR EL GIRO =====
+        let giroActivo = false;
+
+        // ===== VERIFICAR SORPRESA DIARIA Y ANIMAR RULETA =====
         function verificarSorpresaDiaria() {
             const mensajeElement = document.getElementById('mensaje-sorpresa');
+            const codigoElement = document.getElementById('codigoPremio');
+            const ruletaIcono = document.getElementById('ruletaIcono');
             
-            // Mostrar mensaje de carga
-            mensajeElement.textContent = '🔍 Verificando...';
+            // Evitar múltiples giros simultáneos
+            if (giroActivo) return;
             
+            // Verificación diaria por IP
             obtenerIdentificadorUsuario().then(usuarioId => {
                 const clave = 'multipunto_sorpresa_' + usuarioId;
                 const hoy = new Date().toDateString();
                 const registro = localStorage.getItem(clave);
                 
                 if (registro === hoy) {
-                    // Ya usó su oportunidad hoy
                     mensajeElement.textContent = '⏳ Ya has usado tu oportunidad hoy. Vuelve mañana.';
                     mensajeElement.style.color = '#FF6B6B';
-                } else {
-                    // Primera vez hoy - guardar registro
-                    localStorage.setItem(clave, hoy);
-                    mensajeElement.textContent = '🎉 ¡Felicidades! Has ganado un cupón de descuento. Vuelve mañana para más sorpresas.';
-                    mensajeElement.style.color = '#1800FF';
+                    codigoElement.textContent = '';
+                    return;
                 }
+                
+                // Iniciar la animación de giro
+                giroActivo = true;
+                mensajeElement.textContent = '🎡 ¡Girando...!';
+                mensajeElement.style.color = '#888888';
+                codigoElement.textContent = '';
+                
+                // Calcular un ángulo de giro aleatorio (mínimo 3 vueltas completas)
+                const vueltas = 3 + Math.random() * 3; // Entre 3 y 6 vueltas
+                const anguloFinal = vueltas * 360 + Math.random() * 360;
+                
+                // Aplicar la animación con una transición suave
+                ruletaIcono.style.transition = 'transform 3s cubic-bezier(0.25, 0.1, 0.15, 1)';
+                ruletaIcono.style.transform = `rotate(${anguloFinal}deg)`;
+                
+                // Al terminar la animación, mostrar el resultado
+                setTimeout(() => {
+                    // Guardar el registro del día
+                    localStorage.setItem(clave, hoy);
+                    
+                    // Generar y mostrar el código del premio
+                    const codigo = generarCodigoPremio();
+                    codigoElement.textContent = `🎉 Tu código: ${codigo}`;
+                    
+                    mensajeElement.textContent = '¡Felicidades! Has ganado un premio. Usa tu código para reclamarlo.';
+                    mensajeElement.style.color = '#1800FF';
+                    
+                    giroActivo = false;
+                }, 3200); // Tiempo ligeramente mayor a la transición (3s)
+                
             });
         }
 
-        // Ejecutar verificación automática al cargar la pestaña Sorpresas
-        // (se ejecutará cuando el usuario haga clic en la tarjeta)
+        // ===== ASIGNAR EVENTO A LA TARJETA DE LA RULETA =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const ruletaCard = document.getElementById('ruletaCard');
+            if (ruletaCard) {
+                ruletaCard.addEventListener('click', verificarSorpresaDiaria);
+            }
+        });
     </script>
 </body>
 </html>
