@@ -165,6 +165,22 @@
             display: none;
         }
 
+        /* ========== ANIMACIÓN DE PULSO (tenue) ========== */
+        @keyframes pulse-soft {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0,0,0,0.05);
+            }
+            50% {
+                transform: scale(1.015);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18), 0 4px 10px rgba(0,0,0,0.08);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0,0,0,0.05);
+            }
+        }
+
         /* ========== TARJETAS ========== */
         .card {
             background-color: rgba(255, 255, 255, 0.9);
@@ -185,10 +201,17 @@
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
             min-height: 120px;
+            animation: pulse-soft 3s ease-in-out infinite;
+        }
+
+        /* Las tarjetas que no deben tener pulso (como la de Quienes Somos) */
+        .card-no-pulse {
+            animation: none !important;
         }
 
         .card:hover,
         .card:active {
+            animation: none !important;
             transform: scale(1.04) translateY(-6px);
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.25),
@@ -238,6 +261,7 @@
         .card-full {
             grid-column: 1 / -1;
             padding: 2rem 1.5rem;
+            animation: none !important;
         }
         .card-full p {
             font-size: 1.1rem;
@@ -260,6 +284,67 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-top: 0.2rem;
+        }
+
+        /* ========== LLAMADA A LA ACCIÓN (CTA) EN REDES SOCIALES ========== */
+        .cta-redes {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 24px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-redes p {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #FFFFFF;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-redes .btn-cta {
+            display: inline-block;
+            background-color: #1800FF;
+            color: #FFFFFF;
+            padding: 0.6rem 2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(24, 0, 255, 0.4);
+            transition: all 0.3s ease;
+            animation: pulse 2s ease-in-out infinite;
+            border: none;
+            cursor: pointer;
+            font-family: Arial, Helvetica, sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-redes .btn-cta i {
+            margin-right: 0.5rem;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(24, 0, 255, 0.4);
+                background-color: #1800FF;
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 8px 30px rgba(24, 0, 255, 0.6);
+                background-color: #4D4DFF;
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(24, 0, 255, 0.4);
+                background-color: #1800FF;
+            }
         }
 
         /* ========== PIE DE PÁGINA ========== */
@@ -377,6 +462,16 @@
                 font-size: 1rem;
                 line-height: 1.6;
             }
+            .cta-redes {
+                padding: 1rem;
+            }
+            .cta-redes p {
+                font-size: 1rem;
+            }
+            .cta-redes .btn-cta {
+                font-size: 0.9rem;
+                padding: 0.5rem 1.5rem;
+            }
             .footer {
                 font-size: 0.8rem;
                 margin-top: 2.8rem;
@@ -447,6 +542,16 @@
                 font-size: 0.9rem;
                 line-height: 1.5;
             }
+            .cta-redes {
+                padding: 0.8rem;
+            }
+            .cta-redes p {
+                font-size: 0.9rem;
+            }
+            .cta-redes .btn-cta {
+                font-size: 0.8rem;
+                padding: 0.4rem 1.2rem;
+            }
             .footer {
                 font-size: 0.75rem;
                 margin-top: 2rem;
@@ -484,13 +589,16 @@
             <button class="tab-btn" data-tab="ubicacion" onclick="cambiarTab('ubicacion')">
                 <i class="fas fa-map-marker-alt"></i> Donde estamos
             </button>
+            <button class="tab-btn" data-tab="sorpresas" onclick="cambiarTab('sorpresas')">
+                <i class="fas fa-roulette"></i> Sorpresas
+            </button>
         </div>
 
         <!-- ========== CARDS ========== -->
         <div class="cards-wrapper">
             <!-- Quienes Somos -->
             <div id="quienes" class="cards-grid">
-                <div class="card card-full">
+                <div class="card card-full card-no-pulse">
                     <i class="fas fa-store" style="font-size: 3rem; color: #1800FF; margin-bottom: 0.5rem;"></i>
                     <p>
                         Somos MULTIPUNTO un emprendimiento con múltiples sedes en 📍Santiago de Cuba, enfocado en dar servicios diversos como impresión de documentos y papelería 📑, servicios informáticos 🖥️ venta de artículos 🛍️ y mucho más 📦
@@ -498,8 +606,17 @@
                 </div>
             </div>
 
-            <!-- Redes Sociales -->
+            <!-- Redes Sociales (con CTA) -->
             <div id="redes" class="cards-grid hidden">
+                <!-- ===== LLAMADA A LA ACCIÓN ===== -->
+                <div class="cta-redes">
+                    <p>Síguenos para que no te pierdas nuestras ofertas y novedades diarias</p>
+                    <a href="#" class="btn-cta" onclick="irARedSocialAleatoria(event)">
+                        <i class="fab fa-whatsapp"></i> Síguenos YA
+                    </a>
+                </div>
+
+                <!-- Tarjetas de redes sociales -->
                 <a href="https://www.facebook.com/share/1K3kUguy7p/" target="_blank" class="card">
                     <i class="fab fa-facebook"></i>
                     <span class="red-social">Facebook</span>
@@ -510,8 +627,7 @@
                     <span class="red-social">Instagram</span>
                     <span class="usuario">@multipunto.stgodecuba</span>
                 </a>
-                <!-- WhatsApp con mensaje automático -->
-                <a href="https://wa.me/5358815215?text=Hola%20Quiero%20mas%20informacion%20de%20sus%20servicios" target="_blank" class="card">
+                <a href="https://wa.me/5358815215?text=Hola%20Quiero%20mas%20informacion%20de%20tus%20servicios" target="_blank" class="card">
                     <i class="fab fa-whatsapp"></i>
                     <span class="red-social">WhatsApp</span>
                     <span class="usuario">+53 58815215</span>
@@ -581,6 +697,15 @@
                     <span class="ubicacion-desc">Hospital Dr. Juan Bruno Zayas, Reparto Pastorita, Carretera de El Caney</span>
                 </a>
             </div>
+
+            <!-- Sorpresas -->
+            <div id="sorpresas" class="cards-grid hidden">
+                <div class="card" onclick="verificarSorpresaDiaria()" style="cursor: pointer;">
+                    <i class="fas fa-roulette" style="font-size: 4rem;"></i>
+                    <span class="servicio-nombre" style="font-size: 1.3rem;">🎰 ¡Gira y Gana!</span>
+                    <span class="servicio-desc" id="mensaje-sorpresa">Haz clic para descubrir tu premio</span>
+                </div>
+            </div>
         </div>
 
         <div class="footer">
@@ -595,6 +720,7 @@
 
     <!-- ========== SCRIPTS ========== -->
     <script>
+        // ===== FUNCIÓN PARA CAMBIAR DE TAB =====
         function cambiarTab(tab) {
             document.querySelectorAll('.cards-grid').forEach(grid => {
                 grid.classList.add('hidden');
@@ -607,6 +733,7 @@
             document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
         }
 
+        // ===== FUNCIÓN COMPARTIR =====
         function compartir() {
             if (navigator.share) {
                 navigator.share({
@@ -631,6 +758,62 @@
                 }
             }
         }
+
+        // ===== REDIRECCIÓN ALEATORIA A FACEBOOK O INSTAGRAM =====
+        function irARedSocialAleatoria(event) {
+            event.preventDefault();
+            const redes = [
+                'https://www.facebook.com/share/1K3kUguy7p/',
+                'https://www.instagram.com/multipunto.stgodecuba?igsi=MXY2cnI0aTlsYzQ5bA=='
+            ];
+            const aleatoria = redes[Math.floor(Math.random() * redes.length)];
+            window.open(aleatoria, '_blank');
+        }
+
+        // ===== SISTEMA DE SORPRESA DIARIA POR IP =====
+        // Obtener o generar un ID único basado en la IP (usando una API externa)
+        function obtenerIdentificadorUsuario() {
+            return new Promise((resolve) => {
+                // Intentar obtener la IP real desde una API externa
+                fetch('https://api.ipify.org?format=json')
+                    .then(response => response.json())
+                    .then(data => {
+                        resolve(data.ip);
+                    })
+                    .catch(() => {
+                        // Si falla, generar una huella digital del navegador
+                        const fingerprint = navigator.userAgent + navigator.language + screen.width + screen.height;
+                        resolve('fingerprint_' + btoa(fingerprint).substring(0, 20));
+                    });
+            });
+        }
+
+        function verificarSorpresaDiaria() {
+            const mensajeElement = document.getElementById('mensaje-sorpresa');
+            
+            // Mostrar mensaje de carga
+            mensajeElement.textContent = '🔍 Verificando...';
+            
+            obtenerIdentificadorUsuario().then(usuarioId => {
+                const clave = 'multipunto_sorpresa_' + usuarioId;
+                const hoy = new Date().toDateString();
+                const registro = localStorage.getItem(clave);
+                
+                if (registro === hoy) {
+                    // Ya usó su oportunidad hoy
+                    mensajeElement.textContent = '⏳ Ya has usado tu oportunidad hoy. Vuelve mañana.';
+                    mensajeElement.style.color = '#FF6B6B';
+                } else {
+                    // Primera vez hoy - guardar registro
+                    localStorage.setItem(clave, hoy);
+                    mensajeElement.textContent = '🎉 ¡Felicidades! Has ganado un cupón de descuento. Vuelve mañana para más sorpresas.';
+                    mensajeElement.style.color = '#1800FF';
+                }
+            });
+        }
+
+        // Ejecutar verificación automática al cargar la pestaña Sorpresas
+        // (se ejecutará cuando el usuario haga clic en la tarjeta)
     </script>
 </body>
 </html>
