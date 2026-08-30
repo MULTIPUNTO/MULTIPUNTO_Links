@@ -11,9 +11,8 @@
     <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png" />
     
-    <!-- ========== PHOSPHOR ICONS ========== -->
-    <!-- Phosphor Icons desde cdn.jsdelivr.net (más estable) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@2.1.1/src/css/phosphor.css" />
+    <!-- ========== FONT AWESOME 6 ========== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     
     <style>
         /* ========== CARGA DE FUENTE PERSONALIZADA ========== */
@@ -118,7 +117,6 @@
             will-change: transform, box-shadow;
         }
 
-        /* Efecto hover: sombra azul + elevación */
         .card:hover,
         .card:active {
             transform: scale(1.04) translateY(-6px);
@@ -129,7 +127,7 @@
             border-color: rgba(255, 255, 255, 0.3);
         }
 
-        /* Iconos */
+        /* Iconos (Font Awesome) */
         .card i {
             font-size: 3.2rem;
             color: #1800FF;
@@ -148,17 +146,15 @@
             letter-spacing: 0.3px;
         }
 
-        /* ===== USUARIO: gris por defecto, azul al hacer hover ===== */
         .card .usuario {
             font-size: 0.85rem;
             font-weight: 400;
             margin-top: 0.25rem;
-            color: #888888;               /* gris oscuro (como antes) */
-            transition: color 0.3s ease;   /* suaviza el cambio */
+            color: #888888;
+            transition: color 0.3s ease;
         }
-        /* Al hacer hover, el usuario se vuelve azul */
         .card:hover .usuario {
-            color: #1800FF;               /* azul eléctrico */
+            color: #1800FF;
         }
 
         /* ========== PIE DE PÁGINA ========== */
@@ -207,49 +203,49 @@
     <div class="container">
         <img src="logo_multipunto.png" alt="Logo MULTIPUNTO" class="logo" />
         <h1 class="nombre-emprendimiento">MULTIPUNTO</h1>
-        <p class="descripcion">Impresión de documentos y Servicios varios</p>
+        <p class="descripcion">Impresión de documentos y servicios varios</p>
 
         <div class="cards">
             <!-- Facebook -->
             <a href="https://www.facebook.com/share/1K3kUguy7p/" target="_blank" class="card">
-                <i class="ph ph-facebook-logo"></i>
+                <i class="fab fa-facebook"></i>
                 <span class="red-social">Facebook</span>
                 <span class="usuario">@ce</span>
             </a>
             <!-- Instagram -->
             <a href="https://www.instagram.com/multipunto.stgodecuba?igsi=MXY2cnI0aTlsYzQ5bA==" target="_blank" class="card">
-                <i class="ph ph-instagram-logo"></i>
+                <i class="fab fa-instagram"></i>
                 <span class="red-social">Instagram</span>
                 <span class="usuario">@multipunto.stgodecuba</span>
             </a>
             <!-- WhatsApp -->
             <a href="https://wa.me/5358815215" target="_blank" class="card">
-                <i class="ph ph-whatsapp-logo"></i>
+                <i class="fab fa-whatsapp"></i>
                 <span class="red-social">WhatsApp</span>
                 <span class="usuario">+53 58815215</span>
             </a>
             <!-- Email -->
             <a href="mailto:multipunto.admin@gmail.com" class="card">
-                <i class="ph ph-envelope"></i>
+                <i class="fas fa-envelope"></i>
                 <span class="red-social">Email</span>
                 <span class="usuario">multipunto.admin@gmail.com</span>
             </a>
             <!-- YouTube -->
             <a href="#" target="_blank" class="card">
-                <i class="ph ph-youtube-logo"></i>
+                <i class="fab fa-youtube"></i>
                 <span class="red-social">YouTube</span>
                 <span class="usuario">EN CONSTRUCCIÓN</span>
             </a>
             <!-- Threads -->
             <a href="#" target="_blank" class="card">
-                <i class="ph ph-threads-logo"></i>
+                <i class="fab fa-threads"></i> <!-- Si no funciona, usa 'fas fa-comment' -->
                 <span class="red-social">Threads</span>
                 <span class="usuario">EN CONSTRUCCIÓN</span>
             </a>
         </div>
 
         <div class="footer">
-            © 2026 📍 MULTIPUNTO Santiago de Cuba — Impresión y Servicios Varios
+            © 2026 📍 MULTIPUNTO Santiago de Cuba — Impresión y servicios
         </div>
     </div>
 </body>
