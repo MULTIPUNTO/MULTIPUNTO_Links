@@ -173,6 +173,47 @@
             letter-spacing: 0.5px;
         }
 
+        /* ========== BOTÓN DE COMPARTIR (estilo card pero pequeño) ========== */
+        .compartir-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #1A1A1A;
+            border-radius: 20px;
+            padding: 0.6rem 1.8rem;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-top: 2rem;
+        }
+
+        .compartir-btn i {
+            font-size: 1.2rem;
+            color: #1A1A1A;
+            transition: color 0.3s ease;
+        }
+
+        .compartir-btn:hover {
+            transform: scale(1.04) translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 0 20px rgba(24, 0, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.98);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #1800FF;
+        }
+
+        .compartir-btn:hover i {
+            color: #1800FF;
+        }
+
         /* ========== RESPONSIVE ========== */
         @media (max-width: 600px) {
             .nombre-emprendimiento {
@@ -191,6 +232,14 @@
             }
             .card i {
                 font-size: 2.6rem;
+            }
+            .compartir-btn {
+                padding: 0.5rem 1.4rem;
+                font-size: 0.85rem;
+                border-radius: 16px;
+            }
+            .compartir-btn i {
+                font-size: 1rem;
             }
         }
         @media (max-width: 400px) {
@@ -250,6 +299,39 @@
         <div class="footer">
             © 2026 📍 MULTIPUNTO - Santiago de Cuba, Cuba
         </div>
+
+        <!-- ===== BOTÓN DE COMPARTIR (estilo card pequeño) ===== -->
+        <button class="compartir-btn" onclick="compartir()">
+            <i class="fas fa-share-alt"></i> Compartir
+        </button>
     </div>
+
+    <!-- ========== SCRIPT PARA COMPARTIR ========== -->
+    <script>
+        function compartir() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'MULTIPUNTO',
+                    text: 'Impresión de documentos - Servicios tecnicos informaticos en Santiago de Cuba',
+                    url: window.location.href
+                }).then(() => {
+                    console.log('Compartido exitosamente');
+                }).catch((error) => {
+                    console.log('Error al compartir:', error);
+                });
+            } else {
+                const url = window.location.href;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(url).then(() => {
+                        alert('¡Enlace copiado al portapapeles! Compártelo con quien quieras.');
+                    }).catch(() => {
+                        prompt('Copia este enlace para compartir:', url);
+                    });
+                } else {
+                    prompt('Copia este enlace para compartir:', url);
+                }
+            }
+        }
+    </script>
 </body>
 </html>
