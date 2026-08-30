@@ -127,25 +127,37 @@
             border-color: rgba(255, 255, 255, 0.3);
         }
 
-        /* Iconos (Font Awesome) */
+        /* ===== ICONOS: gris oscuro por defecto, azul en hover ===== */
         .card i {
             font-size: 3.2rem;
-            color: #1800FF;
             margin-bottom: 0.5rem;
-            transition: color 0.3s ease, transform 0.3s ease;
+            transition: color 0.3s ease, transform 0.3s ease, -webkit-text-stroke-color 0.3s ease;
+            
+            /* Color base: gris oscuro (igual que .red-social) */
+            color: #1A1A1A;
+            -webkit-text-stroke: 1.5px #1A1A1A;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 0 #1A1A1A;
         }
         .card:hover i {
-            color: #4D4DFF;
-            transform: scale(1.1);
+            color: #1800FF;                     /* azul eléctrico */
+            -webkit-text-stroke-color: #1800FF;
+            transform: scale(1.1);               /* ligero agrandamiento */
         }
 
+        /* ===== NOMBRE DE LA RED: gris oscuro, cambia a azul en hover ===== */
         .card .red-social {
             font-size: 1.15rem;
             font-weight: 600;
             color: #1A1A1A;
             letter-spacing: 0.3px;
+            transition: color 0.3s ease;
+        }
+        .card:hover .red-social {
+            color: #1800FF;
         }
 
+        /* ===== USUARIO: gris claro, cambia a azul en hover ===== */
         .card .usuario {
             font-size: 0.85rem;
             font-weight: 400;
@@ -226,7 +238,7 @@
             </a>
             <!-- Email -->
             <a href="mailto:multipunto.admin@gmail.com" class="card">
-                <i class="fas fa-envelope"></i>
+                <i class="far fa-envelope"></i>
                 <span class="red-social">Email</span>
                 <span class="usuario">multipunto.admin@gmail.com</span>
             </a>
@@ -238,7 +250,7 @@
             </a>
             <!-- Threads -->
             <a href="#" target="_blank" class="card">
-                <i class="fab fa-threads"></i> <!-- Si no funciona, usa 'fas fa-comment' -->
+                <i class="fab fa-threads"></i>
                 <span class="red-social">Threads</span>
                 <span class="usuario">EN CONSTRUCCIÓN</span>
             </a>
