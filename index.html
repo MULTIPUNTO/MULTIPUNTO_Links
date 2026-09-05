@@ -3,41 +3,28 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>MULTIPUNTO</title>
-    
-    <!-- ========== FAVICON ========== -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png" />
-    
-    <!-- ========== FONT AWESOME 6 ========== -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    
-    <style>
-        /* ========== CARGA DE FUENTE PERSONALIZADA ========== */
-        @font-face {
-            font-family: 'Autobús Ómnibus';
-            src: url('aAutobusOmnibus.otf') format('opentype');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-        }
+    <title id="pageTitle">MULTIPUNTO</title>
+    <!-- Favicon dinámico -->
+    <link id="faviconLink" rel="icon" type="image/x-icon" href="" />
+    <!-- Fuente personalizada (carga asíncrona) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Autobús+Ómnibus&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <!-- Font Awesome (carga asíncrona) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'" />
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    </noscript>
 
-        /* ========== RESET Y BASE (ESTILOS DE ESCRITORIO) ========== */
+    <style>
+        /* ===== RESET Y BASE (ESTILOS CRÍTICOS) ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            background-image: url('fondo.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #FFFFFF;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: 'Autobús Ómnibus', Arial, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -45,6 +32,7 @@
             justify-content: center;
             padding: 2rem 1rem;
             position: relative;
+            transition: background 0.3s;
         }
         body::before {
             content: '';
@@ -55,8 +43,8 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0);
             z-index: 0;
+            pointer-events: none;
         }
-
         .container {
             position: relative;
             z-index: 1;
@@ -64,813 +52,1699 @@
             width: 100%;
             text-align: center;
         }
-
-        .logo {
-            width: 200px;
-            height: auto;
-            margin-bottom: 0.75rem;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0));
-        }
-
-        .nombre-emprendimiento {
-            font-family: 'Autobús Ómnibus', Arial, sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            color: #FFFFFF;
-            letter-spacing: 2px;
-            margin-bottom: 0.25rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
-        }
-
-        .descripcion {
-            font-size: 1.2rem;
-            font-weight: 300;
-            color: #E0E0E0;
-            margin-bottom: 2rem;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-        }
-
-        /* ========== TABS ========== */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding-bottom: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            background: none;
-            border: none;
-            color: #CCCCCC;
-            font-size: 1.1rem;
-            font-weight: 600;
-            padding: 0.5rem 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: Arial, Helvetica, sans-serif;
-            position: relative;
-            letter-spacing: 0.5px;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .tab-btn i {
-            margin-right: 0.5rem;
-        }
-
-        .tab-btn::after {
-            content: '';
-            position: absolute;
-            bottom: -0.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 3px;
-            background-color: #1800FF;
-            border-radius: 2px;
-            transition: width 0.3s ease;
-        }
-
-        .tab-btn:hover {
-            color: #FFFFFF;
-        }
-
-        .tab-btn.active {
-            color: #FFFFFF;
-        }
-
-        .tab-btn.active::after {
-            width: 80%;
-        }
-
-        /* ========== CONTENEDOR DE CARDS ========== */
-        .cards-wrapper {
-            position: relative;
-            min-height: 200px;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1.5rem;
-            transition: opacity 0.3s ease;
-        }
-
-        .cards-grid.hidden {
-            display: none;
-        }
-
-        /* ========== ANIMACIÓN DE PULSO (tenue) ========== */
-        @keyframes pulse-soft {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0,0,0,0.05);
-            }
-            50% {
-                transform: scale(1.015);
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18), 0 4px 10px rgba(0,0,0,0.08);
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0,0,0,0.05);
-            }
-        }
-
-        /* ========== TARJETAS ========== */
-        .card {
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            color: #000000;
-            border-radius: 24px;
-            padding: 1.5rem 0.8rem;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0,0,0,0.05);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            will-change: transform, box-shadow;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 120px;
-            animation: pulse-soft 3s ease-in-out infinite;
-        }
-
-        /* Las tarjetas que no deben tener pulso */
-        .card-no-pulse {
-            animation: none !important;
-        }
-
-        .card:hover,
-        .card:active {
-            animation: none !important;
-            transform: scale(1.04) translateY(-6px);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.25),
-                0 0 30px rgba(24, 0, 255, 0.3);
-            background-color: rgba(255, 255, 255, 0.98);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .card i {
-            font-size: 3.2rem;
-            margin-bottom: 0.5rem;
-            color: #1A1A1A;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-        .card:hover i {
-            color: #1800FF;
-            transform: scale(1.1);
-        }
-
-        .card .red-social,
-        .card .servicio-nombre,
-        .card .ubicacion-nombre {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: #1A1A1A;
-            letter-spacing: 0.3px;
-            line-height: 1.3;
-        }
-
-        .card .usuario,
-        .card .servicio-desc,
-        .card .ubicacion-desc {
-            font-size: 0.85rem;
-            font-weight: 400;
-            margin-top: 0.25rem;
-            color: #888888;
-            transition: color 0.3s ease;
-            line-height: 1.4;
-        }
-        .card:hover .usuario,
-        .card:hover .servicio-desc,
-        .card:hover .ubicacion-desc {
-            color: #1800FF;
-        }
-
-        /* ===== ESTILO PARA TARJETA DE TEXTO COMPLETO (Quienes Somos) ===== */
-        .card-full {
-            grid-column: 1 / -1;
-            padding: 2rem 1.5rem;
-            animation: none !important;
-        }
-        .card-full p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #1A1A1A;
-            max-width: 750px;
-            margin: 0 auto;
-            font-weight: 400;
-        }
-        .card-full i {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* ===== ESTILO PARA EL CARTEL DE MANTENIMIENTO (ROJO) ===== */
-        .mantenimiento {
-            color: #FF0000;
-            font-weight: 700;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 0.2rem;
-        }
-
-        /* ========== LLAMADA A LA ACCIÓN (CTA) EN REDES SOCIALES ========== */
-        .cta-redes {
-            grid-column: 1 / -1;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 24px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .cta-redes p {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #FFFFFF;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            margin-bottom: 0.5rem;
-        }
-
-        .cta-redes .btn-cta {
-            display: inline-block;
-            background-color: #1800FF;
-            color: #FFFFFF;
-            padding: 0.6rem 2rem;
-            border-radius: 40px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            box-shadow: 0 4px 15px rgba(24, 0, 255, 0.4);
-            transition: all 0.3s ease;
-            animation: pulse 2s ease-in-out infinite;
-            border: none;
-            cursor: pointer;
-            font-family: Arial, Helvetica, sans-serif;
-            letter-spacing: 0.5px;
-        }
-
-        .cta-redes .btn-cta i {
-            margin-right: 0.5rem;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 4px 15px rgba(24, 0, 255, 0.4);
-                background-color: #1800FF;
-            }
-            50% {
-                transform: scale(1.05);
-                box-shadow: 0 8px 30px rgba(24, 0, 255, 0.6);
-                background-color: #4D4DFF;
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 4px 15px rgba(24, 0, 255, 0.4);
-                background-color: #1800FF;
-            }
-        }
-
-        /* ========== PIE DE PÁGINA ========== */
-        .footer {
-            margin-top: 3.5rem;
-            font-size: 0.9rem;
-            color: #CCCCCC;
-            border-top: 1px solid rgba(255,255,255,0.15);
-            padding-top: 1.5rem;
+        /* ===== LOADING INDICATOR ===== */
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
-
-        /* ========== BOTÓN DE COMPARTIR ========== */
-        .compartir-btn {
-            display: inline-flex;
+            height: 100%;
+            background: #000;
+            color: #fff;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            color: #1A1A1A;
-            border-radius: 20px;
-            padding: 0.6rem 1.8rem;
-            text-decoration: none;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: Arial, Helvetica, sans-serif;
-            margin-top: 2rem;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .compartir-btn i {
+            z-index: 9999;
             font-size: 1.2rem;
-            color: #1A1A1A;
-            transition: color 0.3s ease;
+            transition: opacity 0.5s;
         }
-
-        .compartir-btn:hover {
-            transform: scale(1.04) translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 0 20px rgba(24, 0, 255, 0.2);
-            background-color: rgba(255, 255, 255, 0.98);
-            border-color: rgba(255, 255, 255, 0.3);
-            color: #1800FF;
+        #loading.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
-
-        .compartir-btn:hover i {
-            color: #1800FF;
+        /* ===== BOTÓN ADMIN ===== */
+        #adminToggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: #1800FF;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
         }
+        #adminToggle:hover { transform: scale(1.1); }
+        /* ===== LOGIN MODAL ===== */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.open { display: flex; }
+        .modal-box {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .modal-box h2 { margin-bottom: 1rem; color: #1A1A1A; }
+        .modal-box input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .modal-box button {
+            width: 100%;
+            padding: 0.75rem;
+            background: #1800FF;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .modal-box .error { color: #FF0000; display: none; font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+        /* ===== PANEL ADMIN ===== */
+        #adminPanel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 95%;
+            max-width: 800px;
+            height: 100%;
+            background: #f5f5f5;
+            z-index: 3000;
+            overflow-y: auto;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -10px 0 40px rgba(0,0,0,0.3);
+            padding: 1rem;
+        }
+        #adminPanel.open { right: 0; }
+        #adminPanel .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        #adminPanel .panel-header h2 { margin: 0; color: #1A1A1A; font-size: 1.5rem; }
+        .panel-close {
+            background: #ff4444;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .admin-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.5rem;
+        }
+        .admin-tab-btn {
+            background: #e0e0e0;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .admin-tab-btn.active {
+            background: #1800FF;
+            color: #fff;
+        }
+        .admin-tab-content { display: none; padding: 0.5rem 0; }
+        .admin-tab-content.active { display: block; }
+        .admin-item {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .admin-item .item-name { font-weight: 600; min-width: 120px; }
+        .admin-item input, .admin-item select, .admin-item textarea {
+            padding: 0.4rem 0.6rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            flex: 1;
+            min-width: 80px;
+            font-size: 0.9rem;
+        }
+        .admin-item textarea { min-height: 60px; flex-basis: 100%; }
+        .admin-item .btn-edit, .admin-item .btn-save-edit, .admin-item .btn-danger, .admin-item .btn-add-img {
+            padding: 0.3rem 0.8rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .btn-edit { background: #ffc107; color: #000; }
+        .btn-save-edit { background: #28a745; color: #fff; display: none; }
+        .btn-danger { background: #dc3545; color: #fff; }
+        .btn-add-img { background: #17a2b8; color: #fff; }
+        .admin-image-thumbs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.3rem 0; }
+        .admin-image-thumbs .thumb { position: relative; width: 60px; height: 60px; overflow: hidden; border-radius: 8px; border: 1px solid #ddd; }
+        .admin-image-thumbs .thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .admin-image-thumbs .thumb .remove-img {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #ff4444;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .admin-msg { padding: 0.5rem 1rem; border-radius: 8px; margin: 0.5rem 0; }
+        .admin-msg.success { background: #d4edda; color: #155724; }
+        .admin-msg.error { background: #f8d7da; color: #721c24; }
+        .admin-group { margin-bottom: 1.5rem; }
+        .admin-group label { display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1A1A1A; }
+        .admin-group input[type="text"], .admin-group input[type="number"], .admin-group input[type="color"], .admin-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+        .admin-group input[type="file"] { padding: 0.3rem; }
+        .admin-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+        .admin-row label { font-weight: 600; min-width: 120px; }
 
-        /* ========== OPTIMIZACIONES PARA MÓVILES ========== */
+        /* ===== RESPONSIVE ADMIN ===== */
         @media (max-width: 600px) {
-            .logo {
-                width: 140px;
-            }
-            .nombre-emprendimiento {
-                font-size: 2.2rem;
-                letter-spacing: 1px;
-            }
-            .descripcion {
-                font-size: 1rem;
-                margin-bottom: 1.5rem;
-                padding: 0 0.5rem;
-            }
-            .tabs {
-                gap: 0.8rem;
-                margin-bottom: 1.5rem;
-            }
-            .tab-btn {
-                font-size: 0.95rem;
-                padding: 0.4rem 1rem;
-                min-height: 44px;
-            }
-            .tab-btn i {
-                font-size: 1rem;
-                margin-right: 0.4rem;
-            }
-            .tab-btn.active::after {
-                width: 60%;
-            }
-            .cards-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 1rem;
-            }
-            .card {
-                padding: 1.2rem 0.5rem;
-                border-radius: 20px;
-                min-height: 110px;
-            }
-            .card i {
-                font-size: 2.6rem;
-            }
-            .card .red-social,
-            .card .servicio-nombre,
-            .card .ubicacion-nombre {
-                font-size: 1rem;
-            }
-            .card .usuario,
-            .card .servicio-desc,
-            .card .ubicacion-desc {
-                font-size: 0.75rem;
-            }
-            .card-full {
-                padding: 1.5rem 1rem;
-            }
-            .card-full p {
-                font-size: 1rem;
-                line-height: 1.6;
-            }
-            .cta-redes {
-                padding: 1rem;
-            }
-            .cta-redes p {
-                font-size: 1rem;
-            }
-            .cta-redes .btn-cta {
-                font-size: 0.9rem;
-                padding: 0.5rem 1.5rem;
-            }
-            .footer {
-                font-size: 0.8rem;
-                margin-top: 2.8rem;
-                padding-top: 1.2rem;
-                letter-spacing: 0.3px;
-            }
-            .compartir-btn {
-                padding: 0.5rem 1.4rem;
-                font-size: 0.9rem;
-                border-radius: 24px;
-                min-height: 44px;
-            }
-            .compartir-btn i {
-                font-size: 1rem;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .logo {
-                width: 110px;
-            }
-            .nombre-emprendimiento {
-                font-size: 1.8rem;
-            }
-            .descripcion {
-                font-size: 0.9rem;
-            }
-            .tabs {
-                gap: 0.5rem;
-            }
-            .tab-btn {
-                font-size: 0.85rem;
-                padding: 0.3rem 0.8rem;
-                min-height: 38px;
-            }
-            .tab-btn i {
-                font-size: 0.9rem;
-                margin-right: 0.3rem;
-            }
-            .cards-grid {
-                grid-template-columns: 1fr;
-                max-width: 280px;
-                margin: 0 auto;
-                gap: 0.8rem;
-            }
-            .card {
-                padding: 0.8rem 0.4rem;
-                min-height: 90px;
-                border-radius: 16px;
-            }
-            .card i {
-                font-size: 2rem;
-            }
-            .card .red-social,
-            .card .servicio-nombre,
-            .card .ubicacion-nombre {
-                font-size: 0.9rem;
-            }
-            .card .usuario,
-            .card .servicio-desc,
-            .card .ubicacion-desc {
-                font-size: 0.7rem;
-            }
-            .card-full {
-                padding: 1rem 0.8rem;
-            }
-            .card-full p {
-                font-size: 0.9rem;
-                line-height: 1.5;
-            }
-            .cta-redes {
-                padding: 0.8rem;
-            }
-            .cta-redes p {
-                font-size: 0.9rem;
-            }
-            .cta-redes .btn-cta {
-                font-size: 0.8rem;
-                padding: 0.4rem 1.2rem;
-            }
-            .footer {
-                font-size: 0.75rem;
-                margin-top: 2rem;
-                padding-top: 1rem;
-            }
-            .compartir-btn {
-                padding: 0.5rem 1.2rem;
-                font-size: 0.85rem;
-                border-radius: 20px;
-                min-height: 40px;
-            }
-            .compartir-btn i {
-                font-size: 0.9rem;
-            }
+            #adminPanel { width: 100%; padding: 0.5rem; }
+            .admin-item { flex-direction: column; align-items: stretch; }
+            .admin-item .item-name { min-width: auto; }
+            .admin-item input, .admin-item select { width: 100%; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="logo_multipunto.png" alt="Logo MULTIPUNTO" class="logo" />
-        <h1 class="nombre-emprendimiento">MULTIPUNTO</h1>
-        <p class="descripcion">Impresión de documentos - Servicios técnicos informáticos</p>
+    <!-- LOADING -->
+    <div id="loading">Cargando MULTIPUNTO...</div>
 
-        <!-- ========== TABS ========== -->
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="quienes" onclick="cambiarTab('quienes')">
-                <i class="fas fa-info-circle"></i> Quienes Somos
-            </button>
-            <button class="tab-btn" data-tab="redes" onclick="cambiarTab('redes')">
-                <i class="fas fa-share-alt"></i> Redes Sociales
-            </button>
-            <button class="tab-btn" data-tab="servicios" onclick="cambiarTab('servicios')">
-                <i class="fas fa-tools"></i> Servicios
-            </button>
-            <button class="tab-btn" data-tab="ubicacion" onclick="cambiarTab('ubicacion')">
-                <i class="fas fa-map-marker-alt"></i> Donde estamos
-            </button>
-            <button class="tab-btn" data-tab="sorpresas" onclick="cambiarTab('sorpresas')">
-                <i class="fas fa-roulette"></i> Sorpresas
-            </button>
+    <!-- BOTÓN ADMIN -->
+    <button id="adminToggle" title="Panel de administración">⚙️</button>
+
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="modal">
+        <div class="modal-box">
+            <span class="modal-close" id="loginCloseBtn">&times;</span>
+            <h2>🔐 Acceso Admin</h2>
+            <div class="error" id="loginError">Contraseña incorrecta</div>
+            <input type="password" id="adminPassword" placeholder="Contraseña" />
+            <button id="loginBtn">Entrar</button>
         </div>
-
-        <!-- ========== CARDS ========== -->
-        <div class="cards-wrapper">
-            <!-- Quienes Somos -->
-            <div id="quienes" class="cards-grid">
-                <div class="card card-full card-no-pulse">
-                    <i class="fas fa-store" style="font-size: 3rem; color: #1800FF; margin-bottom: 0.5rem;"></i>
-                    <p>
-                        Somos MULTIPUNTO un emprendimiento con múltiples sedes en 📍Santiago de Cuba, enfocado en dar servicios diversos como impresión de documentos y papelería 📑, servicios informáticos 🖥️ venta de artículos 🛍️ y mucho más 📦
-                    </p>
-                </div>
-            </div>
-
-            <!-- Redes Sociales (con CTA) -->
-            <div id="redes" class="cards-grid hidden">
-                <!-- ===== LLAMADA A LA ACCIÓN ===== -->
-                <div class="cta-redes">
-                    <p>Síguenos para que no te pierdas nuestras ofertas y novedades diarias</p>
-                    <a href="#" class="btn-cta" onclick="irARedSocialAleatoria(event)">
-                        <i class="fab fa-whatsapp"></i> Síguenos YA
-                    </a>
-                </div>
-
-                <!-- Tarjetas de redes sociales -->
-                <a href="https://www.facebook.com/share/1K3kUguy7p/" target="_blank" class="card">
-                    <i class="fab fa-facebook"></i>
-                    <span class="red-social">Facebook</span>
-                    <span class="usuario">@ce</span>
-                </a>
-                <a href="https://www.instagram.com/multipunto.stgodecuba?igsi=MXY2cnI0aTlsYzQ5bA==" target="_blank" class="card">
-                    <i class="fab fa-instagram"></i>
-                    <span class="red-social">Instagram</span>
-                    <span class="usuario">@multipunto.stgodecuba</span>
-                </a>
-                <a href="https://wa.me/5358815215?text=Hola%20Quiero%20mas%20informacion%20de%20tus%20servicios" target="_blank" class="card">
-                    <i class="fab fa-whatsapp"></i>
-                    <span class="red-social">WhatsApp</span>
-                    <span class="usuario">+53 58815215</span>
-                </a>
-                <a href="mailto:multipunto.admin@gmail.com" class="card">
-                    <i class="far fa-envelope"></i>
-                    <span class="red-social">Email</span>
-                    <span class="usuario">multipunto.admin@gmail.com</span>
-                </a>
-                <a href="#" target="_blank" class="card">
-                    <i class="fab fa-youtube"></i>
-                    <span class="red-social">YouTube</span>
-                    <span class="usuario">EN CONSTRUCCIÓN</span>
-                </a>
-                <a href="#" target="_blank" class="card">
-                    <i class="fab fa-threads"></i>
-                    <span class="red-social">Threads</span>
-                    <span class="usuario">EN CONSTRUCCIÓN</span>
-                </a>
-            </div>
-
-            <!-- Servicios -->
-            <div id="servicios" class="cards-grid hidden">
-                <div class="card">
-                    <i class="fas fa-print"></i>
-                    <span class="servicio-nombre">Impresión</span>
-                    <span class="servicio-desc">Documentos, fotos, carteles</span>
-                </div>
-                <div class="card">
-                    <i class="fas fa-laptop"></i>
-                    <span class="servicio-nombre">Equipos Informáticos</span>
-                    <span class="servicio-desc">Reparación y mantenimiento (Software)</span>
-                </div>
-                <div class="card">
-                    <i class="fas fa-wifi"></i>
-                    <span class="servicio-nombre">Telefonía Móvil</span>
-                    <span class="servicio-desc">Reinstalación, configuración, etc</span>
-                </div>
-                <div class="card">
-                    <i class="fas fa-database"></i>
-                    <span class="servicio-nombre">Unidades USB</span>
-                    <span class="servicio-desc">Recuperación y respaldo de información</span>
-                </div>
-                <div class="card">
-                    <i class="fas fa-camera"></i>
-                    <span class="servicio-nombre">Digitalización</span>
-                    <span class="servicio-desc">Escaneo de documentos</span>
-                </div>
-                <div class="card">
-                    <i class="fas fa-phone-alt"></i>
-                    <span class="servicio-nombre">Asesoría</span>
-                    <span class="servicio-desc">Consultoría técnica informática</span>
-                </div>
-            </div>
-
-            <!-- Donde estamos -->
-            <div id="ubicacion" class="cards-grid hidden">
-                <a href="https://maps.app.goo.gl/A9njTRESvAyCGhEr7" target="_blank" class="card">
-                    <i class="fas fa-store"></i>
-                    <span class="ubicacion-nombre">MULTIPUNTO-FAC2</span>
-                    <span class="ubicacion-desc">Fac #2 de Ciencias Medicas, Reparto Pastorita, Carretera de El Caney</span>
-                    <span class="mantenimiento">🚧 EN MANTENIMIENTO</span>
-                </a>
-                <a href="https://maps.app.goo.gl/QcNjxrpW26qJYEwY8" target="_blank" class="card">
-                    <i class="fas fa-store"></i>
-                    <span class="ubicacion-nombre">MULTIPUNTO-HJBZ</span>
-                    <span class="ubicacion-desc">Hospital Dr. Juan Bruno Zayas, Reparto Pastorita, Carretera de El Caney</span>
-                </a>
-            </div>
-
-            <!-- Sorpresas (con ruleta interactiva) -->
-            <div id="sorpresas" class="cards-grid hidden">
-                <!-- Tarjeta de la ruleta -->
-                <div class="card" id="ruletaCard" style="cursor: pointer;">
-                    <i class="fas fa-roulette" id="ruletaIcono" style="font-size: 4rem; transition: transform 0.1s linear;"></i>
-                    <span class="servicio-nombre" style="font-size: 1.3rem;">🎰 ¡Gira y Gana!</span>
-                    <span class="servicio-desc" id="mensaje-sorpresa">Haz clic para descubrir tu premio</span>
-                    <!-- Contenedor para mostrar el código del premio -->
-                    <div id="codigoPremio" style="margin-top: 10px; font-weight: bold; font-size: 1.2rem; color: #1800FF; min-height: 2rem;"></div>
-                </div>
-                <!-- Mensaje legal -->
-                <div style="grid-column: 1 / -1; font-size: 0.75rem; color: #888888; margin-top: 0.5rem; text-align: center; line-height: 1.4; padding: 0 1rem;">
-                    Solo puede existir un ganador. Ante cualquier intento de incumplir las normas, la empresa se reserva el derecho de entregar o no el premio.
-                </div>
-            </div>
-        </div>
-
-        <div class="footer">
-            © 2026 📍 MULTIPUNTO - Santiago de Cuba, Cuba
-        </div>
-
-        <!-- ===== BOTÓN DE COMPARTIR ===== -->
-        <button class="compartir-btn" onclick="compartir()">
-            <i class="fas fa-share-alt"></i> Compartir
-        </button>
     </div>
 
-    <!-- ========== SCRIPTS ========== -->
+    <!-- PANEL ADMIN -->
+    <div id="adminPanel">
+        <div class="panel-header">
+            <h2>⚙️ Panel de Administración</h2>
+            <div>
+                <button class="panel-close" id="closeAdminPanel">Cerrar</button>
+                <button class="panel-close" id="logoutBtn" style="background:#6c757d;">Salir</button>
+            </div>
+        </div>
+        <div class="admin-tabs" id="adminTabs">
+            <button class="admin-tab-btn active" data-admin-tab="tabGeneral">General</button>
+            <button class="admin-tab-btn" data-admin-tab="tabPestanas">Pestañas</button>
+            <button class="admin-tab-btn" data-admin-tab="tabTarjetas">Tarjetas</button>
+            <button class="admin-tab-btn" data-admin-tab="tabRuleta">Ruleta</button>
+            <button class="admin-tab-btn" data-admin-tab="tabColores">Colores</button>
+            <button class="admin-tab-btn" data-admin-tab="tabImagenes">Imágenes</button>
+            <button class="admin-tab-btn" data-admin-tab="tabAnimaciones">Animaciones</button>
+            <button class="admin-tab-btn" data-admin-tab="tabTextos">Textos</button>
+            <button class="admin-tab-btn" data-admin-tab="tabExport">Export/Import</button>
+        </div>
+
+        <!-- ===== CONTENIDO DE TABS ===== -->
+        <div id="tabGeneral" class="admin-tab-content active">
+            <h3>Configuración General</h3>
+            <div class="admin-group">
+                <label>Título de la página</label>
+                <input type="text" id="editTitulo" />
+            </div>
+            <div class="admin-group">
+                <label>Descripción corta</label>
+                <input type="text" id="editDescripcion" />
+            </div>
+            <div class="admin-group">
+                <label>Cantidad mínima de donas (si aplica)</label>
+                <input type="number" id="editMinQuantity" min="1" />
+            </div>
+            <button class="btn-save-edit" id="saveGeneralBtn" style="display:inline-block;padding:0.5rem 1.5rem;">💾 Guardar General</button>
+            <div id="adminGeneralMsg" class="admin-msg" style="display:none;"></div>
+        </div>
+
+        <div id="tabPestanas" class="admin-tab-content">
+            <h3>Gestión de Pestañas</h3>
+            <div id="adminPestanasList"></div>
+            <div class="admin-group" style="margin-top:1rem;">
+                <h4>Agregar nueva pestaña</h4>
+                <div class="admin-row">
+                    <label>Nombre:</label>
+                    <input type="text" id="newPestanaNombre" placeholder="Ej: Contacto" />
+                </div>
+                <div class="admin-row">
+                    <label>Icono (FontAwesome):</label>
+                    <input type="text" id="newPestanaIcono" placeholder="fa-phone" />
+                </div>
+                <div class="admin-row">
+                    <label>Tipo:</label>
+                    <select id="newPestanaTipo">
+                        <option value="texto">Texto</option>
+                        <option value="tarjetas">Tarjetas</option>
+                        <option value="ruleta">Ruleta</option>
+                        <option value="ubicaciones">Ubicaciones</option>
+                        <option value="servicios">Servicios</option>
+                    </select>
+                </div>
+                <button class="btn-save-edit" id="addPestanaBtn" style="display:inline-block;padding:0.5rem 1.5rem;">➕ Agregar</button>
+            </div>
+            <div id="adminPestanasMsg" class="admin-msg" style="display:none;"></div>
+        </div>
+
+        <div id="tabTarjetas" class="admin-tab-content">
+            <h3>Tarjetas (por pestaña)</h3>
+            <div class="admin-group">
+                <label>Seleccionar pestaña:</label>
+                <select id="tarjetasPestanaSelect"></select>
+                <button class="btn-save-edit" id="cargarTarjetasBtn">Cargar</button>
+            </div>
+            <div id="adminTarjetasList"></div>
+            <div class="admin-group" style="margin-top:1rem;">
+                <h4>Agregar tarjeta a esta pestaña</h4>
+                <div class="admin-row">
+                    <label>Nombre:</label>
+                    <input type="text" id="newTarjetaNombre" placeholder="Ej: Facebook" />
+                </div>
+                <div class="admin-row">
+                    <label>Icono (FontAwesome):</label>
+                    <input type="text" id="newTarjetaIcono" placeholder="fab fa-facebook" />
+                </div>
+                <div class="admin-row">
+                    <label>Texto/Descripción:</label>
+                    <input type="text" id="newTarjetaTexto" placeholder="Descripción" />
+                </div>
+                <div class="admin-row">
+                    <label>Enlace (URL):</label>
+                    <input type="text" id="newTarjetaUrl" placeholder="https://..." />
+                </div>
+                <div class="admin-row">
+                    <label>Imagen (URL o subir):</label>
+                    <input type="text" id="newTarjetaImgUrl" placeholder="URL de imagen" />
+                    <input type="file" id="newTarjetaImgFile" accept="image/*" />
+                </div>
+                <button class="btn-save-edit" id="addTarjetaBtn" style="display:inline-block;padding:0.5rem 1.5rem;">➕ Agregar</button>
+            </div>
+            <div id="adminTarjetasMsg" class="admin-msg" style="display:none;"></div>
+        </div>
+
+        <div id="tabRuleta" class="admin-tab-content">
+            <h3>Configuración de la Ruleta</h3>
+            <div class="admin-group">
+                <label>Mensaje al hacer clic (sin ganar):</label>
+                <input type="text" id="editRuletaMensajeDefault" placeholder="Haz clic para descubrir tu premio" />
+            </div>
+            <div class="admin-group">
+                <label>Mensaje cuando ya usó hoy:</label>
+                <input type="text" id="editRuletaMensajeUsado" placeholder="Ya has usado tu oportunidad hoy" />
+            </div>
+            <div class="admin-group">
+                <label>Mensaje de ganador:</label>
+                <input type="text" id="editRuletaMensajeGanador" placeholder="¡Felicidades! Has ganado un premio" />
+            </div>
+            <div class="admin-group">
+                <label>Prefijo del código de premio:</label>
+                <input type="text" id="editRuletaPrefijo" placeholder="MULTI" />
+            </div>
+            <div class="admin-group">
+                <label>Longitud del código (sin prefijo):</label>
+                <input type="number" id="editRuletaLongitud" min="4" max="20" value="12" />
+            </div>
+            <button class="btn-save-edit" id="saveRuletaBtn" style="display:inline-block;padding:0.5rem 1.5rem;">💾 Guardar Ruleta</button>
+            <div id="adminRuletaMsg" class="admin-msg" style="display:none;"></div>
+        </div>
+
+        <div id="tabColores" class="admin-tab-content">
+            <h3>Colores</h3>
+            <div class="admin-group">
+                <label>Color de fondo:</label>
+                <input type="color" id="editBgColor" />
+            </div>
+            <div class="admin-group">
+                <label>Color de texto principal:</label>
+                <input type="color" id="editTextColor" />
+            </div>
+            <div class="admin-group">
+                <label>Color primario (azul):</label>
+                <input type="color" id="editPrimaryColor" />
+            </div>
+            <div class="admin-group">
+                <label>Color secundario (gris oscuro):</label>
+                <input type="color" id="editSecondaryColor" />
+            </div>
+            <div class="admin-group">
+                <label>Color gris claro:</label>
+                <input type="color" id="editGrisColor" />
+            </div>
+            <button class="btn-save-edit" id="saveColoresBtn" style="display:inline-block;padding:0.5rem 1.5rem;">💾 Guardar Colores</button>
+            <div id="adminColoresMsg" class="admin-msg" style="display:none;"></div>
+        </div>
+
+        <div id="tabImagenes" class="admin-tab-content">
+            <h3>Imágenes</h3>
+            <div class="admin-group">
+                <label>Logo (subir o URL):</label>
+                <input type="text" id="editLogoUrl" placeholder="URL del logo" />
+                <input type="file" id="editLogoFile" accept="image/*" />
+                <button class="btn-save-edit" id="cargarLogoBtn">Cargar</button>
+                <div id="logoPreview" style="margin-top:0.5rem;max-width:150px;"></div>
+            </div>
+            <div class="admin-group">
+                <label>Imagen de fondo (subir o URL):</label>
+                <input type="text" id="editFondoUrl" placeholder="URL del fondo" />
+                <input type="file" id="editFondoFile" accept="image/*" />
+                <button class="btn-save-edit" id="cargarFondoBtn">Cargar</button>
+            </div>
+            <div class="admin-group">
+                <label>Favicon (subir):</label>
+                <input type="file" id="editFaviconFile" accept="image/*" />
+                <button class="btn-save-edit" id="cargarFaviconBtn">Cargar</button>
+            </div>
+            <div id="adminImagenesMsg" class="admin-msg" style="display:none;"></div>
+        </div>
+
+        <div id="tabAnimaciones" class="admin-tab-content">
+            <h3>Animaciones</h3>
+            <div class="admin-group">
+                <label>Duración del pulso (segundos):</label>
+                <input type="number" id="editPulsoDuracion" step="0.5" min="1" max="10" />
+            </div>
+            <div class="admin-group">
+                <label>Escala del pulso (ej. 1.015):</label>
+                <input type="number" id="editPulsoEscala" step="0.001" min="1" max="1.1" />
+            </div>
+            <div class="admin-group">
+                <label>Duración del giro de ruleta (segundos):</label>
+                <input type="number" id="editRuletaDuracion" step="0.5" min="1" max="10" />
+            </div>
+            <div class="admin-group">
+                <label>Vueltas mínimas de ruleta:</label>
+                <input type="number" id="editRuletaVueltasMin" min="1" max="10" />
+            </div>
+            <div class="admin-group">
+                <label>Vueltas máximas de ruleta:</label>
+                <input type="number" id="editRuletaVueltasMax" min="1" max="15" />
+            </div>
+            <button class="btn-save-edit" id="saveAnimacionesBtn" style="display:inline-block;padding:0.5rem 1.5rem;">💾 Guardar Animaciones</button>
+            <div id="adminAnimacionesMsg" class="admin-msg" style="display:none;"></div>
+        </div>
+
+        <div id="tabTextos" class="admin-tab-content">
+            <h3>Textos de la página</h3>
+            <div class="admin-group">
+                <label>Título principal (Hero):</label>
+                <input type="text" id="editHeroTitulo" />
+            </div>
+            <div class="admin-group">
+                <label>Subtítulo itálico:</label>
+                <input type="text" id="editHeroItalico" />
+            </div>
+            <div class="admin-group">
+                <label>Eslogan:</label>
+                <input type="text" id="editHeroSlogan" />
+            </div>
+            <div class="admin-group">
+                <label>Sublema:</label>
+                <input type="text" id="editHeroSubLema" />
+            </div>
+            <div class="admin-group">
+                <label>Descripción hero:</label>
+                <input type="text" id="editHeroDesc" />
+            </div>
+            <div class="admin-group">
+                <label>Mensaje de pedido (WhatsApp):</label>
+                <input type="text" id="editMensajePedido" />
+            </div>
+            <div class="admin-group">
+                <label>Texto del botón WhatsApp:</label>
+                <input type="text" id="editWhatsAppText" />
+            </div>
+            <div class="admin-group">
+                <label>Texto del footer:</label>
+                <input type="text" id="editFooterText" />
+            </div>
+            <button class="btn-save-edit" id="saveTextosBtn" style="display:inline-block;padding:0.5rem 1.5rem;">💾 Guardar Textos</button>
+            <div id="adminTextosMsg" class="admin-msg" style="display:none;"></div>
+        </div>
+
+        <div id="tabExport" class="admin-tab-content">
+            <h3>Exportar / Importar / Publicar</h3>
+            <div class="admin-row" style="margin-bottom:1rem;">
+                <button class="btn-edit" id="exportJsonBtn">📥 Exportar JSON</button>
+                <button class="btn-edit" id="importJsonBtn">📤 Importar JSON</button>
+                <input type="file" id="importJsonInput" accept=".json" style="display:none;" />
+            </div>
+            <div class="admin-row" style="margin-bottom:1rem;">
+                <button class="btn-save-edit" id="exportHtmlBtn">📄 Descargar HTML</button>
+            </div>
+            <hr />
+            <h4>Publicar en GitHub (opcional)</h4>
+            <div class="admin-group">
+                <label>Token de GitHub:</label>
+                <input type="password" id="githubToken" placeholder="ghp_..." />
+            </div>
+            <div class="admin-group">
+                <label>Usuario / Owner:</label>
+                <input type="text" id="githubOwner" placeholder="tu-usuario" />
+            </div>
+            <div class="admin-group">
+                <label>Repositorio:</label>
+                <input type="text" id="githubRepo" placeholder="tu-repo" />
+            </div>
+            <button class="btn-save-edit" id="saveGithubConfig">💾 Guardar GitHub</button>
+            <button class="btn-save-edit" id="publishGithubBtn" style="background:#28a745;">🚀 Publicar en GitHub</button>
+            <div id="adminGeneralMsg" class="admin-msg" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- ===== CONTENIDO PÚBLICO ===== -->
+    <div class="container" id="app">
+        <!-- Logo -->
+        <img id="logoImg" src="" alt="Logo MULTIPUNTO" class="logo" loading="lazy" />
+        <!-- Título -->
+        <h1 id="heroTitulo" class="nombre-emprendimiento">MULTIPUNTO</h1>
+        <p id="heroDesc" class="descripcion">Impresión de documentos - Servicios técnicos informáticos</p>
+        <!-- Pestañas -->
+        <div id="tabsContainer" class="tabs"></div>
+        <!-- Contenido dinámico -->
+        <div id="contenidoDinamico" class="cards-wrapper"></div>
+        <!-- Footer -->
+        <div id="footerText" class="footer">© 2026 📍 MULTIPUNTO - Santiago de Cuba, Cuba</div>
+        <!-- Botón compartir -->
+        <button class="compartir-btn" id="compartirBtn"><i class="fas fa-share-alt"></i> Compartir</button>
+    </div>
+
     <script>
-        // ===== FUNCIÓN PARA CAMBIAR DE TAB =====
-        function cambiarTab(tab) {
-            document.querySelectorAll('.cards-grid').forEach(grid => {
-                grid.classList.add('hidden');
-            });
-            document.getElementById(tab).classList.remove('hidden');
+        /**
+         * ============================================================
+         * SISTEMA DE ADMINISTRACIÓN Y RENDERIZADO
+         * ============================================================
+         * Estructura de datos en localStorage: 'multipunto_data'
+         * ============================================================
+         */
+        (function() {
+            'use strict';
 
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
-        }
+            // ============================================================
+            // DATOS POR DEFECTO
+            // ============================================================
+            const DEFAULT_DATA = {
+                titulo: 'MULTIPUNTO',
+                descripcion: 'Impresión de documentos - Servicios técnicos informáticos',
+                minQuantity: 9,
+                colores: {
+                    bg: '#000000',
+                    texto: '#FFFFFF',
+                    primario: '#1800FF',
+                    secundario: '#1A1A1A',
+                    gris: '#888888'
+                },
+                animaciones: {
+                    pulsoDuracion: 3,
+                    pulsoEscala: 1.015,
+                    ruletaDuracion: 3,
+                    ruletaVueltasMin: 3,
+                    ruletaVueltasMax: 6
+                },
+                textos: {
+                    heroTitulo: 'MULTIPUNTO',
+                    heroItalico: 'Servicios integrales',
+                    heroSlogan: '',
+                    heroSubLema: '',
+                    heroDesc: 'Impresión de documentos - Servicios técnicos informáticos',
+                    mensajePedido: '📋 Elige tus opciones y envía tu pedido por WhatsApp',
+                    whatsappText: 'PEDIR MIS DONAS YA',
+                    footerText: '© 2026 📍 MULTIPUNTO - Santiago de Cuba, Cuba'
+                },
+                ruleta: {
+                    mensajeDefault: 'Haz clic para descubrir tu premio',
+                    mensajeUsado: '⏳ Ya has usado tu oportunidad hoy. Vuelve mañana.',
+                    mensajeGanador: '¡Felicidades! Has ganado un premio. Usa tu código para reclamarlo.',
+                    prefijo: 'MULTI',
+                    longitud: 12
+                },
+                imagenes: {
+                    logo: '',
+                    fondo: '',
+                    favicon: ''
+                },
+                pestanas: [
+                    {
+                        id: 'quienes',
+                        nombre: 'Quienes Somos',
+                        icono: 'fa-info-circle',
+                        activa: true,
+                        tipo: 'texto',
+                        contenido: {
+                            texto: 'Somos MULTIPUNTO un emprendimiento con múltiples sedes en 📍Santiago de Cuba, enfocado en dar servicios diversos como impresión de documentos y papelería 📑, servicios informáticos 🖥️ venta de artículos 🛍️ y mucho más 📦'
+                        }
+                    },
+                    {
+                        id: 'redes',
+                        nombre: 'Redes Sociales',
+                        icono: 'fa-share-alt',
+                        activa: false,
+                        tipo: 'tarjetas',
+                        tarjetas: [
+                            { tipo: 'cta', texto: 'Síguenos para que no te pierdas nuestras ofertas y novedades diarias',
+                                boton: 'Síguenos YA', url: '#' },
+                            { tipo: 'enlace', nombre: 'Facebook', icono: 'fab fa-facebook',
+                                url: 'https://www.facebook.com/share/1K3kUguy7p/', usuario: '@ce' },
+                            { tipo: 'enlace', nombre: 'Instagram', icono: 'fab fa-instagram',
+                                url: 'https://www.instagram.com/multipunto.stgodecuba?igsi=MXY2cnI0aTlsYzQ5bA==',
+                                usuario: '@multipunto.stgodecuba' },
+                            { tipo: 'enlace', nombre: 'WhatsApp', icono: 'fab fa-whatsapp',
+                                url: 'https://wa.me/5358815215?text=Hola%20Quiero%20mas%20informacion%20de%20tus%20servicios',
+                                usuario: '+53 58815215' },
+                            { tipo: 'enlace', nombre: 'Email', icono: 'far fa-envelope',
+                                url: 'mailto:multipunto.admin@gmail.com', usuario: 'multipunto.admin@gmail.com' },
+                            { tipo: 'enlace', nombre: 'YouTube', icono: 'fab fa-youtube', url: '#',
+                                usuario: 'EN CONSTRUCCIÓN' },
+                            { tipo: 'enlace', nombre: 'Threads', icono: 'fab fa-threads', url: '#',
+                                usuario: 'EN CONSTRUCCIÓN' }
+                        ]
+                    },
+                    {
+                        id: 'servicios',
+                        nombre: 'Servicios',
+                        icono: 'fa-tools',
+                        activa: false,
+                        tipo: 'tarjetas',
+                        tarjetas: [
+                            { tipo: 'servicio', nombre: 'Impresión', icono: 'fas fa-print',
+                                desc: 'Documentos, fotos, carteles' },
+                            { tipo: 'servicio', nombre: 'Equipos Informáticos', icono: 'fas fa-laptop',
+                                desc: 'Reparación y mantenimiento (Software)' },
+                            { tipo: 'servicio', nombre: 'Telefonía Móvil', icono: 'fas fa-wifi',
+                                desc: 'Reinstalación, configuración, etc' },
+                            { tipo: 'servicio', nombre: 'Unidades USB', icono: 'fas fa-database',
+                                desc: 'Recuperación y respaldo de información' },
+                            { tipo: 'servicio', nombre: 'Digitalización', icono: 'fas fa-camera',
+                                desc: 'Escaneo de documentos' },
+                            { tipo: 'servicio', nombre: 'Asesoría', icono: 'fas fa-phone-alt',
+                                desc: 'Consultoría técnica informática' }
+                        ]
+                    },
+                    {
+                        id: 'ubicacion',
+                        nombre: 'Donde estamos',
+                        icono: 'fa-map-marker-alt',
+                        activa: false,
+                        tipo: 'ubicaciones',
+                        tarjetas: [
+                            { tipo: 'ubicacion', nombre: 'MULTIPUNTO-FAC2', icono: 'fas fa-store',
+                                desc: 'Fac #2 de Ciencias Medicas, Reparto Pastorita, Carretera de El Caney',
+                                url: 'https://maps.app.goo.gl/A9njTRESvAyCGhEr7', mantenimiento: true },
+                            { tipo: 'ubicacion', nombre: 'MULTIPUNTO-HJBZ', icono: 'fas fa-store',
+                                desc: 'Hospital Dr. Juan Bruno Zayas, Reparto Pastorita, Carretera de El Caney',
+                                url: 'https://maps.app.goo.gl/QcNjxrpW26qJYEwY8', mantenimiento: false }
+                        ]
+                    },
+                    {
+                        id: 'sorpresas',
+                        nombre: 'Sorpresas',
+                        icono: 'fa-roulette',
+                        activa: false,
+                        tipo: 'ruleta',
+                        contenido: {}
+                    }
+                ]
+            };
 
-        // ===== FUNCIÓN COMPARTIR =====
-        function compartir() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'MULTIPUNTO',
-                    text: 'Impresión de documentos - Servicios técnicos informáticos en Santiago de Cuba',
-                    url: window.location.href
-                }).then(() => {
-                    console.log('Compartido exitosamente');
-                }).catch((error) => {
-                    console.log('Error al compartir:', error);
-                });
-            } else {
-                const url = window.location.href;
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(url).then(() => {
-                        alert('¡Enlace copiado al portapapeles! Compártelo con quien quieras.');
-                    }).catch(() => {
-                        prompt('Copia este enlace para compartir:', url);
-                    });
+            // ============================================================
+            // CARGA Y GUARDADO DE DATOS
+            // ============================================================
+            const STORAGE_KEY = 'multipunto_data';
+            let appData = {};
+
+            function loadData() {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored) {
+                    try {
+                        const parsed = JSON.parse(stored);
+                        appData = deepMerge(DEFAULT_DATA, parsed);
+                    } catch (e) {
+                        appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+                    }
                 } else {
-                    prompt('Copia este enlace para compartir:', url);
+                    appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+                    saveData();
                 }
             }
-        }
 
-        // ===== REDIRECCIÓN ALEATORIA A FACEBOOK O INSTAGRAM =====
-        function irARedSocialAleatoria(event) {
-            event.preventDefault();
-            const redes = [
-                'https://www.facebook.com/share/1K3kUguy7p/',
-                'https://www.instagram.com/multipunto.stgodecuba?igsi=MXY2cnI0aTlsYzQ5bA=='
-            ];
-            const aleatoria = redes[Math.floor(Math.random() * redes.length)];
-            window.open(aleatoria, '_blank');
-        }
+            function saveData() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+            }
 
-        // ===== OBTENER IDENTIFICADOR ÚNICO (IP o huella digital) =====
-        function obtenerIdentificadorUsuario() {
-            return new Promise((resolve) => {
-                // Intentar obtener la IP real desde una API externa
-                fetch('https://api.ipify.org?format=json')
-                    .then(response => response.json())
-                    .then(data => {
-                        resolve(data.ip);
-                    })
-                    .catch(() => {
-                        // Si falla, generar una huella digital del navegador
-                        const fingerprint = navigator.userAgent + navigator.language + screen.width + screen.height;
-                        resolve('fingerprint_' + btoa(fingerprint).substring(0, 20));
+            function deepMerge(target, source) {
+                const result = JSON.parse(JSON.stringify(target));
+                for (let key in source) {
+                    if (source.hasOwnProperty(key)) {
+                        if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+                            result[key] = deepMerge(result[key], source[key]);
+                        } else {
+                            result[key] = source[key];
+                        }
+                    }
+                }
+                return result;
+            }
+
+            // ============================================================
+            // PANEL DE ADMINISTRACIÓN - LOGIN
+            // ============================================================
+            const ADMIN_PASSWORD_KEY = 'multipunto_admin_password';
+            let isAdminLogged = false;
+
+            function getAdminPassword() {
+                return localStorage.getItem(ADMIN_PASSWORD_KEY) || 'admin123';
+            }
+
+            function setAdminPassword(newPass) {
+                localStorage.setItem(ADMIN_PASSWORD_KEY, newPass);
+            }
+
+            // ============================================================
+            // RENDERIZADO DE LA PÁGINA PÚBLICA
+            // ============================================================
+            function renderPagina() {
+                const data = appData;
+                // Título
+                document.title = data.titulo || 'MULTIPUNTO';
+                document.getElementById('pageTitle').textContent = data.titulo || 'MULTIPUNTO';
+                // Logo
+                const logoImg = document.getElementById('logoImg');
+                if (data.imagenes.logo) {
+                    logoImg.src = data.imagenes.logo;
+                    logoImg.style.display = 'block';
+                } else {
+                    logoImg.style.display = 'none';
+                }
+                // Hero
+                document.getElementById('heroTitulo').textContent = data.textos.heroTitulo || data.titulo;
+                document.getElementById('heroDesc').textContent = data.textos.heroDesc || data.descripcion;
+                // Footer
+                document.getElementById('footerText').textContent = data.textos.footerText || '© 2026 MULTIPUNTO';
+                // Colores
+                applyColores(data.colores);
+                // Animaciones (aplicar via CSS)
+                applyAnimaciones(data.animaciones);
+                // Favicon
+                if (data.imagenes.favicon) {
+                    document.getElementById('faviconLink').href = data.imagenes.favicon;
+                }
+                // Fondo
+                if (data.imagenes.fondo) {
+                    document.body.style.backgroundImage = `url(${data.imagenes.fondo})`;
+                    document.body.style.backgroundSize = 'cover';
+                    document.body.style.backgroundPosition = 'center';
+                    document.body.style.backgroundAttachment = 'fixed';
+                } else {
+                    document.body.style.backgroundImage = 'none';
+                    document.body.style.backgroundColor = data.colores.bg || '#000';
+                }
+                // Renderizar pestañas y contenido
+                renderTabs(data);
+                // Compartir
+                document.getElementById('compartirBtn').onclick = function() {
+                    if (navigator.share) {
+                        navigator.share({
+                            title: document.title,
+                            text: data.descripcion || 'Visita MULTIPUNTO',
+                            url: window.location.href
+                        }).catch(() => {});
+                    } else {
+                        const url = window.location.href;
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                            navigator.clipboard.writeText(url).then(() => {
+                                alert('¡Enlace copiado al portapapeles!');
+                            }).catch(() => {
+                                prompt('Copia este enlace:', url);
+                            });
+                        } else {
+                            prompt('Copia este enlace:', url);
+                        }
+                    }
+                };
+            }
+
+            function applyColores(colores) {
+                const root = document.documentElement;
+                if (colores.bg) document.body.style.backgroundColor = colores.bg;
+                if (colores.texto) document.body.style.color = colores.texto;
+                if (colores.primario) {
+                    root.style.setProperty('--color-primario', colores.primario);
+                }
+                // Actualizar elementos dinámicos
+                document.querySelectorAll('.card i').forEach(el => {
+                    el.style.color = colores.primario || '#1800FF';
+                });
+                document.querySelectorAll('.card .usuario, .card .servicio-desc, .card .ubicacion-desc').forEach(el => {
+                    el.style.color = colores.gris || '#888';
+                });
+                document.querySelectorAll('.card .red-social, .card .servicio-nombre, .card .ubicacion-nombre').forEach(
+                el => {
+                    el.style.color = colores.secundario || '#1A1A1A';
+                });
+                // Tabs
+                document.querySelectorAll('.tab-btn').forEach(el => {
+                    el.style.color = colores.gris || '#CCCCCC';
+                });
+                document.querySelectorAll('.tab-btn.active').forEach(el => {
+                    el.style.color = '#FFFFFF';
+                });
+            }
+
+            function applyAnimaciones(anim) {
+                // Actualizar CSS dinámicamente
+                let style = document.getElementById('animStyle');
+                if (!style) {
+                    style = document.createElement('style');
+                    style.id = 'animStyle';
+                    document.head.appendChild(style);
+                }
+                const duracion = anim.pulsoDuracion || 3;
+                const escala = anim.pulsoEscala || 1.015;
+                style.textContent = `
+                    @keyframes pulse-soft {
+                        0% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+                        50% { transform: scale(${escala}); box-shadow: 0 10px 25px rgba(0,0,0,0.18); }
+                        100% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+                    }
+                    .card {
+                        animation: pulse-soft ${duracion}s ease-in-out infinite;
+                    }
+                `;
+            }
+
+            function renderTabs(data) {
+                const container = document.getElementById('tabsContainer');
+                const content = document.getElementById('contenidoDinamico');
+                container.innerHTML = '';
+                // Buscar pestaña activa
+                let activeTab = data.pestanas.find(p => p.activa) || data.pestanas[0];
+                data.pestanas.forEach((p, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'tab-btn' + (p.activa ? ' active' : '');
+                    btn.dataset.tabId = p.id;
+                    btn.innerHTML = `<i class="fas ${p.icono}"></i> ${p.nombre}`;
+                    btn.onclick = function() {
+                        // Cambiar activa
+                        data.pestanas.forEach(t => t.activa = false);
+                        p.activa = true;
+                        renderTabs(data);
+                    };
+                    container.appendChild(btn);
+                });
+                // Renderizar contenido de la pestaña activa
+                if (activeTab) {
+                    renderTabContent(activeTab, content);
+                } else if (data.pestanas.length > 0) {
+                    renderTabContent(data.pestanas[0], content);
+                }
+            }
+
+            function renderTabContent(tab, container) {
+                container.innerHTML = '';
+                const data = appData;
+                const colores = data.colores || {};
+
+                // Crear grid
+                const grid = document.createElement('div');
+                grid.className = 'cards-grid';
+                grid.style.display = 'grid';
+                grid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(180px, 1fr))';
+                grid.style.gap = '1.5rem';
+
+                if (tab.tipo === 'texto') {
+                    const texto = tab.contenido.texto || '';
+                    const card = document.createElement('div');
+                    card.className = 'card card-full';
+                    card.style.gridColumn = '1 / -1';
+                    card.style.padding = '2rem 1.5rem';
+                    card.style.animation = 'none';
+                    card.innerHTML = `
+                        <i class="fas fa-store" style="font-size:3rem;color:${colores.primario || '#1800FF'};margin-bottom:0.5rem;"></i>
+                        <p style="font-size:1.1rem;line-height:1.8;color:${colores.secundario || '#1A1A1A'};max-width:750px;margin:0 auto;">${texto}</p>
+                    `;
+                    grid.appendChild(card);
+                } else if (tab.tipo === 'ruleta') {
+                    const ruleta = data.ruleta || {};
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.id = 'ruletaCard';
+                    card.style.cursor = 'pointer';
+                    card.style.flexDirection = 'column';
+                    card.style.alignItems = 'center';
+                    card.style.justifyContent = 'center';
+                    card.innerHTML = `
+                        <i class="fas fa-roulette" id="ruletaIcono" style="font-size:4rem;transition:transform 0.1s linear;color:${colores.secundario || '#1A1A1A'}"></i>
+                        <span class="servicio-nombre" style="font-size:1.3rem;color:${colores.secundario || '#1A1A1A'}">🎰 ¡Gira y Gana!</span>
+                        <span class="servicio-desc" id="mensaje-sorpresa" style="color:${colores.gris || '#888'}">${ruleta.mensajeDefault || 'Haz clic para descubrir tu premio'}</span>
+                        <div id="codigoPremio" style="margin-top:10px;font-weight:bold;font-size:1.2rem;color:${colores.primario || '#1800FF'};min-height:2rem;"></div>
+                    `;
+                    grid.appendChild(card);
+                    // Agregar mensaje legal
+                    const legal = document.createElement('div');
+                    legal.style.cssText =
+                        'grid-column:1/-1;font-size:0.75rem;color:var(--color-gris, #888);margin-top:0.5rem;text-align:center;line-height:1.4;padding:0 1rem;';
+                    legal.textContent = 'Solo puede existir un ganador. Ante cualquier intento de incumplir las normas, la empresa se reserva el derecho de entregar o no el premio.';
+                    grid.appendChild(legal);
+                    // Evento de la ruleta
+                    card.addEventListener('click', function() {
+                        verificarSorpresaDiaria();
                     });
-            });
-        }
-
-        // ===== GENERAR CÓDIGO DE PREMIO =====
-        function generarCodigoPremio() {
-            const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let codigo = 'MULTI-';
-            for (let i = 0; i < 3; i++) {
-                for (let j = 0; j < 4; j++) {
-                    codigo += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+                } else if (tab.tipo === 'tarjetas' || tab.tipo === 'ubicaciones' || tab.tipo === 'servicios') {
+                    const tarjetas = tab.tarjetas || [];
+                    tarjetas.forEach(item => {
+                        let card;
+                        if (item.tipo === 'cta') {
+                            card = document.createElement('div');
+                            card.className = 'cta-redes';
+                            card.style.cssText =
+                                'grid-column:1/-1;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border-radius:24px;padding:1.5rem;border:1px solid rgba(255,255,255,0.2);text-align:center;margin-bottom:0.5rem;';
+                            card.innerHTML = `
+                                <p style="font-size:1.2rem;font-weight:600;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,0.3);margin-bottom:0.5rem;">${item.texto}</p>
+                                <a href="${item.url}" class="btn-cta" style="display:inline-block;background:${colores.primario || '#1800FF'};color:#fff;padding:0.6rem 2rem;border-radius:40px;text-decoration:none;font-weight:700;font-size:1rem;box-shadow:0 4px 15px rgba(24,0,255,0.4);transition:all 0.3s;animation:pulse 2s ease-in-out infinite;border:none;cursor:pointer;font-family:inherit;">${item.boton}</a>
+                            `;
+                            grid.appendChild(card);
+                            // Estilo para la animación pulse
+                            if (!document.getElementById('pulseStyle')) {
+                                const ps = document.createElement('style');
+                                ps.id = 'pulseStyle';
+                                ps.textContent =
+                                    `@keyframes pulse { 0%{transform:scale(1);box-shadow:0 4px 15px rgba(24,0,255,0.4);background:${colores.primario || '#1800FF'};} 50%{transform:scale(1.05);box-shadow:0 8px 30px rgba(24,0,255,0.6);background:#4D4DFF;} 100%{transform:scale(1);box-shadow:0 4px 15px rgba(24,0,255,0.4);background:${colores.primario || '#1800FF'};} }`;
+                                document.head.appendChild(ps);
+                            }
+                            // Redirección aleatoria
+                            const link = card.querySelector('.btn-cta');
+                            link.onclick = function(e) {
+                                e.preventDefault();
+                                const redes = [
+                                    'https://www.facebook.com/share/1K3kUguy7p/',
+                                    'https://www.instagram.com/multipunto.stgodecuba?igsi=MXY2cnI0aTlsYzQ5bA=='
+                                ];
+                                const aleatoria = redes[Math.floor(Math.random() * redes.length)];
+                                window.open(aleatoria, '_blank');
+                            };
+                        } else {
+                            card = document.createElement('a');
+                            card.className = 'card';
+                            card.style.textDecoration = 'none';
+                            if (item.url) card.href = item.url;
+                            if (item.tipo === 'ubicacion') {
+                                card.target = '_blank';
+                            }
+                            let desc = item.desc || item.usuario || '';
+                            let nombre = item.nombre || '';
+                            let icono = item.icono || 'fas fa-circle';
+                            if (item.tipo === 'enlace') {
+                                desc = item.usuario || '';
+                            }
+                            card.innerHTML = `
+                                <i class="${icono}" style="font-size:3.2rem;margin-bottom:0.5rem;color:${colores.secundario || '#1A1A1A'};transition:color 0.3s,transform 0.3s;"></i>
+                                <span class="red-social" style="font-size:1.15rem;font-weight:600;color:${colores.secundario || '#1A1A1A'};letter-spacing:0.3px;line-height:1.3;">${nombre}</span>
+                                <span class="usuario" style="font-size:0.85rem;font-weight:400;margin-top:0.25rem;color:${colores.gris || '#888'};transition:color 0.3s;line-height:1.4;">${desc}</span>
+                                ${item.mantenimiento ? `<span class="mantenimiento" style="color:#FF0000;font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.5px;margin-top:0.2rem;">🚧 EN MANTENIMIENTO</span>` : ''}
+                            `;
+                            grid.appendChild(card);
+                            // Efectos hover
+                            card.addEventListener('mouseenter', function() {
+                                this.style.transform = 'scale(1.04) translateY(-6px)';
+                                this.style.boxShadow =
+                                    '0 20px 40px rgba(0,0,0,0.25), 0 0 30px rgba(24,0,255,0.3)';
+                                this.style.backgroundColor = 'rgba(255,255,255,0.98)';
+                                const icon = this.querySelector('i');
+                                if (icon) {
+                                    icon.style.color = colores.primario || '#1800FF';
+                                    icon.style.transform = 'scale(1.1)';
+                                }
+                                const usuario = this.querySelector('.usuario, .servicio-desc, .ubicacion-desc');
+                                if (usuario) usuario.style.color = colores.primario || '#1800FF';
+                            });
+                            card.addEventListener('mouseleave', function() {
+                                this.style.transform = '';
+                                this.style.boxShadow = '';
+                                this.style.backgroundColor = '';
+                                const icon = this.querySelector('i');
+                                if (icon) {
+                                    icon.style.color = colores.secundario || '#1A1A1A';
+                                    icon.style.transform = '';
+                                }
+                                const usuario = this.querySelector('.usuario, .servicio-desc, .ubicacion-desc');
+                                if (usuario) usuario.style.color = colores.gris || '#888';
+                            });
+                        }
+                    });
                 }
-                if (i < 2) codigo += '-';
+                container.appendChild(grid);
             }
-            return codigo;
-        }
 
-        // ===== VARIABLE PARA CONTROLAR EL GIRO =====
-        let giroActivo = false;
+            // ============================================================
+            // FUNCIONALIDAD DE RULETA
+            // ============================================================
+            let giroActivo = false;
 
-        // ===== VERIFICAR SORPRESA DIARIA Y ANIMAR RULETA =====
-        function verificarSorpresaDiaria() {
-            const mensajeElement = document.getElementById('mensaje-sorpresa');
-            const codigoElement = document.getElementById('codigoPremio');
-            const ruletaIcono = document.getElementById('ruletaIcono');
-            
-            // Evitar múltiples giros simultáneos
-            if (giroActivo) return;
-            
-            // Verificación diaria por IP
-            obtenerIdentificadorUsuario().then(usuarioId => {
-                const clave = 'multipunto_sorpresa_' + usuarioId;
-                const hoy = new Date().toDateString();
-                const registro = localStorage.getItem(clave);
-                
-                if (registro === hoy) {
-                    mensajeElement.textContent = '⏳ Ya has usado tu oportunidad hoy. Vuelve mañana.';
-                    mensajeElement.style.color = '#FF6B6B';
+            function obtenerIdentificadorUsuario() {
+                return new Promise((resolve) => {
+                    fetch('https://api.ipify.org?format=json')
+                        .then(response => response.json())
+                        .then(data => resolve(data.ip))
+                        .catch(() => {
+                            const fingerprint = navigator.userAgent + navigator.language + screen.width + screen
+                            .height;
+                            resolve('fingerprint_' + btoa(fingerprint).substring(0, 20));
+                        });
+                });
+            }
+
+            function generarCodigoPremio() {
+                const data = appData;
+                const ruleta = data.ruleta || {};
+                const prefijo = ruleta.prefijo || 'MULTI';
+                const longitud = ruleta.longitud || 12;
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let codigo = prefijo + '-';
+                const partes = Math.ceil(longitud / 4);
+                for (let i = 0; i < partes; i++) {
+                    for (let j = 0; j < 4; j++) {
+                        codigo += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                    if (i < partes - 1) codigo += '-';
+                }
+                return codigo;
+            }
+
+            function verificarSorpresaDiaria() {
+                const mensajeElement = document.getElementById('mensaje-sorpresa');
+                const codigoElement = document.getElementById('codigoPremio');
+                const ruletaIcono = document.getElementById('ruletaIcono');
+
+                if (giroActivo) return;
+                const data = appData;
+                const ruleta = data.ruleta || {};
+
+                obtenerIdentificadorUsuario().then(usuarioId => {
+                    const clave = 'multipunto_sorpresa_' + usuarioId;
+                    const hoy = new Date().toDateString();
+                    const registro = localStorage.getItem(clave);
+
+                    if (registro === hoy) {
+                        mensajeElement.textContent = ruleta.mensajeUsado ||
+                        '⏳ Ya has usado tu oportunidad hoy. Vuelve mañana.';
+                        mensajeElement.style.color = '#FF6B6B';
+                        codigoElement.textContent = '';
+                        return;
+                    }
+
+                    giroActivo = true;
+                    mensajeElement.textContent = '🎡 ¡Girando...!';
+                    mensajeElement.style.color = '#888';
                     codigoElement.textContent = '';
-                    return;
-                }
-                
-                // Iniciar la animación de giro
-                giroActivo = true;
-                mensajeElement.textContent = '🎡 ¡Girando...!';
-                mensajeElement.style.color = '#888888';
-                codigoElement.textContent = '';
-                
-                // Calcular un ángulo de giro aleatorio (mínimo 3 vueltas completas)
-                const vueltas = 3 + Math.random() * 3; // Entre 3 y 6 vueltas
-                const anguloFinal = vueltas * 360 + Math.random() * 360;
-                
-                // Aplicar la animación con una transición suave
-                ruletaIcono.style.transition = 'transform 3s cubic-bezier(0.25, 0.1, 0.15, 1)';
-                ruletaIcono.style.transform = `rotate(${anguloFinal}deg)`;
-                
-                // Al terminar la animación, mostrar el resultado
-                setTimeout(() => {
-                    // Guardar el registro del día
-                    localStorage.setItem(clave, hoy);
-                    
-                    // Generar y mostrar el código del premio
-                    const codigo = generarCodigoPremio();
-                    codigoElement.textContent = `🎉 Tu código: ${codigo}`;
-                    
-                    mensajeElement.textContent = '¡Felicidades! Has ganado un premio. Usa tu código para reclamarlo.';
-                    mensajeElement.style.color = '#1800FF';
-                    
-                    giroActivo = false;
-                }, 3200); // Tiempo ligeramente mayor a la transición (3s)
-                
-            });
-        }
 
-        // ===== ASIGNAR EVENTO A LA TARJETA DE LA RULETA =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const ruletaCard = document.getElementById('ruletaCard');
-            if (ruletaCard) {
-                ruletaCard.addEventListener('click', verificarSorpresaDiaria);
+                    const anim = data.animaciones || {};
+                    const duracion = anim.ruletaDuracion || 3;
+                    const minVueltas = anim.ruletaVueltasMin || 3;
+                    const maxVueltas = anim.ruletaVueltasMax || 6;
+                    const vueltas = minVueltas + Math.random() * (maxVueltas - minVueltas);
+                    const anguloFinal = vueltas * 360 + Math.random() * 360;
+
+                    ruletaIcono.style.transition = `transform ${duracion}s cubic-bezier(0.25, 0.1, 0.15, 1)`;
+                    ruletaIcono.style.transform = `rotate(${anguloFinal}deg)`;
+
+                    setTimeout(() => {
+                        localStorage.setItem(clave, hoy);
+                        const codigo = generarCodigoPremio();
+                        codigoElement.textContent = `🎉 Tu código: ${codigo}`;
+                        mensajeElement.textContent = ruleta.mensajeGanador ||
+                            '¡Felicidades! Has ganado un premio. Usa tu código para reclamarlo.';
+                        mensajeElement.style.color = data.colores.primario || '#1800FF';
+                        giroActivo = false;
+                    }, duracion * 1000 + 200);
+                });
             }
-        });
+
+            // ============================================================
+            // ADMIN: RENDERIZAR PANEL
+            // ============================================================
+            function renderAdminPanel() {
+                const data = appData;
+                // General
+                document.getElementById('editTitulo').value = data.titulo || '';
+                document.getElementById('editDescripcion').value = data.descripcion || '';
+                document.getElementById('editMinQuantity').value = data.minQuantity || 9;
+                // Colores
+                document.getElementById('editBgColor').value = data.colores.bg || '#000';
+                document.getElementById('editTextColor').value = data.colores.texto || '#FFFFFF';
+                document.getElementById('editPrimaryColor').value = data.colores.primario || '#1800FF';
+                document.getElementById('editSecondaryColor').value = data.colores.secundario || '#1A1A1A';
+                document.getElementById('editGrisColor').value = data.colores.gris || '#888';
+                // Animaciones
+                document.getElementById('editPulsoDuracion').value = data.animaciones.pulsoDuracion || 3;
+                document.getElementById('editPulsoEscala').value = data.animaciones.pulsoEscala || 1.015;
+                document.getElementById('editRuletaDuracion').value = data.animaciones.ruletaDuracion || 3;
+                document.getElementById('editRuletaVueltasMin').value = data.animaciones.ruletaVueltasMin || 3;
+                document.getElementById('editRuletaVueltasMax').value = data.animaciones.ruletaVueltasMax || 6;
+                // Textos
+                document.getElementById('editHeroTitulo').value = data.textos.heroTitulo || '';
+                document.getElementById('editHeroItalico').value = data.textos.heroItalico || '';
+                document.getElementById('editHeroSlogan').value = data.textos.heroSlogan || '';
+                document.getElementById('editHeroSubLema').value = data.textos.heroSubLema || '';
+                document.getElementById('editHeroDesc').value = data.textos.heroDesc || '';
+                document.getElementById('editMensajePedido').value = data.textos.mensajePedido || '';
+                document.getElementById('editWhatsAppText').value = data.textos.whatsappText || '';
+                document.getElementById('editFooterText').value = data.textos.footerText || '';
+                // Ruleta
+                document.getElementById('editRuletaMensajeDefault').value = data.ruleta.mensajeDefault || '';
+                document.getElementById('editRuletaMensajeUsado').value = data.ruleta.mensajeUsado || '';
+                document.getElementById('editRuletaMensajeGanador').value = data.ruleta.mensajeGanador || '';
+                document.getElementById('editRuletaPrefijo').value = data.ruleta.prefijo || 'MULTI';
+                document.getElementById('editRuletaLongitud').value = data.ruleta.longitud || 12;
+                // Imágenes (preview)
+                if (data.imagenes.logo) {
+                    document.getElementById('logoPreview').innerHTML =
+                        `<img src="${data.imagenes.logo}" style="max-width:150px;max-height:150px;border-radius:8px;">`;
+                } else {
+                    document.getElementById('logoPreview').innerHTML = '';
+                }
+                // Pestañas
+                renderAdminPestanas();
+                // Tarjetas - cargar primera pestaña con tarjetas
+                const select = document.getElementById('tarjetasPestanaSelect');
+                select.innerHTML = '';
+                data.pestanas.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p.id;
+                    opt.textContent = p.nombre;
+                    select.appendChild(opt);
+                });
+                cargarTarjetasAdmin();
+                // GitHub
+                const gh = JSON.parse(localStorage.getItem('multipunto_github_config') || '{}');
+                document.getElementById('githubToken').value = gh.token || '';
+                document.getElementById('githubOwner').value = gh.owner || '';
+                document.getElementById('githubRepo').value = gh.repo || '';
+            }
+
+            function renderAdminPestanas() {
+                const list = document.getElementById('adminPestanasList');
+                list.innerHTML = '';
+                appData.pestanas.forEach((p, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'admin-item';
+                    div.innerHTML = `
+                        <span class="item-name">${p.nombre}</span>
+                        <i class="fas ${p.icono}"></i>
+                        <span>${p.tipo}</span>
+                        <label>Activa: <input type="checkbox" ${p.activa?'checked':''} data-index="${index}" class="check-activa"></label>
+                        <button class="btn-danger" data-index="${index}" onclick="eliminarPestana(${index})">Eliminar</button>
+                        <button class="btn-edit" data-index="${index}" onclick="editarPestana(${index})">✏️</button>
+                    `;
+                    list.appendChild(div);
+                    // Evento para activar/desactivar
+                    div.querySelector('.check-activa').addEventListener('change', function() {
+                        const idx = parseInt(this.dataset.index);
+                        appData.pestanas.forEach((t, i) => t.activa = (i === idx));
+                        saveData();
+                        renderAdminPestanas();
+                        renderPagina();
+                        showAdminMsg('adminPestanasMsg', '✅ Pestaña activa actualizada.', 'success');
+                    });
+                });
+            }
+
+            // Funciones para admin (globales para onclick)
+            window.eliminarPestana = function(index) {
+                if (confirm('¿Eliminar esta pestaña?')) {
+                    appData.pestanas.splice(index, 1);
+                    saveData();
+                    renderAdminPestanas();
+                    renderPagina();
+                    showAdminMsg('adminPestanasMsg', '🗑️ Pestaña eliminada.', 'success');
+                }
+            };
+
+            window.editarPestana = function(index) {
+                const p = appData.pestanas[index];
+                const nuevoNombre = prompt('Nuevo nombre:', p.nombre);
+                if (nuevoNombre && nuevoNombre.trim()) {
+                    p.nombre = nuevoNombre.trim();
+                    const nuevoIcono = prompt('Nuevo icono (ej. fa-home):', p.icono);
+                    if (nuevoIcono && nuevoIcono.trim()) p.icono = nuevoIcono.trim();
+                    saveData();
+                    renderAdminPestanas();
+                    renderPagina();
+                    showAdminMsg('adminPestanasMsg', '✅ Pestaña actualizada.', 'success');
+                }
+            };
+
+            function cargarTarjetasAdmin() {
+                const select = document.getElementById('tarjetasPestanaSelect');
+                const selectedId = select.value;
+                const tab = appData.pestanas.find(p => p.id === selectedId);
+                const list = document.getElementById('adminTarjetasList');
+                list.innerHTML = '';
+                if (!tab || !tab.tarjetas) return;
+                tab.tarjetas.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'admin-item';
+                    div.innerHTML = `
+                        <span class="item-name">${item.nombre || item.texto || 'Sin nombre'}</span>
+                        <i class="${item.icono || 'fas fa-circle'}"></i>
+                        <input type="text" id="tarjetaNombre_${index}" value="${item.nombre || ''}" placeholder="Nombre" style="flex:1;min-width:80px;">
+                        <input type="text" id="tarjetaIcono_${index}" value="${item.icono || ''}" placeholder="Icono" style="flex:1;min-width:80px;">
+                        <input type="text" id="tarjetaTexto_${index}" value="${item.desc || item.texto || item.usuario || ''}" placeholder="Texto" style="flex:2;min-width:100px;">
+                        <input type="text" id="tarjetaUrl_${index}" value="${item.url || ''}" placeholder="URL" style="flex:2;min-width:100px;">
+                        <button class="btn-save-edit" data-index="${index}" style="display:inline-block;padding:0.3rem 0.8rem;" onclick="guardarTarjeta(${index})">💾</button>
+                        <button class="btn-danger" data-index="${index}" onclick="eliminarTarjeta(${index})">Eliminar</button>
+                    `;
+                    list.appendChild(div);
+                });
+            }
+
+            window.guardarTarjeta = function(index) {
+                const select = document.getElementById('tarjetasPestanaSelect');
+                const tab = appData.pestanas.find(p => p.id === select.value);
+                if (!tab || !tab.tarjetas) return;
+                const item = tab.tarjetas[index];
+                item.nombre = document.getElementById(`tarjetaNombre_${index}`).value.trim() || item.nombre;
+                item.icono = document.getElementById(`tarjetaIcono_${index}`).value.trim() || item.icono;
+                const texto = document.getElementById(`tarjetaTexto_${index}`).value.trim();
+                if (item.tipo === 'enlace') item.usuario = texto;
+                else item.desc = texto;
+                item.url = document.getElementById(`tarjetaUrl_${index}`).value.trim() || item.url;
+                saveData();
+                renderPagina();
+                cargarTarjetasAdmin();
+                showAdminMsg('adminTarjetasMsg', '✅ Tarjeta actualizada.', 'success');
+            };
+
+            window.eliminarTarjeta = function(index) {
+                if (confirm('¿Eliminar esta tarjeta?')) {
+                    const select = document.getElementById('tarjetasPestanaSelect');
+                    const tab = appData.pestanas.find(p => p.id === select.value);
+                    if (tab && tab.tarjetas) {
+                        tab.tarjetas.splice(index, 1);
+                        saveData();
+                        renderPagina();
+                        cargarTarjetasAdmin();
+                        showAdminMsg('adminTarjetasMsg', '🗑️ Tarjeta eliminada.', 'success');
+                    }
+                }
+            };
+
+            function showAdminMsg(containerId, msg, type) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                container.style.display = 'block';
+                container.className = 'admin-msg ' + type;
+                container.textContent = msg;
+                setTimeout(() => {
+                    container.style.display = 'none';
+                }, 5000);
+            }
+
+            // ============================================================
+            // EVENTOS DE ADMIN
+            // ============================================================
+            function initAdminEvents() {
+                // Login
+                document.getElementById('loginBtn').addEventListener('click', function() {
+                    const pass = document.getElementById('adminPassword').value;
+                    if (pass === getAdminPassword()) {
+                        isAdminLogged = true;
+                        document.getElementById('loginModal').classList.remove('open');
+                        document.getElementById('adminPanel').classList.add('open');
+                        document.getElementById('adminPassword').value = '';
+                        document.getElementById('loginError').style.display = 'none';
+                        renderAdminPanel();
+                    } else {
+                        document.getElementById('loginError').style.display = 'block';
+                        document.getElementById('adminPassword').value = '';
+                        document.getElementById('adminPassword').focus();
+                    }
+                });
+                document.getElementById('adminPassword').addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') document.getElementById('loginBtn').click();
+                });
+                document.getElementById('loginCloseBtn').addEventListener('click', function() {
+                    document.getElementById('loginModal').classList.remove('open');
+                });
+
+                // Toggle admin
+                document.getElementById('adminToggle').addEventListener('click', function() {
+                    if (isAdminLogged) {
+                        document.getElementById('adminPanel').classList.toggle('open');
+                    } else {
+                        document.getElementById('loginModal').classList.add('open');
+                        document.getElementById('adminPassword').focus();
+                    }
+                });
+                document.getElementById('closeAdminPanel').addEventListener('click', function() {
+                    document.getElementById('adminPanel').classList.remove('open');
+                });
+                document.getElementById('logoutBtn').addEventListener('click', function() {
+                    isAdminLogged = false;
+                    document.getElementById('adminPanel').classList.remove('open');
+                    showAdminMsg('adminGeneralMsg', '🔒 Sesión cerrada.', 'success');
+                });
+
+                // Tabs del panel
+                document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove(
+                        'active'));
+                        this.classList.add('active');
+                        document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove(
+                            'active'));
+                        document.getElementById(this.dataset.adminTab).classList.add('active');
+                    });
+                });
+
+                // Guardar General
+                document.getElementById('saveGeneralBtn').addEventListener('click', function() {
+                    appData.titulo = document.getElementById('editTitulo').value.trim() || 'MULTIPUNTO';
+                    appData.descripcion = document.getElementById('editDescripcion').value.trim() || '';
+                    appData.minQuantity = parseInt(document.getElementById('editMinQuantity').value) || 9;
+                    saveData();
+                    renderPagina();
+                    showAdminMsg('adminGeneralMsg', '✅ General guardado.', 'success');
+                });
+
+                // Guardar Colores
+                document.getElementById('saveColoresBtn').addEventListener('click', function() {
+                    appData.colores.bg = document.getElementById('editBgColor').value;
+                    appData.colores.texto = document.getElementById('editTextColor').value;
+                    appData.colores.primario = document.getElementById('editPrimaryColor').value;
+                    appData.colores.secundario = document.getElementById('editSecondaryColor').value;
+                    appData.colores.gris = document.getElementById('editGrisColor').value;
+                    saveData();
+                    renderPagina();
+                    showAdminMsg('adminColoresMsg', '✅ Colores guardados.', 'success');
+                });
+
+                // Guardar Animaciones
+                document.getElementById('saveAnimacionesBtn').addEventListener('click', function() {
+                    appData.animaciones.pulsoDuracion = parseFloat(document.getElementById('editPulsoDuracion')
+                        .value) || 3;
+                    appData.animaciones.pulsoEscala = parseFloat(document.getElementById('editPulsoEscala')
+                        .value) || 1.015;
+                    appData.animaciones.ruletaDuracion = parseFloat(document.getElementById('editRuletaDuracion')
+                        .value) || 3;
+                    appData.animaciones.ruletaVueltasMin = parseInt(document.getElementById('editRuletaVueltasMin')
+                        .value) || 3;
+                    appData.animaciones.ruletaVueltasMax = parseInt(document.getElementById('editRuletaVueltasMax')
+                        .value) || 6;
+                    saveData();
+                    renderPagina();
+                    showAdminMsg('adminAnimacionesMsg', '✅ Animaciones guardadas.', 'success');
+                });
+
+                // Guardar Textos
+                document.getElementById('saveTextosBtn').addEventListener('click', function() {
+                    appData.textos.heroTitulo = document.getElementById('editHeroTitulo').value.trim();
+                    appData.textos.heroItalico = document.getElementById('editHeroItalico').value.trim();
+                    appData.textos.heroSlogan = document.getElementById('editHeroSlogan').value.trim();
+                    appData.textos.heroSubLema = document.getElementById('editHeroSubLema').value.trim();
+                    appData.textos.heroDesc = document.getElementById('editHeroDesc').value.trim();
+                    appData.textos.mensajePedido = document.getElementById('editMensajePedido').value.trim();
+                    appData.textos.whatsappText = document.getElementById('editWhatsAppText').value.trim();
+                    appData.textos.footerText = document.getElementById('editFooterText').value.trim();
+                    saveData();
+                    renderPagina();
+                    showAdminMsg('adminTextosMsg', '✅ Textos guardados.', 'success');
+                });
+
+                // Guardar Ruleta
+                document.getElementById('saveRuletaBtn').addEventListener('click', function() {
+                    appData.ruleta.mensajeDefault = document.getElementById('editRuletaMensajeDefault').value
+                    .trim();
+                    appData.ruleta.mensajeUsado = document.getElementById('editRuletaMensajeUsado').value.trim();
+                    appData.ruleta.mensajeGanador = document.getElementById('editRuletaMensajeGanador').value
+                    .trim();
+                    appData.ruleta.prefijo = document.getElementById('editRuletaPrefijo').value.trim() || 'MULTI';
+                    appData.ruleta.longitud = parseInt(document.getElementById('editRuletaLongitud').value) || 12;
+                    saveData();
+                    renderPagina();
+                    showAdminMsg('adminRuletaMsg', '✅ Ruleta guardada.', 'success');
+                });
+
+                // Agregar pestaña
+                document.getElementById('addPestanaBtn').addEventListener('click', function() {
+                    const nombre = document.getElementById('newPestanaNombre').value.trim();
+                    const icono = document.getElementById('newPestanaIcono').value.trim() || 'fa-circle';
+                    const tipo = document.getElementById('newPestanaTipo').value;
+                    if (!nombre) {
+                        showAdminMsg('adminPestanasMsg', '⚠️ Escribe un nombre.', 'error');
+                        return;
+                    }
+                    const newTab = {
+                        id: 'tab_' + Date.now(),
+                        nombre: nombre,
+                        icono: icono,
+                        activa: false,
+                        tipo: tipo,
+                        contenido: tipo === 'texto' ? { texto: '' } : {},
+                        tarjetas: tipo !== 'texto' && tipo !== 'ruleta' ? [] : undefined
+                    };
+                    appData.pestanas.push(newTab);
+                    saveData();
+                    renderAdminPestanas();
+                    renderPagina();
+                    document.getElementById('newPestanaNombre').value = '';
+                    document.getElementById('newPestanaIcono').value = '';
+                    showAdminMsg('adminPestanasMsg', '✅ Pestaña agregada.', 'success');
+                });
+
+                // Cargar tarjetas
+                document.getElementById('cargarTarjetasBtn').addEventListener('click', function() {
+                    cargarTarjetasAdmin();
+                });
+                document.getElementById('tarjetasPestanaSelect').addEventListener('change', function() {
+                    cargarTarjetasAdmin();
+                });
+
+                // Agregar tarjeta
+                document.getElementById('addTarjetaBtn').addEventListener('click', function() {
+                    const select = document.getElementById('tarjetasPestanaSelect');
+                    const tab = appData.pestanas.find(p => p.id === select.value);
+                    if (!tab) {
+                        showAdminMsg('adminTarjetasMsg', '⚠️ Selecciona una pestaña.', 'error');
+                        return;
+                    }
+                    if (!tab.tarjetas) tab.tarjetas = [];
+                    const nombre = document.getElementById('newTarjetaNombre').value.trim();
+                    const icono = document.getElementById('newTarjetaIcono').value.trim() || 'fas fa-circle';
+                    const texto = document.getElementById('newTarjetaTexto').value.trim();
+                    const url = document.getElementById('newTarjetaUrl').value.trim();
+                    const imgFile = document.getElementById('newTarjetaImgFile').files[0];
+                    const imgUrl = document.getElementById('newTarjetaImgUrl').value.trim();
+
+                    const newCard = {
+                        tipo: 'enlace',
+                        nombre: nombre || 'Sin nombre',
+                        icono: icono,
+                        usuario: texto || '',
+                        url: url || '#',
+                        imagenes: []
+                    };
+
+                    if (imgFile) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            newCard.imagenes.push(e.target.result);
+                            tab.tarjetas.push(newCard);
+                            saveData();
+                            renderPagina();
+                            cargarTarjetasAdmin();
+                            limpiarCamposTarjeta();
+                            showAdminMsg('adminTarjetasMsg', '✅ Tarjeta agregada con imagen.', 'success');
+                        };
+                        reader.readAsDataURL(imgFile);
+                    } else if (imgUrl) {
+                        newCard.imagenes.push(imgUrl);
+                        tab.tarjetas.push(newCard);
+                        saveData();
+                        renderPagina();
+                        cargarTarjetasAdmin();
+                        limpiarCamposTarjeta();
+                        showAdminMsg('adminTarjetasMsg', '✅ Tarjeta agregada.', 'success');
+                    } else {
+                        tab.tarjetas.push(newCard);
+                        saveData();
+                        renderPagina();
+                        cargarTarjetasAdmin();
+                        limpiarCamposTarjeta();
+                        showAdminMsg('adminTarjetasMsg', '✅ Tarjeta agregada.', 'success');
+                    }
+                });
+
+                function limpiarCamposTarjeta() {
+                    document.getElementById('newTarjetaNombre').value = '';
+                    document.getElementById('newTarjetaIcono').value = '';
+                    document.getElementById('newTarjetaTexto').value = '';
+                    document.getElementById('newTarjetaUrl').value = '';
+                    document.getElementById('newTarjetaImgUrl').value = '';
+                    document.getElementById('newTarjetaImgFile').value = '';
+                }
+
+                // Imágenes
+                document.getElementById('cargarLogoBtn').addEventListener('click', function() {
+                    const file = document.getElementById('editLogoFile').files[0];
+                    const url = document.getElementById('editLogoUrl').value.trim();
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            appData.imagenes.logo = e.target.result;
+                            saveData();
+                            renderPagina();
+                            document.getElementById('logoPreview').innerHTML =
+                                `<img src="${e.target.result}" style="max-width:150px;max-height:150px;border-radius:8px;">`;
+                            showAdminMsg('adminImagenesMsg', '✅ Logo actualizado.', 'success');
+                        };
+                        reader.readAsDataURL(file);
+                    } else if (url) {
+                        appData.imagenes.logo = url;
+                        saveData();
+                        renderPagina();
+                        document.getElementById('logoPreview').innerHTML =
+                            `<img src="${url}" style="max-width:150px;max-height:150px;border-radius:8px;">`;
+                        showAdminMsg('adminImagenesMsg', '✅ Logo actualizado.', 'success');
+                    } else {
+                        showAdminMsg('adminImagenesMsg', '⚠️ Selecciona un archivo o pega una URL.', 'error');
+                    }
+                });
+
+                document.getElementById('cargarFondoBtn').addEventListener('click', function() {
+                    const file = document.getElementById('editFondoFile').files[0];
+                    const url = document.getElementById('editFondoUrl').value.trim();
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            appData.imagenes.fondo = e.target.result;
+                            saveData();
+                            renderPagina();
+                            showAdminMsg('adminImagenesMsg', '✅ Fondo actualizado.', 'success');
+                        };
+                        reader.readAsDataURL(file);
+                    } else if (url) {
+                        appData.imagenes.fondo = url;
+                        saveData();
+                        renderPagina();
+                        showAdminMsg('adminImagenesMsg', '✅ Fondo actualizado.', 'success');
+                    } else {
+                        showAdminMsg('adminImagenesMsg', '⚠️ Selecciona un archivo o pega una URL.', 'error');
+                    }
+                });
+
+                document.getElementById('cargarFaviconBtn').addEventListener('click', function() {
+                    const file = document.getElementById('editFaviconFile').files[0];
+                    if (!file) {
+                        showAdminMsg('adminImagenesMsg', '⚠️ Selecciona un archivo.', 'error');
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        appData.imagenes.favicon = e.target.result;
+                        saveData();
+                        renderPagina();
+                        showAdminMsg('adminImagenesMsg', '✅ Favicon actualizado.', 'success');
+                    };
+                    reader.readAsDataURL(file);
+                });
+
+                // Export/Import
+                document.getElementById('exportJsonBtn').addEventListener('click', function() {
+                    const json = JSON.stringify(appData, null, 2);
+                    const blob = new Blob([json], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'multipunto_datos.json';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    showAdminMsg('adminGeneralMsg', '✅ JSON exportado.', 'success');
+                });
+
+                document.getElementById('importJsonBtn').addEventListener('click', function() {
+                    document.getElementById('importJsonInput').click();
+                });
+                document.getElementById('importJsonInput').addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        try {
+                            const imported = JSON.parse(ev.target.result);
+                            appData = deepMerge(DEFAULT_DATA, imported);
+                            saveData();
+                            renderPagina();
+                            if (isAdminLogged) renderAdminPanel();
+                            showAdminMsg('adminGeneralMsg', '✅ Datos importados.', 'success');
+                        } catch (err) {
+                            showAdminMsg('adminGeneralMsg', '❌ Error al importar: ' + err.message, 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                    this.value = '';
+                });
+
+                // Exportar HTML
+                document.getElementById('exportHtmlBtn').addEventListener('click', function() {
+                    const htmlContent = document.documentElement.outerHTML;
+                    const blob = new Blob(['<!DOCTYPE html>\n' + htmlContent], { type: 'text/html' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'index.html';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    showAdminMsg('adminGeneralMsg', '✅ HTML descargado.', 'success');
+                });
+
+                // GitHub
+                document.getElementById('saveGithubConfig').addEventListener('click', function() {
+                    const config = {
+                        token: document.getElementById('githubToken').value.trim(),
+                        owner: document.getElementById('githubOwner').value.trim(),
+                        repo: document.getElementById('githubRepo').value.trim()
+                    };
+                    localStorage.setItem('multipunto_github_config', JSON.stringify(config));
+                    showAdminMsg('adminGeneralMsg', '✅ Configuración GitHub guardada.', 'success');
+                });
+
+                document.getElementById('publishGithubBtn').addEventListener('click', function() {
+                    const config = JSON.parse(localStorage.getItem('multipunto_github_config') || '{}');
+                    if (!config.token || !config.owner || !config.repo) {
+                        showAdminMsg('adminGeneralMsg', '❌ Configuración GitHub incompleta.', 'error');
+                        return;
+                    }
+                    const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+                    const encoded = btoa(unescape(encodeURIComponent(htmlContent)));
+                    const apiUrl =
+                        `https://api.github.com/repos/${config.owner}/${config.repo}/contents/index.html`;
+
+                    fetch(apiUrl, {
+                        headers: {
+                            'Authorization': `token ${config.token}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok && response.status !== 404) throw new Error(
+                            `Error ${response.status}`);
+                        return response.status === 404 ? null : response.json();
+                    })
+                    .then(data => {
+                        const payload = {
+                            message: 'Actualización desde panel administrador',
+                            content: encoded,
+                            branch: 'main'
+                        };
+                        if (data && data.sha) payload.sha = data.sha;
+                        return fetch(apiUrl, {
+                            method: 'PUT',
+                            headers: {
+                                'Authorization': `token ${config.token}`,
+                                'Accept': 'application/vnd.github.v3+json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        });
+                    })
+                    .then(response => {
+                        if (!response.ok) return response.json().then(err => { throw new Error(err
+                                .message); });
+                        return response.json();
+                    })
+                    .then(() => {
+                        showAdminMsg('adminGeneralMsg', '✅ Publicado en GitHub. La página se actualizará en minutos.',
+                            'success');
+                    })
+                    .catch(err => {
+                        showAdminMsg('adminGeneralMsg', '❌ Error: ' + err.message, 'error');
+                    });
+                });
+
+                // Cerrar modal con ESC
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') {
+                        document.getElementById('loginModal').classList.remove('open');
+                        document.getElementById('adminPanel').classList.remove('open');
+                    }
+                });
+            }
+
+            // ============================================================
+            // INICIALIZACIÓN
+            // ============================================================
+            loadData();
+            renderPagina();
+
+            // Ocultar loading
+            document.getElementById('loading').classList.add('hidden');
+
+            // Inicializar admin (eventos)
+            initAdminEvents();
+
+            // Guardar referencia global de appData
+            window.appData = appData;
+            window.renderPagina = renderPagina;
+
+        })();
     </script>
 </body>
 </html>
