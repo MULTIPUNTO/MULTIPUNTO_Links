@@ -6,18 +6,13 @@
     <title id="pageTitle">MULTIPUNTO</title>
     <!-- Favicon dinámico -->
     <link id="faviconLink" rel="icon" type="image/x-icon" href="" />
-    <!-- Fuente personalizada (carga normal, sin asíncrono) -->
-    <link href="https://fonts.googleapis.com/css2?family=Autobús+Ómnibus&display=swap" rel="stylesheet" />
-    <!-- Font Awesome (carga normal) -->
+    <!-- Fuente por defecto (se puede cambiar desde el panel) -->
+    <link id="fontLink" href="https://fonts.googleapis.com/css2?family=Autobús+Ómnibus&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
-        /* ===== RESET Y BASE (ESTILOS CRÍTICOS) ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ===== RESET Y BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Autobús Ómnibus', Arial, sans-serif;
             min-height: 100vh;
@@ -56,7 +51,7 @@
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0));
         }
         .nombre-emprendimiento {
-            font-family: 'Autobús Ómnibus', Arial, sans-serif;
+            font-family: inherit;
             font-size: 3rem;
             font-weight: 700;
             color: #fff;
@@ -123,7 +118,6 @@
             transition: opacity 0.3s ease;
         }
         .cards-grid.hidden { display: none; }
-        /* ===== ANIMACIÓN DE PULSO ===== */
         @keyframes pulse-soft {
             0% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
             50% { transform: scale(1.015); box-shadow: 0 10px 25px rgba(0,0,0,0.18); }
@@ -334,6 +328,7 @@
             width: 90%;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             position: relative;
+            color: #1A1A1A;
         }
         .modal-box h2 { margin-bottom: 1rem; color: #1A1A1A; }
         .modal-box input {
@@ -561,22 +556,70 @@
             <button class="admin-tab-btn" data-admin-tab="tabTarjetas">Tarjetas</button>
             <button class="admin-tab-btn" data-admin-tab="tabRuleta">Ruleta</button>
             <button class="admin-tab-btn" data-admin-tab="tabColores">Colores</button>
-            <button class="admin-tab-btn" data-admin-tab="tabImagenes">Imágenes</button>
             <button class="admin-tab-btn" data-admin-tab="tabAnimaciones">Animaciones</button>
             <button class="admin-tab-btn" data-admin-tab="tabTextos">Textos</button>
+            <button class="admin-tab-btn" data-admin-tab="tabSeguridad">Seguridad</button>
             <button class="admin-tab-btn" data-admin-tab="tabExport">Export/Import</button>
         </div>
 
         <!-- ===== CONTENIDO DE TABS ===== -->
+        <!-- GENERAL -->
         <div id="tabGeneral" class="admin-tab-content active">
             <h3>Configuración General</h3>
             <div class="admin-group"><label>Título de la página</label><input type="text" id="editTitulo" /></div>
             <div class="admin-group"><label>Descripción corta</label><input type="text" id="editDescripcion" /></div>
-            <div class="admin-group"><label>Cantidad mínima (si aplica)</label><input type="number" id="editMinQuantity" min="1" /></div>
             <button class="btn-save-edit" id="saveGeneralBtn" style="display:inline-block;padding:0.5rem 1.5rem;">💾 Guardar General</button>
             <div id="adminGeneralMsg" class="admin-msg"></div>
+            <hr />
+            <h4>Imagen de Logo</h4>
+            <div class="admin-group">
+                <label>Logo (subir o URL):</label>
+                <input type="text" id="editLogoUrl" placeholder="URL del logo" />
+                <input type="file" id="editLogoFile" accept="image/*" />
+                <button class="btn-save-edit" id="cargarLogoBtn">Cargar</button>
+                <div id="logoPreview"></div>
+            </div>
+            <h4>Imagen de Fondo</h4>
+            <div class="admin-group">
+                <label>Fondo (subir o URL):</label>
+                <input type="text" id="editFondoUrl" placeholder="URL del fondo" />
+                <input type="file" id="editFondoFile" accept="image/*" />
+                <button class="btn-save-edit" id="cargarFondoBtn">Cargar</button>
+            </div>
+            <h4>Tipografía</h4>
+            <div class="admin-group">
+                <label>Fuente personalizada (subir .ttf o .otf):</label>
+                <input type="file" id="editFontFile" accept=".ttf,.otf" />
+                <button class="btn-save-edit" id="cargarFontBtn">Cargar fuente</button>
+                <span id="fontStatus" style="font-size:0.9rem;color:#888;margin-left:0.5rem;"></span>
+            </div>
+            <hr />
+            <h4>GitHub Token</h4>
+            <div class="admin-group">
+                <label>Token de GitHub:</label>
+                <input type="password" id="githubToken" placeholder="ghp_..." />
+            </div>
+            <div class="admin-group">
+                <label>Usuario / Owner:</label>
+                <input type="text" id="githubOwner" placeholder="tu-usuario" />
+            </div>
+            <div class="admin-group">
+                <label>Repositorio:</label>
+                <input type="text" id="githubRepo" placeholder="tu-repo" />
+            </div>
+            <button class="btn-save-edit" id="saveGithubConfig">💾 Guardar GitHub</button>
+            <button class="btn-save-edit" id="publishGithubBtn" style="background:#28a745;">🚀 Publicar en GitHub</button>
+            <hr />
+            <h4>Exportar / Importar HTML</h4>
+            <div class="admin-row" style="margin-bottom:1rem;">
+                <button class="btn-edit" id="exportHtmlBtn">📄 Descargar HTML</button>
+                <button class="btn-edit" id="importHtmlBtn">📤 Importar HTML</button>
+                <input type="file" id="importHtmlInput" accept=".html" style="display:none;" />
+            </div>
+            <div id="adminGeneralMsg2" class="admin-msg"></div>
         </div>
 
+        <!-- PESTAÑAS -->
         <div id="tabPestanas" class="admin-tab-content">
             <h3>Gestión de Pestañas</h3>
             <div id="adminPestanasList"></div>
@@ -584,20 +627,12 @@
                 <h4>Agregar nueva pestaña</h4>
                 <div class="admin-row"><label>Nombre:</label><input type="text" id="newPestanaNombre" placeholder="Ej: Contacto" /></div>
                 <div class="admin-row"><label>Icono (FontAwesome):</label><input type="text" id="newPestanaIcono" placeholder="fa-phone" /></div>
-                <div class="admin-row"><label>Tipo:</label>
-                    <select id="newPestanaTipo">
-                        <option value="texto">Texto</option>
-                        <option value="tarjetas">Tarjetas</option>
-                        <option value="ruleta">Ruleta</option>
-                        <option value="ubicaciones">Ubicaciones</option>
-                        <option value="servicios">Servicios</option>
-                    </select>
-                </div>
                 <button class="btn-save-edit" id="addPestanaBtn" style="display:inline-block;padding:0.5rem 1.5rem;">➕ Agregar</button>
             </div>
             <div id="adminPestanasMsg" class="admin-msg"></div>
         </div>
 
+        <!-- TARJETAS -->
         <div id="tabTarjetas" class="admin-tab-content">
             <h3>Tarjetas (por pestaña)</h3>
             <div class="admin-group">
@@ -609,29 +644,37 @@
             <div class="admin-group" style="margin-top:1rem;">
                 <h4>Agregar tarjeta a esta pestaña</h4>
                 <div class="admin-row"><label>Nombre:</label><input type="text" id="newTarjetaNombre" placeholder="Ej: Facebook" /></div>
-                <div class="admin-row"><label>Icono (FontAwesome):</label><input type="text" id="newTarjetaIcono" placeholder="fab fa-facebook" /></div>
                 <div class="admin-row"><label>Texto/Descripción:</label><input type="text" id="newTarjetaTexto" placeholder="Descripción" /></div>
                 <div class="admin-row"><label>Enlace (URL):</label><input type="text" id="newTarjetaUrl" placeholder="https://..." /></div>
-                <div class="admin-row"><label>Imagen (URL o subir):</label>
-                    <input type="text" id="newTarjetaImgUrl" placeholder="URL de imagen" />
-                    <input type="file" id="newTarjetaImgFile" accept="image/*" />
-                </div>
+                <div class="admin-row"><label>Imagen (URL):</label><input type="text" id="newTarjetaImgUrl" placeholder="URL de imagen (opcional)" /></div>
                 <button class="btn-save-edit" id="addTarjetaBtn" style="display:inline-block;padding:0.5rem 1.5rem;">➕ Agregar</button>
             </div>
             <div id="adminTarjetasMsg" class="admin-msg"></div>
         </div>
 
+        <!-- RULETA -->
         <div id="tabRuleta" class="admin-tab-content">
             <h3>Configuración de la Ruleta</h3>
             <div class="admin-group"><label>Mensaje al hacer clic (sin ganar):</label><input type="text" id="editRuletaMensajeDefault" /></div>
             <div class="admin-group"><label>Mensaje cuando ya usó hoy:</label><input type="text" id="editRuletaMensajeUsado" /></div>
             <div class="admin-group"><label>Mensaje de ganador:</label><input type="text" id="editRuletaMensajeGanador" /></div>
-            <div class="admin-group"><label>Prefijo del código de premio:</label><input type="text" id="editRuletaPrefijo" /></div>
+            <div class="admin-group"><label>Prefijo del código de premio (opcional):</label><input type="text" id="editRuletaPrefijo" placeholder="MULTI" /></div>
             <div class="admin-group"><label>Longitud del código (sin prefijo):</label><input type="number" id="editRuletaLongitud" min="4" max="20" /></div>
+            <div class="admin-group"><label>Número máximo de veces que se generará el código (0 = ilimitado):</label><input type="number" id="editRuletaMaxUsos" min="0" /></div>
+            <div class="admin-group"><label>Fecha límite (YYYY-MM-DD HH:MM) - dejar vacío para sin límite:</label><input type="text" id="editRuletaLimiteFecha" placeholder="2025-12-31 23:59" /></div>
+            <div class="admin-group"><label>¿Tarjeta activa? (si no, se muestra pero no se puede usar):</label>
+                <select id="editRuletaActiva"><option value="1">Sí</option><option value="0">No</option></select>
+            </div>
+            <div class="admin-group"><label>Texto informativo (se muestra debajo de la ruleta):</label><textarea id="editRuletaTextoInfo" rows="3" placeholder="Condiciones, premios, etc."></textarea></div>
             <button class="btn-save-edit" id="saveRuletaBtn" style="display:inline-block;padding:0.5rem 1.5rem;">💾 Guardar Ruleta</button>
             <div id="adminRuletaMsg" class="admin-msg"></div>
+            <hr />
+            <h4>Registro de códigos generados</h4>
+            <div id="ruletaRegistroList" style="max-height:200px;overflow-y:auto;background:#fff;padding:0.5rem;border-radius:8px;border:1px solid #ddd;font-size:0.85rem;"></div>
+            <button class="btn-danger" id="limpiarRegistroBtn" style="margin-top:0.5rem;">🗑️ Limpiar registro</button>
         </div>
 
+        <!-- COLORES -->
         <div id="tabColores" class="admin-tab-content">
             <h3>Colores</h3>
             <div class="admin-group"><label>Color de fondo:</label><input type="color" id="editBgColor" /></div>
@@ -643,26 +686,7 @@
             <div id="adminColoresMsg" class="admin-msg"></div>
         </div>
 
-        <div id="tabImagenes" class="admin-tab-content">
-            <h3>Imágenes</h3>
-            <div class="admin-group"><label>Logo (subir o URL):</label>
-                <input type="text" id="editLogoUrl" placeholder="URL del logo" />
-                <input type="file" id="editLogoFile" accept="image/*" />
-                <button class="btn-save-edit" id="cargarLogoBtn">Cargar</button>
-                <div id="logoPreview"></div>
-            </div>
-            <div class="admin-group"><label>Imagen de fondo (subir o URL):</label>
-                <input type="text" id="editFondoUrl" placeholder="URL del fondo" />
-                <input type="file" id="editFondoFile" accept="image/*" />
-                <button class="btn-save-edit" id="cargarFondoBtn">Cargar</button>
-            </div>
-            <div class="admin-group"><label>Favicon (subir):</label>
-                <input type="file" id="editFaviconFile" accept="image/*" />
-                <button class="btn-save-edit" id="cargarFaviconBtn">Cargar</button>
-            </div>
-            <div id="adminImagenesMsg" class="admin-msg"></div>
-        </div>
-
+        <!-- ANIMACIONES -->
         <div id="tabAnimaciones" class="admin-tab-content">
             <h3>Animaciones</h3>
             <div class="admin-group"><label>Duración del pulso (segundos):</label><input type="number" id="editPulsoDuracion" step="0.5" min="1" max="10" /></div>
@@ -674,6 +698,7 @@
             <div id="adminAnimacionesMsg" class="admin-msg"></div>
         </div>
 
+        <!-- TEXTOS -->
         <div id="tabTextos" class="admin-tab-content">
             <h3>Textos de la página</h3>
             <div class="admin-group"><label>Título principal (Hero):</label><input type="text" id="editHeroTitulo" /></div>
@@ -688,24 +713,34 @@
             <div id="adminTextosMsg" class="admin-msg"></div>
         </div>
 
+        <!-- SEGURIDAD -->
+        <div id="tabSeguridad" class="admin-tab-content">
+            <h3>Seguridad</h3>
+            <div class="admin-group">
+                <label>Nueva contraseña:</label>
+                <input type="password" id="newPass" placeholder="Mínimo 4 caracteres" />
+            </div>
+            <div class="admin-group">
+                <label>Confirmar contraseña:</label>
+                <input type="password" id="confirmPass" placeholder="Repite la contraseña" />
+            </div>
+            <button class="btn-save-edit" id="saveSecurityBtn">🔐 Cambiar contraseña</button>
+            <div id="adminSecurityMsg" class="admin-msg"></div>
+            <hr />
+            <button class="btn-danger" id="lockPanelBtn">🔒 Bloquear panel ahora</button>
+            <p style="font-size:0.85rem;color:#666;margin-top:0.5rem;">El panel se bloqueará automáticamente después de 5 minutos de inactividad.</p>
+            <div id="adminLockMsg" class="admin-msg"></div>
+        </div>
+
+        <!-- EXPORT/IMPORT (complementario) -->
         <div id="tabExport" class="admin-tab-content">
-            <h3>Exportar / Importar / Publicar</h3>
+            <h3>Exportar / Importar Datos</h3>
             <div class="admin-row" style="margin-bottom:1rem;">
                 <button class="btn-edit" id="exportJsonBtn">📥 Exportar JSON</button>
                 <button class="btn-edit" id="importJsonBtn">📤 Importar JSON</button>
                 <input type="file" id="importJsonInput" accept=".json" style="display:none;" />
             </div>
-            <div class="admin-row" style="margin-bottom:1rem;">
-                <button class="btn-save-edit" id="exportHtmlBtn">📄 Descargar HTML</button>
-            </div>
-            <hr />
-            <h4>Publicar en GitHub (opcional)</h4>
-            <div class="admin-group"><label>Token de GitHub:</label><input type="password" id="githubToken" placeholder="ghp_..." /></div>
-            <div class="admin-group"><label>Usuario / Owner:</label><input type="text" id="githubOwner" placeholder="tu-usuario" /></div>
-            <div class="admin-group"><label>Repositorio:</label><input type="text" id="githubRepo" placeholder="tu-repo" /></div>
-            <button class="btn-save-edit" id="saveGithubConfig">💾 Guardar GitHub</button>
-            <button class="btn-save-edit" id="publishGithubBtn" style="background:#28a745;">🚀 Publicar en GitHub</button>
-            <div id="adminGeneralMsg2" class="admin-msg"></div>
+            <div id="adminExportMsg" class="admin-msg"></div>
         </div>
     </div>
 
@@ -723,8 +758,7 @@
     <script>
         /**
          * ============================================================
-         * SISTEMA DE ADMINISTRACIÓN Y RENDERIZADO
-         * (Mismo código que antes, pero con carga síncrona de recursos)
+         * SISTEMA COMPLETO DE ADMINISTRACIÓN Y RENDERIZADO
          * ============================================================
          */
         (function() {
@@ -732,13 +766,19 @@
 
             const STORAGE_KEY = 'multipunto_data';
             const ADMIN_PASSWORD_KEY = 'multipunto_admin_password';
+            const REGISTRO_RULETA_KEY = 'multipunto_ruleta_registro';
+            const GITHUB_CONFIG_KEY = 'multipunto_github_config';
             let appData = {};
             let isAdminLogged = false;
+            let inactivityTimer = null;
+            const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutos
 
+            // ============================================================
+            // DATOS POR DEFECTO (con nuevas configuraciones)
+            // ============================================================
             const DEFAULT_DATA = {
                 titulo: 'MULTIPUNTO',
                 descripcion: 'Impresión de documentos - Servicios técnicos informáticos',
-                minQuantity: 9,
                 colores: {
                     bg: '#000000',
                     texto: '#FFFFFF',
@@ -768,12 +808,17 @@
                     mensajeUsado: '⏳ Ya has usado tu oportunidad hoy. Vuelve mañana.',
                     mensajeGanador: '¡Felicidades! Has ganado un premio. Usa tu código para reclamarlo.',
                     prefijo: 'MULTI',
-                    longitud: 12
+                    longitud: 12,
+                    maxUsos: 0, // 0 = ilimitado
+                    limiteFecha: '', // formato "YYYY-MM-DD HH:MM"
+                    activa: true,
+                    textoInfo: 'Participa y gana premios. Un intento por día.'
                 },
                 imagenes: {
                     logo: '',
                     fondo: '',
-                    favicon: ''
+                    favicon: '',
+                    font: '' // URL de la fuente subida (base64)
                 },
                 pestanas: [
                     {
@@ -858,6 +903,9 @@
                 ]
             };
 
+            // ============================================================
+            // UTILIDADES
+            // ============================================================
             function deepMerge(target, source) {
                 const result = JSON.parse(JSON.stringify(target));
                 for (let key in source) {
@@ -872,6 +920,31 @@
                 return result;
             }
 
+            function getCubaTime() {
+                // Obtener fecha y hora actual en la zona horaria de Cuba (UTC-4 o UTC-5 según horario de verano)
+                // Usamos la API de TimeZoneDB o simplemente calculamos con la zona horaria de La Habana
+                try {
+                    return new Date().toLocaleString('es-CU', { timeZone: 'America/Havana' });
+                } catch (e) {
+                    // Fallback: restar 4 horas a UTC (aproximado)
+                    const now = new Date();
+                    now.setHours(now.getHours() - 4);
+                    return now.toISOString().replace('T', ' ').slice(0, 16);
+                }
+            }
+
+            function getIP() {
+                return new Promise((resolve) => {
+                    fetch('https://api.ipify.org?format=json')
+                        .then(response => response.json())
+                        .then(data => resolve(data.ip))
+                        .catch(() => resolve('0.0.0.0'));
+                });
+            }
+
+            // ============================================================
+            // CARGA Y GUARDADO DE DATOS
+            // ============================================================
             function loadData() {
                 const stored = localStorage.getItem(STORAGE_KEY);
                 if (stored) {
@@ -884,6 +957,10 @@
                 } else {
                     appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
                     saveData();
+                }
+                // Cargar registro de ruleta
+                if (!localStorage.getItem(REGISTRO_RULETA_KEY)) {
+                    localStorage.setItem(REGISTRO_RULETA_KEY, JSON.stringify([]));
                 }
             }
 
@@ -900,7 +977,7 @@
             }
 
             // ============================================================
-            // RENDERIZADO PÁGINA PÚBLICA
+            // RENDERIZADO DE LA PÁGINA PÚBLICA
             // ============================================================
             function renderPagina() {
                 const data = appData;
@@ -916,6 +993,18 @@
                 document.getElementById('heroTitulo').textContent = data.textos.heroTitulo || data.titulo;
                 document.getElementById('heroDesc').textContent = data.textos.heroDesc || data.descripcion;
                 document.getElementById('footerText').textContent = data.textos.footerText || '© 2026 MULTIPUNTO';
+                // Fuente personalizada
+                if (data.imagenes.font) {
+                    const fontStyle = document.getElementById('fontStyle');
+                    if (!fontStyle) {
+                        const style = document.createElement('style');
+                        style.id = 'fontStyle';
+                        document.head.appendChild(style);
+                        style.textContent = `@font-face { font-family: 'CustomFont'; src: url('${data.imagenes.font}') format('truetype'); } body { font-family: 'CustomFont', Arial, sans-serif; } .nombre-emprendimiento { font-family: 'CustomFont', Arial, sans-serif; }`;
+                    } else {
+                        fontStyle.textContent = `@font-face { font-family: 'CustomFont'; src: url('${data.imagenes.font}') format('truetype'); } body { font-family: 'CustomFont', Arial, sans-serif; } .nombre-emprendimiento { font-family: 'CustomFont', Arial, sans-serif; }`;
+                    }
+                }
                 applyColores(data.colores);
                 applyAnimaciones(data.animaciones);
                 if (data.imagenes.favicon) {
@@ -1012,6 +1101,7 @@
                     btn.onclick = function() {
                         data.pestanas.forEach(t => t.activa = false);
                         p.activa = true;
+                        saveData();
                         renderTabs(data);
                     };
                     container.appendChild(btn);
@@ -1047,28 +1137,79 @@
                     grid.appendChild(card);
                 } else if (tab.tipo === 'ruleta') {
                     const ruleta = data.ruleta || {};
+                    const isActive = ruleta.activa !== false;
+                    const limite = ruleta.limiteFecha || '';
+                    const ahora = getCubaTime();
+                    const expirada = limite && (ahora > limite);
                     const card = document.createElement('div');
                     card.className = 'card';
                     card.id = 'ruletaCard';
-                    card.style.cursor = 'pointer';
+                    card.style.cursor = (isActive && !expirada) ? 'pointer' : 'not-allowed';
                     card.style.flexDirection = 'column';
                     card.style.alignItems = 'center';
                     card.style.justifyContent = 'center';
+                    card.style.opacity = (isActive && !expirada) ? '1' : '0.6';
                     card.innerHTML = `
                         <i class="fas fa-roulette" id="ruletaIcono" style="font-size:4rem;transition:transform 0.1s linear;color:${colores.secundario || '#1A1A1A'}"></i>
                         <span class="servicio-nombre" style="font-size:1.3rem;color:${colores.secundario || '#1A1A1A'}">🎰 ¡Gira y Gana!</span>
                         <span class="servicio-desc" id="mensaje-sorpresa" style="color:${colores.gris || '#888'}">${ruleta.mensajeDefault || 'Haz clic para descubrir tu premio'}</span>
                         <div id="codigoPremio" style="margin-top:10px;font-weight:bold;font-size:1.2rem;color:${colores.primario || '#1800FF'};min-height:2rem;"></div>
+                        <div id="ruletaFormulario" style="display:none;margin-top:10px;width:100%;max-width:300px;">
+                            <input type="text" id="ruletaNombre" placeholder="Tu nombre" style="width:100%;padding:0.5rem;margin-bottom:0.5rem;border-radius:6px;border:1px solid #ccc;" />
+                            <input type="text" id="ruletaTelefono" placeholder="Número de teléfono" style="width:100%;padding:0.5rem;margin-bottom:0.5rem;border-radius:6px;border:1px solid #ccc;" />
+                            <button id="ruletaConfirmarBtn" style="background:${colores.primario || '#1800FF'};color:#fff;border:none;padding:0.5rem 1rem;border-radius:6px;cursor:pointer;">Confirmar y obtener código</button>
+                        </div>
                     `;
                     grid.appendChild(card);
+                    // Texto informativo
+                    if (ruleta.textoInfo) {
+                        const info = document.createElement('div');
+                        info.style.cssText =
+                            'grid-column:1/-1;font-size:0.9rem;color:var(--color-gris, #888);margin-top:0.5rem;text-align:center;line-height:1.6;padding:0 1rem;background:rgba(255,255,255,0.05);border-radius:12px;padding:0.8rem;';
+                        info.textContent = ruleta.textoInfo;
+                        grid.appendChild(info);
+                    }
+                    // Mensaje legal
                     const legal = document.createElement('div');
                     legal.style.cssText =
                         'grid-column:1/-1;font-size:0.75rem;color:var(--color-gris, #888);margin-top:0.5rem;text-align:center;line-height:1.4;padding:0 1rem;';
                     legal.textContent =
-                    'Solo puede existir un ganador. Ante cualquier intento de incumplir las normas, la empresa se reserva el derecho de entregar o no el premio.';
+                        'Solo puede existir un ganador. Ante cualquier intento de incumplir las normas, la empresa se reserva el derecho de entregar o no el premio.';
                     grid.appendChild(legal);
-                    card.addEventListener('click', function() {
-                        verificarSorpresaDiaria();
+
+                    // Evento de la ruleta
+                    card.addEventListener('click', function(e) {
+                        // Si está desactivada o expirada, mostrar mensaje
+                        if (!isActive) {
+                            const msg = document.getElementById('mensaje-sorpresa');
+                            msg.textContent = '⛔ Esta promoción está temporalmente desactivada.';
+                            msg.style.color = '#FF6B6B';
+                            return;
+                        }
+                        if (expirada) {
+                            const msg = document.getElementById('mensaje-sorpresa');
+                            msg.textContent = '⏳ La fecha límite para participar ha expirado.';
+                            msg.style.color = '#FF6B6B';
+                            return;
+                        }
+                        // Mostrar formulario
+                        const form = document.getElementById('ruletaFormulario');
+                        form.style.display = 'block';
+                        // Esperar a que el usuario confirme
+                        const confirmBtn = document.getElementById('ruletaConfirmarBtn');
+                        const nombreInput = document.getElementById('ruletaNombre');
+                        const telefonoInput = document.getElementById('ruletaTelefono');
+                        confirmBtn.onclick = function() {
+                            const nombre = nombreInput.value.trim();
+                            const telefono = telefonoInput.value.trim();
+                            if (!nombre || !telefono) {
+                                alert('Por favor, completa tu nombre y número de teléfono.');
+                                return;
+                            }
+                            // Ocultar formulario y procesar
+                            form.style.display = 'none';
+                            verificarSorpresaDiaria(nombre, telefono);
+                        };
                     });
                 } else if (tab.tipo === 'tarjetas' || tab.tipo === 'ubicaciones' || tab.tipo === 'servicios') {
                     const tarjetas = tab.tarjetas || [];
@@ -1147,90 +1288,148 @@
             }
 
             // ============================================================
-            // RULETA
+            // RULETA MEJORADA
             // ============================================================
             let giroActivo = false;
+            const codigosUsados = new Set();
 
-            function obtenerIdentificadorUsuario() {
-                return new Promise((resolve) => {
-                    fetch('https://api.ipify.org?format=json')
-                        .then(response => response.json())
-                        .then(data => resolve(data.ip))
-                        .catch(() => {
-                            const fingerprint = navigator.userAgent + navigator.language + screen.width + screen
-                                .height;
-                            resolve('fingerprint_' + btoa(fingerprint).substring(0, 20));
-                        });
-                });
+            function cargarCodigosUsados() {
+                const registro = JSON.parse(localStorage.getItem(REGISTRO_RULETA_KEY) || '[]');
+                registro.forEach(item => codigosUsados.add(item.codigo));
             }
 
-            function generarCodigoPremio() {
+            function guardarRegistro(nombre, telefono, codigo, ip) {
+                const registro = JSON.parse(localStorage.getItem(REGISTRO_RULETA_KEY) || '[]');
+                const now = getCubaTime();
+                registro.push({
+                    nombre,
+                    telefono,
+                    codigo,
+                    fecha: now,
+                    ip: ip || '0.0.0.0'
+                });
+                localStorage.setItem(REGISTRO_RULETA_KEY, JSON.stringify(registro));
+                codigosUsados.add(codigo);
+                actualizarListaRegistro();
+            }
+
+            function actualizarListaRegistro() {
+                const list = document.getElementById('ruletaRegistroList');
+                if (!list) return;
+                const registro = JSON.parse(localStorage.getItem(REGISTRO_RULETA_KEY) || '[]');
+                list.innerHTML = registro.map(item =>
+                    `<div style="border-bottom:1px solid #eee;padding:0.3rem 0;font-size:0.8rem;">
+                        <strong>${item.codigo}</strong> - ${item.nombre} (${item.telefono}) - ${item.fecha} - IP: ${item.ip}
+                    </div>`
+                ).join('');
+                if (registro.length === 0) list.innerHTML = '<div style="color:#888;padding:0.5rem;">No hay registros aún.</div>';
+            }
+
+            function generarCodigoUnico() {
                 const data = appData;
                 const ruleta = data.ruleta || {};
                 const prefijo = ruleta.prefijo || 'MULTI';
                 const longitud = ruleta.longitud || 12;
                 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-                let codigo = prefijo + '-';
-                const partes = Math.ceil(longitud / 4);
-                for (let i = 0; i < partes; i++) {
-                    for (let j = 0; j < 4; j++) {
-                        codigo += chars.charAt(Math.floor(Math.random() * chars.length));
+                let codigo;
+                let intentos = 0;
+                do {
+                    let parte = '';
+                    const partes = Math.ceil(longitud / 4);
+                    for (let i = 0; i < partes; i++) {
+                        for (let j = 0; j < 4; j++) {
+                            parte += chars.charAt(Math.floor(Math.random() * chars.length));
+                        }
+                        if (i < partes - 1) parte += '-';
                     }
-                    if (i < partes - 1) codigo += '-';
+                    codigo = prefijo + '-' + parte;
+                    intentos++;
+                } while (codigosUsados.has(codigo) && intentos < 1000);
+                if (codigosUsados.has(codigo)) {
+                    throw new Error('No se pudo generar un código único.');
                 }
                 return codigo;
             }
 
-            function verificarSorpresaDiaria() {
+            function verificarSorpresaDiaria(nombre, telefono) {
                 const mensajeElement = document.getElementById('mensaje-sorpresa');
                 const codigoElement = document.getElementById('codigoPremio');
                 const ruletaIcono = document.getElementById('ruletaIcono');
+
                 if (giroActivo) return;
                 const data = appData;
                 const ruleta = data.ruleta || {};
-                obtenerIdentificadorUsuario().then(usuarioId => {
-                    const clave = 'multipunto_sorpresa_' + usuarioId;
-                    const hoy = new Date().toDateString();
-                    const registro = localStorage.getItem(clave);
-                    if (registro === hoy) {
+
+                // Verificar límite de usos (si maxUsos > 0)
+                const maxUsos = ruleta.maxUsos || 0;
+                const registro = JSON.parse(localStorage.getItem(REGISTRO_RULETA_KEY) || '[]');
+                if (maxUsos > 0 && registro.length >= maxUsos) {
+                    mensajeElement.textContent = '⛔ Se ha alcanzado el límite de premios disponibles.';
+                    mensajeElement.style.color = '#FF6B6B';
+                    codigoElement.textContent = '';
+                    return;
+                }
+
+                // Verificar límite diario por IP (hora de Cuba)
+                getIP().then(ip => {
+                    const hoy = new Date().toLocaleDateString('es-CU', { timeZone: 'America/Havana' });
+                    const clave = 'multipunto_sorpresa_' + ip;
+                    const registroIP = localStorage.getItem(clave);
+                    if (registroIP === hoy) {
                         mensajeElement.textContent = ruleta.mensajeUsado ||
                             '⏳ Ya has usado tu oportunidad hoy. Vuelve mañana.';
                         mensajeElement.style.color = '#FF6B6B';
                         codigoElement.textContent = '';
                         return;
                     }
-                    giroActivo = true;
-                    mensajeElement.textContent = '🎡 ¡Girando...!';
-                    mensajeElement.style.color = '#888';
-                    codigoElement.textContent = '';
-                    const anim = data.animaciones || {};
-                    const duracion = anim.ruletaDuracion || 3;
-                    const minVueltas = anim.ruletaVueltasMin || 3;
-                    const maxVueltas = anim.ruletaVueltasMax || 6;
-                    const vueltas = minVueltas + Math.random() * (maxVueltas - minVueltas);
-                    const anguloFinal = vueltas * 360 + Math.random() * 360;
-                    ruletaIcono.style.transition = `transform ${duracion}s cubic-bezier(0.25, 0.1, 0.15, 1)`;
-                    ruletaIcono.style.transform = `rotate(${anguloFinal}deg)`;
-                    setTimeout(() => {
+
+                    // Generar código único
+                    try {
+                        const codigo = generarCodigoUnico();
+                        // Guardar registro
+                        guardarRegistro(nombre, telefono, codigo, ip);
                         localStorage.setItem(clave, hoy);
-                        const codigo = generarCodigoPremio();
-                        codigoElement.textContent = `🎉 Tu código: ${codigo}`;
-                        mensajeElement.textContent = ruleta.mensajeGanador ||
-                            '¡Felicidades! Has ganado un premio. Usa tu código para reclamarlo.';
-                        mensajeElement.style.color = data.colores.primario || '#1800FF';
+
+                        // Mostrar animación
+                        giroActivo = true;
+                        mensajeElement.textContent = '🎡 ¡Girando...!';
+                        mensajeElement.style.color = '#888';
+                        codigoElement.textContent = '';
+
+                        const anim = data.animaciones || {};
+                        const duracion = anim.ruletaDuracion || 3;
+                        const minVueltas = anim.ruletaVueltasMin || 3;
+                        const maxVueltas = anim.ruletaVueltasMax || 6;
+                        const vueltas = minVueltas + Math.random() * (maxVueltas - minVueltas);
+                        const anguloFinal = vueltas * 360 + Math.random() * 360;
+
+                        ruletaIcono.style.transition = `transform ${duracion}s cubic-bezier(0.25, 0.1, 0.15, 1)`;
+                        ruletaIcono.style.transform = `rotate(${anguloFinal}deg)`;
+
+                        setTimeout(() => {
+                            codigoElement.textContent = `🎉 Tu código: ${codigo}`;
+                            mensajeElement.textContent = ruleta.mensajeGanador ||
+                                '¡Felicidades! Has ganado un premio. Usa tu código para reclamarlo.';
+                            mensajeElement.style.color = data.colores.primario || '#1800FF';
+                            giroActivo = false;
+                            actualizarListaRegistro();
+                        }, duracion * 1000 + 200);
+                    } catch (error) {
+                        mensajeElement.textContent = '❌ Error al generar código. Intenta más tarde.';
+                        mensajeElement.style.color = '#FF6B6B';
+                        codigoElement.textContent = '';
                         giroActivo = false;
-                    }, duracion * 1000 + 200);
+                    }
                 });
             }
 
             // ============================================================
-            // ADMIN PANEL
+            // PANEL ADMIN - RENDER Y EVENTOS
             // ============================================================
             function renderAdminPanel() {
                 const data = appData;
                 document.getElementById('editTitulo').value = data.titulo || '';
                 document.getElementById('editDescripcion').value = data.descripcion || '';
-                document.getElementById('editMinQuantity').value = data.minQuantity || 9;
                 document.getElementById('editBgColor').value = data.colores.bg || '#000';
                 document.getElementById('editTextColor').value = data.colores.texto || '#FFFFFF';
                 document.getElementById('editPrimaryColor').value = data.colores.primario || '#1800FF';
@@ -1254,12 +1453,24 @@
                 document.getElementById('editRuletaMensajeGanador').value = data.ruleta.mensajeGanador || '';
                 document.getElementById('editRuletaPrefijo').value = data.ruleta.prefijo || 'MULTI';
                 document.getElementById('editRuletaLongitud').value = data.ruleta.longitud || 12;
+                document.getElementById('editRuletaMaxUsos').value = data.ruleta.maxUsos || 0;
+                document.getElementById('editRuletaLimiteFecha').value = data.ruleta.limiteFecha || '';
+                document.getElementById('editRuletaActiva').value = data.ruleta.activa !== false ? '1' : '0';
+                document.getElementById('editRuletaTextoInfo').value = data.ruleta.textoInfo || '';
+
                 if (data.imagenes.logo) {
                     document.getElementById('logoPreview').innerHTML =
                         `<img src="${data.imagenes.logo}" style="max-width:150px;max-height:150px;border-radius:8px;">`;
                 } else {
                     document.getElementById('logoPreview').innerHTML = '';
                 }
+                // Estado de la fuente
+                if (data.imagenes.font) {
+                    document.getElementById('fontStatus').textContent = '✅ Fuente personalizada cargada';
+                } else {
+                    document.getElementById('fontStatus').textContent = '';
+                }
+
                 renderAdminPestanas();
                 const select = document.getElementById('tarjetasPestanaSelect');
                 select.innerHTML = '';
@@ -1270,10 +1481,11 @@
                     select.appendChild(opt);
                 });
                 cargarTarjetasAdmin();
-                const gh = JSON.parse(localStorage.getItem('multipunto_github_config') || '{}');
+                const gh = JSON.parse(localStorage.getItem(GITHUB_CONFIG_KEY) || '{}');
                 document.getElementById('githubToken').value = gh.token || '';
                 document.getElementById('githubOwner').value = gh.owner || '';
                 document.getElementById('githubRepo').value = gh.repo || '';
+                actualizarListaRegistro();
             }
 
             function renderAdminPestanas() {
@@ -1289,6 +1501,7 @@
                         <label>Activa: <input type="checkbox" ${p.activa?'checked':''} data-index="${index}" class="check-activa"></label>
                         <button class="btn-danger" data-index="${index}" onclick="eliminarPestana(${index})">Eliminar</button>
                         <button class="btn-edit" data-index="${index}" onclick="editarPestana(${index})">✏️</button>
+                        ${p.tipo === 'tarjetas' ? `<button class="btn-edit" data-index="${index}" onclick="editarTextosPestana(${index})">📝 Textos</button>` : ''}
                     `;
                     list.appendChild(div);
                     div.querySelector('.check-activa').addEventListener('change', function() {
@@ -1324,6 +1537,25 @@
                     renderPagina();
                     showAdminMsg('adminPestanasMsg', '✅ Pestaña actualizada.', 'success');
                 }
+            };
+
+            window.editarTextosPestana = function(index) {
+                const p = appData.pestanas[index];
+                if (!p.tarjetas) return;
+                // Buscar la CTA (si existe)
+                const cta = p.tarjetas.find(t => t.tipo === 'cta');
+                if (cta) {
+                    const nuevoTexto = prompt('Texto principal de la CTA:', cta.texto || '');
+                    if (nuevoTexto !== null) cta.texto = nuevoTexto.trim() || cta.texto;
+                    const nuevoBoton = prompt('Texto del botón:', cta.boton || '');
+                    if (nuevoBoton !== null) cta.boton = nuevoBoton.trim() || cta.boton;
+                } else {
+                    alert('Esta pestaña no tiene un mensaje CTA para editar.');
+                }
+                saveData();
+                renderAdminPestanas();
+                renderPagina();
+                showAdminMsg('adminPestanasMsg', '✅ Textos de pestaña actualizados.', 'success');
             };
 
             function cargarTarjetasAdmin() {
@@ -1396,6 +1628,7 @@
             // EVENTOS ADMIN
             // ============================================================
             function initAdminEvents() {
+                // Login
                 document.getElementById('loginBtn').addEventListener('click', function() {
                     const pass = document.getElementById('adminPassword').value;
                     if (pass === getAdminPassword()) {
@@ -1405,6 +1638,7 @@
                         document.getElementById('adminPassword').value = '';
                         document.getElementById('loginError').style.display = 'none';
                         renderAdminPanel();
+                        resetInactivityTimer();
                     } else {
                         document.getElementById('loginError').style.display = 'block';
                         document.getElementById('adminPassword').value = '';
@@ -1420,6 +1654,9 @@
                 document.getElementById('adminToggle').addEventListener('click', function() {
                     if (isAdminLogged) {
                         document.getElementById('adminPanel').classList.toggle('open');
+                        if (document.getElementById('adminPanel').classList.contains('open')) {
+                            resetInactivityTimer();
+                        }
                     } else {
                         document.getElementById('loginModal').classList.add('open');
                         document.getElementById('adminPassword').focus();
@@ -1432,7 +1669,58 @@
                     isAdminLogged = false;
                     document.getElementById('adminPanel').classList.remove('open');
                     showAdminMsg('adminGeneralMsg', '🔒 Sesión cerrada.', 'success');
+                    clearTimeout(inactivityTimer);
                 });
+
+                // Seguridad
+                document.getElementById('saveSecurityBtn').addEventListener('click', function() {
+                    const newPass = document.getElementById('newPass').value;
+                    const confirmPass = document.getElementById('confirmPass').value;
+                    if (!newPass || newPass.length < 4) {
+                        showAdminMsg('adminSecurityMsg', '⚠️ La contraseña debe tener al menos 4 caracteres.', 'error');
+                        return;
+                    }
+                    if (newPass !== confirmPass) {
+                        showAdminMsg('adminSecurityMsg', '⚠️ Las contraseñas no coinciden.', 'error');
+                        return;
+                    }
+                    setAdminPassword(newPass);
+                    document.getElementById('newPass').value = '';
+                    document.getElementById('confirmPass').value = '';
+                    showAdminMsg('adminSecurityMsg', '✅ Contraseña cambiada correctamente.', 'success');
+                });
+
+                document.getElementById('lockPanelBtn').addEventListener('click', function() {
+                    isAdminLogged = false;
+                    document.getElementById('adminPanel').classList.remove('open');
+                    clearTimeout(inactivityTimer);
+                    showAdminMsg('adminLockMsg', '🔒 Panel bloqueado manualmente.', 'success');
+                });
+
+                // Inactividad automática (resetear en interacciones)
+                document.addEventListener('click', function() {
+                    if (isAdminLogged && document.getElementById('adminPanel').classList.contains('open')) {
+                        resetInactivityTimer();
+                    }
+                });
+                document.addEventListener('keydown', function() {
+                    if (isAdminLogged && document.getElementById('adminPanel').classList.contains('open')) {
+                        resetInactivityTimer();
+                    }
+                });
+
+                function resetInactivityTimer() {
+                    clearTimeout(inactivityTimer);
+                    inactivityTimer = setTimeout(function() {
+                        if (isAdminLogged) {
+                            isAdminLogged = false;
+                            document.getElementById('adminPanel').classList.remove('open');
+                            showAdminMsg('adminGeneralMsg', '🔒 Sesión cerrada por inactividad.', 'success');
+                        }
+                    }, INACTIVITY_TIMEOUT);
+                }
+
+                // Tabs del panel
                 document.querySelectorAll('.admin-tab-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove(
@@ -1441,16 +1729,21 @@
                         document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove(
                             'active'));
                         document.getElementById(this.dataset.adminTab).classList.add('active');
+                        resetInactivityTimer();
                     });
                 });
+
+                // Guardar General
                 document.getElementById('saveGeneralBtn').addEventListener('click', function() {
                     appData.titulo = document.getElementById('editTitulo').value.trim() || 'MULTIPUNTO';
                     appData.descripcion = document.getElementById('editDescripcion').value.trim() || '';
-                    appData.minQuantity = parseInt(document.getElementById('editMinQuantity').value) || 9;
                     saveData();
                     renderPagina();
                     showAdminMsg('adminGeneralMsg', '✅ General guardado.', 'success');
+                    resetInactivityTimer();
                 });
+
+                // Guardar Colores
                 document.getElementById('saveColoresBtn').addEventListener('click', function() {
                     appData.colores.bg = document.getElementById('editBgColor').value;
                     appData.colores.texto = document.getElementById('editTextColor').value;
@@ -1460,7 +1753,10 @@
                     saveData();
                     renderPagina();
                     showAdminMsg('adminColoresMsg', '✅ Colores guardados.', 'success');
+                    resetInactivityTimer();
                 });
+
+                // Guardar Animaciones
                 document.getElementById('saveAnimacionesBtn').addEventListener('click', function() {
                     appData.animaciones.pulsoDuracion = parseFloat(document.getElementById('editPulsoDuracion')
                         .value) || 3;
@@ -1475,7 +1771,10 @@
                     saveData();
                     renderPagina();
                     showAdminMsg('adminAnimacionesMsg', '✅ Animaciones guardadas.', 'success');
+                    resetInactivityTimer();
                 });
+
+                // Guardar Textos
                 document.getElementById('saveTextosBtn').addEventListener('click', function() {
                     appData.textos.heroTitulo = document.getElementById('editHeroTitulo').value.trim();
                     appData.textos.heroItalico = document.getElementById('editHeroItalico').value.trim();
@@ -1488,7 +1787,10 @@
                     saveData();
                     renderPagina();
                     showAdminMsg('adminTextosMsg', '✅ Textos guardados.', 'success');
+                    resetInactivityTimer();
                 });
+
+                // Guardar Ruleta
                 document.getElementById('saveRuletaBtn').addEventListener('click', function() {
                     appData.ruleta.mensajeDefault = document.getElementById('editRuletaMensajeDefault').value
                         .trim();
@@ -1497,14 +1799,20 @@
                         .trim();
                     appData.ruleta.prefijo = document.getElementById('editRuletaPrefijo').value.trim() || 'MULTI';
                     appData.ruleta.longitud = parseInt(document.getElementById('editRuletaLongitud').value) || 12;
+                    appData.ruleta.maxUsos = parseInt(document.getElementById('editRuletaMaxUsos').value) || 0;
+                    appData.ruleta.limiteFecha = document.getElementById('editRuletaLimiteFecha').value.trim();
+                    appData.ruleta.activa = document.getElementById('editRuletaActiva').value === '1';
+                    appData.ruleta.textoInfo = document.getElementById('editRuletaTextoInfo').value.trim();
                     saveData();
                     renderPagina();
                     showAdminMsg('adminRuletaMsg', '✅ Ruleta guardada.', 'success');
+                    resetInactivityTimer();
                 });
+
+                // Agregar pestaña
                 document.getElementById('addPestanaBtn').addEventListener('click', function() {
                     const nombre = document.getElementById('newPestanaNombre').value.trim();
                     const icono = document.getElementById('newPestanaIcono').value.trim() || 'fa-circle';
-                    const tipo = document.getElementById('newPestanaTipo').value;
                     if (!nombre) {
                         showAdminMsg('adminPestanasMsg', '⚠️ Escribe un nombre.', 'error');
                         return;
@@ -1514,9 +1822,9 @@
                         nombre: nombre,
                         icono: icono,
                         activa: false,
-                        tipo: tipo,
-                        contenido: tipo === 'texto' ? { texto: '' } : {},
-                        tarjetas: tipo !== 'texto' && tipo !== 'ruleta' ? [] : undefined
+                        tipo: 'tarjetas', // Por defecto tarjetas, pero se puede cambiar después
+                        contenido: {},
+                        tarjetas: []
                     };
                     appData.pestanas.push(newTab);
                     saveData();
@@ -1525,13 +1833,18 @@
                     document.getElementById('newPestanaNombre').value = '';
                     document.getElementById('newPestanaIcono').value = '';
                     showAdminMsg('adminPestanasMsg', '✅ Pestaña agregada.', 'success');
+                    resetInactivityTimer();
                 });
+
+                // Tarjetas
                 document.getElementById('cargarTarjetasBtn').addEventListener('click', function() {
                     cargarTarjetasAdmin();
+                    resetInactivityTimer();
                 });
                 document.getElementById('tarjetasPestanaSelect').addEventListener('change', function() {
                     cargarTarjetasAdmin();
                 });
+
                 document.getElementById('addTarjetaBtn').addEventListener('click', function() {
                     const select = document.getElementById('tarjetasPestanaSelect');
                     const tab = appData.pestanas.find(p => p.id === select.value);
@@ -1541,58 +1854,30 @@
                     }
                     if (!tab.tarjetas) tab.tarjetas = [];
                     const nombre = document.getElementById('newTarjetaNombre').value.trim();
-                    const icono = document.getElementById('newTarjetaIcono').value.trim() || 'fas fa-circle';
                     const texto = document.getElementById('newTarjetaTexto').value.trim();
                     const url = document.getElementById('newTarjetaUrl').value.trim();
-                    const imgFile = document.getElementById('newTarjetaImgFile').files[0];
                     const imgUrl = document.getElementById('newTarjetaImgUrl').value.trim();
                     const newCard = {
                         tipo: 'enlace',
                         nombre: nombre || 'Sin nombre',
-                        icono: icono,
+                        icono: 'fas fa-circle', // icono por defecto
                         usuario: texto || '',
                         url: url || '#',
-                        imagenes: []
+                        imagenes: imgUrl ? [imgUrl] : []
                     };
-                    if (imgFile) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            newCard.imagenes.push(e.target.result);
-                            tab.tarjetas.push(newCard);
-                            saveData();
-                            renderPagina();
-                            cargarTarjetasAdmin();
-                            limpiarCamposTarjeta();
-                            showAdminMsg('adminTarjetasMsg', '✅ Tarjeta agregada con imagen.', 'success');
-                        };
-                        reader.readAsDataURL(imgFile);
-                    } else if (imgUrl) {
-                        newCard.imagenes.push(imgUrl);
-                        tab.tarjetas.push(newCard);
-                        saveData();
-                        renderPagina();
-                        cargarTarjetasAdmin();
-                        limpiarCamposTarjeta();
-                        showAdminMsg('adminTarjetasMsg', '✅ Tarjeta agregada.', 'success');
-                    } else {
-                        tab.tarjetas.push(newCard);
-                        saveData();
-                        renderPagina();
-                        cargarTarjetasAdmin();
-                        limpiarCamposTarjeta();
-                        showAdminMsg('adminTarjetasMsg', '✅ Tarjeta agregada.', 'success');
-                    }
-                });
-
-                function limpiarCamposTarjeta() {
+                    tab.tarjetas.push(newCard);
+                    saveData();
+                    renderPagina();
+                    cargarTarjetasAdmin();
                     document.getElementById('newTarjetaNombre').value = '';
-                    document.getElementById('newTarjetaIcono').value = '';
                     document.getElementById('newTarjetaTexto').value = '';
                     document.getElementById('newTarjetaUrl').value = '';
                     document.getElementById('newTarjetaImgUrl').value = '';
-                    document.getElementById('newTarjetaImgFile').value = '';
-                }
+                    showAdminMsg('adminTarjetasMsg', '✅ Tarjeta agregada.', 'success');
+                    resetInactivityTimer();
+                });
 
+                // Imágenes
                 document.getElementById('cargarLogoBtn').addEventListener('click', function() {
                     const file = document.getElementById('editLogoFile').files[0];
                     const url = document.getElementById('editLogoUrl').value.trim();
@@ -1617,7 +1902,9 @@
                     } else {
                         showAdminMsg('adminImagenesMsg', '⚠️ Selecciona un archivo o pega una URL.', 'error');
                     }
+                    resetInactivityTimer();
                 });
+
                 document.getElementById('cargarFondoBtn').addEventListener('click', function() {
                     const file = document.getElementById('editFondoFile').files[0];
                     const url = document.getElementById('editFondoUrl').value.trim();
@@ -1638,22 +1925,28 @@
                     } else {
                         showAdminMsg('adminImagenesMsg', '⚠️ Selecciona un archivo o pega una URL.', 'error');
                     }
+                    resetInactivityTimer();
                 });
-                document.getElementById('cargarFaviconBtn').addEventListener('click', function() {
-                    const file = document.getElementById('editFaviconFile').files[0];
+
+                document.getElementById('cargarFontBtn').addEventListener('click', function() {
+                    const file = document.getElementById('editFontFile').files[0];
                     if (!file) {
-                        showAdminMsg('adminImagenesMsg', '⚠️ Selecciona un archivo.', 'error');
+                        showAdminMsg('adminImagenesMsg', '⚠️ Selecciona un archivo de fuente.', 'error');
                         return;
                     }
                     const reader = new FileReader();
                     reader.onload = function(e) {
-                        appData.imagenes.favicon = e.target.result;
+                        appData.imagenes.font = e.target.result;
                         saveData();
                         renderPagina();
-                        showAdminMsg('adminImagenesMsg', '✅ Favicon actualizado.', 'success');
+                        document.getElementById('fontStatus').textContent = '✅ Fuente personalizada cargada';
+                        showAdminMsg('adminImagenesMsg', '✅ Fuente actualizada.', 'success');
                     };
                     reader.readAsDataURL(file);
+                    resetInactivityTimer();
                 });
+
+                // Export/Import
                 document.getElementById('exportJsonBtn').addEventListener('click', function() {
                     const json = JSON.stringify(appData, null, 2);
                     const blob = new Blob([json], { type: 'application/json' });
@@ -1665,8 +1958,10 @@
                     a.click();
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
-                    showAdminMsg('adminGeneralMsg', '✅ JSON exportado.', 'success');
+                    showAdminMsg('adminExportMsg', '✅ JSON exportado.', 'success');
+                    resetInactivityTimer();
                 });
+
                 document.getElementById('importJsonBtn').addEventListener('click', function() {
                     document.getElementById('importJsonInput').click();
                 });
@@ -1681,14 +1976,17 @@
                             saveData();
                             renderPagina();
                             if (isAdminLogged) renderAdminPanel();
-                            showAdminMsg('adminGeneralMsg', '✅ Datos importados.', 'success');
+                            showAdminMsg('adminExportMsg', '✅ Datos importados.', 'success');
                         } catch (err) {
-                            showAdminMsg('adminGeneralMsg', '❌ Error al importar: ' + err.message, 'error');
+                            showAdminMsg('adminExportMsg', '❌ Error al importar: ' + err.message, 'error');
                         }
                     };
                     reader.readAsText(file);
                     this.value = '';
+                    resetInactivityTimer();
                 });
+
+                // Exportar HTML (nuevo)
                 document.getElementById('exportHtmlBtn').addEventListener('click', function() {
                     const htmlContent = document.documentElement.outerHTML;
                     const blob = new Blob(['<!DOCTYPE html>\n' + htmlContent], { type: 'text/html' });
@@ -1700,21 +1998,64 @@
                     a.click();
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
-                    showAdminMsg('adminGeneralMsg', '✅ HTML descargado.', 'success');
+                    showAdminMsg('adminGeneralMsg2', '✅ HTML descargado.', 'success');
+                    resetInactivityTimer();
                 });
+
+                // Importar HTML (nuevo)
+                document.getElementById('importHtmlBtn').addEventListener('click', function() {
+                    document.getElementById('importHtmlInput').click();
+                });
+                document.getElementById('importHtmlInput').addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        try {
+                            // Sobrescribir la página actual con el contenido importado
+                            const importedHtml = ev.target.result;
+                            // Extraer el contenido entre <body> y </body> y también el <style>
+                            const bodyMatch = importedHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+                            const styleMatch = importedHtml.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
+                            if (bodyMatch) {
+                                document.body.innerHTML = bodyMatch[1];
+                                // Reinsertar el script y el estilo
+                                if (styleMatch) {
+                                    const styleTag = document.createElement('style');
+                                    styleTag.textContent = styleMatch[1];
+                                    document.head.appendChild(styleTag);
+                                }
+                                // Re-ejecutar scripts (forzar recarga de la página para cargar los datos)
+                                alert('HTML importado. La página se recargará para aplicar los cambios.');
+                                location.reload();
+                            } else {
+                                showAdminMsg('adminGeneralMsg2', '❌ No se pudo extraer el contenido del HTML.', 'error');
+                            }
+                        } catch (err) {
+                            showAdminMsg('adminGeneralMsg2', '❌ Error al importar: ' + err.message, 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                    this.value = '';
+                    resetInactivityTimer();
+                });
+
+                // GitHub
                 document.getElementById('saveGithubConfig').addEventListener('click', function() {
                     const config = {
                         token: document.getElementById('githubToken').value.trim(),
                         owner: document.getElementById('githubOwner').value.trim(),
                         repo: document.getElementById('githubRepo').value.trim()
                     };
-                    localStorage.setItem('multipunto_github_config', JSON.stringify(config));
-                    showAdminMsg('adminGeneralMsg', '✅ Configuración GitHub guardada.', 'success');
+                    localStorage.setItem(GITHUB_CONFIG_KEY, JSON.stringify(config));
+                    showAdminMsg('adminGeneralMsg2', '✅ Configuración GitHub guardada.', 'success');
+                    resetInactivityTimer();
                 });
+
                 document.getElementById('publishGithubBtn').addEventListener('click', function() {
-                    const config = JSON.parse(localStorage.getItem('multipunto_github_config') || '{}');
+                    const config = JSON.parse(localStorage.getItem(GITHUB_CONFIG_KEY) || '{}');
                     if (!config.token || !config.owner || !config.repo) {
-                        showAdminMsg('adminGeneralMsg', '❌ Configuración GitHub incompleta.', 'error');
+                        showAdminMsg('adminGeneralMsg2', '❌ Configuración GitHub incompleta.', 'error');
                         return;
                     }
                     const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
@@ -1755,13 +2096,27 @@
                         return response.json();
                     })
                     .then(() => {
-                        showAdminMsg('adminGeneralMsg', '✅ Publicado en GitHub. La página se actualizará en minutos.',
+                        showAdminMsg('adminGeneralMsg2',
+                            '✅ Publicado en GitHub. La página se actualizará en minutos.',
                             'success');
                     })
                     .catch(err => {
-                        showAdminMsg('adminGeneralMsg', '❌ Error: ' + err.message, 'error');
+                        showAdminMsg('adminGeneralMsg2', '❌ Error: ' + err.message, 'error');
                     });
+                    resetInactivityTimer();
                 });
+
+                // Limpiar registro de ruleta
+                document.getElementById('limpiarRegistroBtn').addEventListener('click', function() {
+                    if (confirm('¿Eliminar todo el registro de códigos generados?')) {
+                        localStorage.setItem(REGISTRO_RULETA_KEY, JSON.stringify([]));
+                        codigosUsados.clear();
+                        actualizarListaRegistro();
+                        showAdminMsg('adminRuletaMsg', '🗑️ Registro limpiado.', 'success');
+                    }
+                });
+
+                // Cerrar modal con ESC
                 document.addEventListener('keydown', function(e) {
                     if (e.key === 'Escape') {
                         document.getElementById('loginModal').classList.remove('open');
@@ -1774,6 +2129,7 @@
             // INICIO
             // ============================================================
             loadData();
+            cargarCodigosUsados();
             renderPagina();
             initAdminEvents();
             window.appData = appData;
