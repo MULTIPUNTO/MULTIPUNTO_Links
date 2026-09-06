@@ -6,7 +6,7 @@
     <title id="pageTitle">MULTIPUNTO</title>
     <!-- Favicon dinámico -->
     <link id="faviconLink" rel="icon" type="image/x-icon" href="" />
-    <!-- Fuente por defecto (se puede cambiar desde el panel) -->
+    <!-- Fuente por defecto -->
     <link id="fontLink" href="https://fonts.googleapis.com/css2?family=Autobús+Ómnibus&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
@@ -66,7 +66,6 @@
             margin-bottom: 2rem;
             text-shadow: 0 2px 6px rgba(0,0,0,0.5);
         }
-        /* ===== TABS ===== */
         .tabs {
             display: flex;
             justify-content: center;
@@ -109,7 +108,6 @@
         .tab-btn:hover { color: #FFFFFF; }
         .tab-btn.active { color: #FFFFFF; }
         .tab-btn.active::after { width: 80%; }
-        /* ===== CARDS ===== */
         .cards-wrapper { position: relative; min-height: 200px; }
         .cards-grid {
             display: grid;
@@ -208,7 +206,6 @@
             letter-spacing: 0.5px;
             margin-top: 0.2rem;
         }
-        /* ===== CTA ===== */
         .cta-redes {
             grid-column: 1 / -1;
             background: rgba(255,255,255,0.15);
@@ -247,7 +244,6 @@
             50% { transform: scale(1.05); box-shadow: 0 8px 30px rgba(24,0,255,0.6); background-color: #4D4DFF; }
             100% { transform: scale(1); box-shadow: 0 4px 15px rgba(24,0,255,0.4); background-color: #1800FF; }
         }
-        /* ===== FOOTER Y COMPARTIR ===== */
         .footer {
             margin-top: 3.5rem;
             font-size: 0.9rem;
@@ -289,7 +285,7 @@
         }
         .compartir-btn:hover i { color: #1800FF; }
 
-        /* ===== ADMIN BOTÓN Y MODAL ===== */
+        /* ===== BOTÓN ADMIN ===== */
         #adminToggle {
             position: fixed;
             bottom: 20px;
@@ -307,6 +303,8 @@
             transition: transform 0.3s;
         }
         #adminToggle:hover { transform: scale(1.1); }
+
+        /* ===== LOGIN MODAL ===== */
         .modal {
             position: fixed;
             top: 0;
@@ -322,7 +320,7 @@
         .modal.open { display: flex; }
         .modal-box {
             background: #fff;
-            border-radius: 16px;
+            border-radius: 24px;
             padding: 2rem;
             max-width: 400px;
             width: 90%;
@@ -336,7 +334,7 @@
             padding: 0.75rem;
             margin-bottom: 1rem;
             border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1rem;
         }
         .modal-box button {
@@ -345,10 +343,12 @@
             background: #1800FF;
             color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1rem;
             cursor: pointer;
+            transition: background 0.3s;
         }
+        .modal-box button:hover { background: #4D4DFF; }
         .modal-box .error { color: #FF0000; display: none; font-size: 0.9rem; margin-bottom: 0.5rem; }
         .modal-close {
             position: absolute;
@@ -358,7 +358,8 @@
             cursor: pointer;
             color: #888;
         }
-        /* ===== PANEL ADMIN ===== */
+
+        /* ===== PANEL ADMIN (con estética unificada) ===== */
         #adminPanel {
             position: fixed;
             top: 0;
@@ -373,6 +374,7 @@
             box-shadow: -10px 0 40px rgba(0,0,0,0.3);
             padding: 1rem;
             color: #1A1A1A;
+            font-family: 'Autobús Ómnibus', Arial, sans-serif;
         }
         #adminPanel.open { right: 0; }
         #adminPanel .panel-header {
@@ -385,72 +387,190 @@
             flex-wrap: wrap;
             gap: 0.5rem;
         }
-        #adminPanel .panel-header h2 { margin: 0; color: #1A1A1A; font-size: 1.5rem; }
+        #adminPanel .panel-header h2 {
+            margin: 0;
+            color: #1A1A1A;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
         .panel-close {
             background: #ff4444;
             color: #fff;
             border: none;
-            border-radius: 8px;
-            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            padding: 0.5rem 1.2rem;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.3s, transform 0.2s;
+            font-family: inherit;
         }
+        .panel-close:hover { background: #cc0000; transform: scale(1.02); }
+
+        /* Tabs del panel */
         .admin-tabs {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             border-bottom: 1px solid #ddd;
             padding-bottom: 0.5rem;
         }
         .admin-tab-btn {
             background: #e0e0e0;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
             cursor: pointer;
             font-weight: 600;
-            transition: 0.2s;
+            transition: all 0.3s;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: #1A1A1A;
         }
-        .admin-tab-btn.active { background: #1800FF; color: #fff; }
+        .admin-tab-btn.active {
+            background: #1800FF;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(24,0,255,0.3);
+        }
+        .admin-tab-btn:hover:not(.active) { background: #d0d0d0; }
+
+        /* Contenedores y elementos del panel */
         .admin-tab-content { display: none; padding: 0.5rem 0; }
         .admin-tab-content.active { display: block; }
+
         .admin-item {
             background: #fff;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 1rem;
             margin-bottom: 0.8rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 0.5rem;
+            border: 1px solid #eee;
         }
-        .admin-item .item-name { font-weight: 600; min-width: 120px; }
+        .admin-item .item-name { font-weight: 600; min-width: 120px; color: #1A1A1A; }
         .admin-item input, .admin-item select, .admin-item textarea {
-            padding: 0.4rem 0.6rem;
+            padding: 0.5rem 0.8rem;
             border: 1px solid #ccc;
-            border-radius: 6px;
+            border-radius: 12px;
             flex: 1;
             min-width: 80px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: #fafafa;
+            transition: border 0.3s;
+        }
+        .admin-item input:focus, .admin-item select:focus, .admin-item textarea:focus {
+            border-color: #1800FF;
+            outline: none;
         }
         .admin-item textarea { min-height: 60px; flex-basis: 100%; }
-        .admin-item .btn-edit, .admin-item .btn-save-edit, .admin-item .btn-danger, .admin-item .btn-add-img {
-            padding: 0.3rem 0.8rem;
+
+        /* Botones unificados del panel */
+        .btn-admin {
+            padding: 0.5rem 1.2rem;
             border: none;
-            border-radius: 6px;
+            border-radius: 40px;
             cursor: pointer;
-            font-size: 0.85rem;
             font-weight: 600;
-            transition: 0.2s;
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
         }
-        .btn-edit { background: #ffc107; color: #000; }
-        .btn-save-edit { background: #28a745; color: #fff; display: none; }
-        .btn-danger { background: #dc3545; color: #fff; }
-        .btn-add-img { background: #17a2b8; color: #fff; }
+        .btn-admin i { font-size: 1rem; }
+        .btn-admin:hover { transform: scale(1.02); }
+        .btn-admin.primary {
+            background: #1800FF;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(24,0,255,0.25);
+        }
+        .btn-admin.primary:hover { background: #4D4DFF; }
+        .btn-admin.success {
+            background: #28a745;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(40,167,69,0.25);
+        }
+        .btn-admin.success:hover { background: #34ce57; }
+        .btn-admin.danger {
+            background: #dc3545;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(220,53,69,0.25);
+        }
+        .btn-admin.danger:hover { background: #e74c3c; }
+        .btn-admin.warning {
+            background: #ffc107;
+            color: #1A1A1A;
+            box-shadow: 0 4px 12px rgba(255,193,7,0.25);
+        }
+        .btn-admin.warning:hover { background: #ffd43b; }
+        .btn-admin.secondary {
+            background: #6c757d;
+            color: #fff;
+        }
+        .btn-admin.secondary:hover { background: #5a6268; }
+        .btn-admin.ghost {
+            background: transparent;
+            color: #1800FF;
+            border: 1px solid #1800FF;
+        }
+        .btn-admin.ghost:hover { background: #1800FF; color: #fff; }
+
+        /* Grupos de formulario */
+        .admin-group {
+            margin-bottom: 1.5rem;
+        }
+        .admin-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: #1A1A1A;
+            font-size: 0.95rem;
+        }
+        .admin-group input[type="text"],
+        .admin-group input[type="number"],
+        .admin-group input[type="color"],
+        .admin-group select,
+        .admin-group input[type="password"] {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: #fafafa;
+            transition: border 0.3s;
+        }
+        .admin-group input:focus {
+            border-color: #1800FF;
+            outline: none;
+        }
+        .admin-group input[type="file"] {
+            padding: 0.4rem;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            background: #fafafa;
+            width: 100%;
+        }
+        .admin-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .admin-row label {
+            font-weight: 600;
+            min-width: 120px;
+            color: #1A1A1A;
+        }
+
         .admin-image-thumbs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.3rem 0; }
-        .admin-image-thumbs .thumb { position: relative; width: 60px; height: 60px; overflow: hidden; border-radius: 8px; border: 1px solid #ddd; }
+        .admin-image-thumbs .thumb { position: relative; width: 60px; height: 60px; overflow: hidden; border-radius: 12px; border: 1px solid #ddd; }
         .admin-image-thumbs .thumb img { width: 100%; height: 100%; object-fit: cover; }
         .admin-image-thumbs .thumb .remove-img {
             position: absolute;
@@ -465,23 +585,34 @@
             font-size: 12px;
             cursor: pointer;
         }
-        .admin-msg { padding: 0.5rem 1rem; border-radius: 8px; margin: 0.5rem 0; display: none; }
+
+        .admin-msg {
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            margin: 0.5rem 0;
+            display: none;
+            font-weight: 500;
+        }
         .admin-msg.success { background: #d4edda; color: #155724; display: block; }
         .admin-msg.error { background: #f8d7da; color: #721c24; display: block; }
-        .admin-group { margin-bottom: 1.5rem; }
-        .admin-group label { display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1A1A1A; }
-        .admin-group input[type="text"], .admin-group input[type="number"], .admin-group input[type="color"], .admin-group select {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 0.95rem;
-        }
-        .admin-group input[type="file"] { padding: 0.3rem; }
-        .admin-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
-        .admin-row label { font-weight: 600; min-width: 120px; }
+
         #logoPreview { margin-top: 0.5rem; max-width: 150px; }
-        #logoPreview img { max-width: 100%; max-height: 150px; border-radius: 8px; }
+        #logoPreview img { max-width: 100%; max-height: 150px; border-radius: 12px; }
+
+        #ruletaRegistroList {
+            max-height: 200px;
+            overflow-y: auto;
+            background: #fff;
+            padding: 0.5rem;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            font-size: 0.85rem;
+        }
+        #ruletaRegistroList div {
+            border-bottom: 1px solid #eee;
+            padding: 0.3rem 0;
+        }
+        #ruletaRegistroList div:last-child { border-bottom: none; }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
@@ -508,6 +639,8 @@
             .footer { font-size: 0.8rem; margin-top: 2.8rem; padding-top: 1.2rem; }
             .compartir-btn { padding: 0.5rem 1.4rem; font-size: 0.9rem; border-radius: 24px; min-height: 44px; }
             .compartir-btn i { font-size: 1rem; }
+            .admin-tab-btn { font-size: 0.8rem; padding: 0.4rem 0.8rem; }
+            .btn-admin { font-size: 0.8rem; padding: 0.4rem 0.8rem; }
         }
         @media (max-width: 400px) {
             .cards-grid { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; gap: 0.8rem; }
@@ -568,15 +701,15 @@
             <h3>Configuración General</h3>
             <div class="admin-group"><label>Título de la página</label><input type="text" id="editTitulo" /></div>
             <div class="admin-group"><label>Descripción corta</label><input type="text" id="editDescripcion" /></div>
-            <button class="btn-save-edit" id="saveGeneralBtn" style="display:inline-block;padding:0.5rem 1.5rem;">💾 Guardar General</button>
+            <button class="btn-admin primary" id="saveGeneralBtn"><i class="fas fa-save"></i> Guardar General</button>
             <div id="adminGeneralMsg" class="admin-msg"></div>
-            <hr />
+            <hr style="margin:1.5rem 0;" />
             <h4>Imagen de Logo</h4>
             <div class="admin-group">
                 <label>Logo (subir o URL):</label>
                 <input type="text" id="editLogoUrl" placeholder="URL del logo" />
                 <input type="file" id="editLogoFile" accept="image/*" />
-                <button class="btn-save-edit" id="cargarLogoBtn">Cargar</button>
+                <button class="btn-admin primary" id="cargarLogoBtn"><i class="fas fa-upload"></i> Cargar</button>
                 <div id="logoPreview"></div>
             </div>
             <h4>Imagen de Fondo</h4>
@@ -584,17 +717,17 @@
                 <label>Fondo (subir o URL):</label>
                 <input type="text" id="editFondoUrl" placeholder="URL del fondo" />
                 <input type="file" id="editFondoFile" accept="image/*" />
-                <button class="btn-save-edit" id="cargarFondoBtn">Cargar</button>
+                <button class="btn-admin primary" id="cargarFondoBtn"><i class="fas fa-upload"></i> Cargar</button>
             </div>
             <h4>Tipografía</h4>
             <div class="admin-group">
                 <label>Fuente personalizada (subir .ttf o .otf):</label>
                 <input type="file" id="editFontFile" accept=".ttf,.otf" />
-                <button class="btn-save-edit" id="cargarFontBtn">Cargar fuente</button>
+                <button class="btn-admin primary" id="cargarFontBtn"><i class="fas fa-font"></i> Cargar fuente</button>
                 <span id="fontStatus" style="font-size:0.9rem;color:#888;margin-left:0.5rem;"></span>
             </div>
-            <hr />
-            <h4>GitHub Token</h4>
+            <hr style="margin:1.5rem 0;" />
+            <h4>GitHub Token y Publicación</h4>
             <div class="admin-group">
                 <label>Token de GitHub:</label>
                 <input type="password" id="githubToken" placeholder="ghp_..." />
@@ -607,13 +740,15 @@
                 <label>Repositorio:</label>
                 <input type="text" id="githubRepo" placeholder="tu-repo" />
             </div>
-            <button class="btn-save-edit" id="saveGithubConfig">💾 Guardar GitHub</button>
-            <button class="btn-save-edit" id="publishGithubBtn" style="background:#28a745;">🚀 Publicar en GitHub</button>
-            <hr />
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+                <button class="btn-admin success" id="saveGithubConfig"><i class="fas fa-save"></i> Guardar GitHub</button>
+                <button class="btn-admin primary" id="publishGithubBtn"><i class="fas fa-rocket"></i> Publicar en GitHub</button>
+            </div>
+            <hr style="margin:1.5rem 0;" />
             <h4>Exportar / Importar HTML</h4>
-            <div class="admin-row" style="margin-bottom:1rem;">
-                <button class="btn-edit" id="exportHtmlBtn">📄 Descargar HTML</button>
-                <button class="btn-edit" id="importHtmlBtn">📤 Importar HTML</button>
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+                <button class="btn-admin warning" id="exportHtmlBtn"><i class="fas fa-download"></i> Descargar HTML</button>
+                <button class="btn-admin ghost" id="importHtmlBtn"><i class="fas fa-upload"></i> Importar HTML</button>
                 <input type="file" id="importHtmlInput" accept=".html" style="display:none;" />
             </div>
             <div id="adminGeneralMsg2" class="admin-msg"></div>
@@ -627,7 +762,7 @@
                 <h4>Agregar nueva pestaña</h4>
                 <div class="admin-row"><label>Nombre:</label><input type="text" id="newPestanaNombre" placeholder="Ej: Contacto" /></div>
                 <div class="admin-row"><label>Icono (FontAwesome):</label><input type="text" id="newPestanaIcono" placeholder="fa-phone" /></div>
-                <button class="btn-save-edit" id="addPestanaBtn" style="display:inline-block;padding:0.5rem 1.5rem;">➕ Agregar</button>
+                <button class="btn-admin primary" id="addPestanaBtn"><i class="fas fa-plus"></i> Agregar</button>
             </div>
             <div id="adminPestanasMsg" class="admin-msg"></div>
         </div>
@@ -638,7 +773,7 @@
             <div class="admin-group">
                 <label>Seleccionar pestaña:</label>
                 <select id="tarjetasPestanaSelect"></select>
-                <button class="btn-save-edit" id="cargarTarjetasBtn">Cargar</button>
+                <button class="btn-admin primary" id="cargarTarjetasBtn"><i class="fas fa-sync"></i> Cargar</button>
             </div>
             <div id="adminTarjetasList"></div>
             <div class="admin-group" style="margin-top:1rem;">
@@ -647,7 +782,7 @@
                 <div class="admin-row"><label>Texto/Descripción:</label><input type="text" id="newTarjetaTexto" placeholder="Descripción" /></div>
                 <div class="admin-row"><label>Enlace (URL):</label><input type="text" id="newTarjetaUrl" placeholder="https://..." /></div>
                 <div class="admin-row"><label>Imagen (URL):</label><input type="text" id="newTarjetaImgUrl" placeholder="URL de imagen (opcional)" /></div>
-                <button class="btn-save-edit" id="addTarjetaBtn" style="display:inline-block;padding:0.5rem 1.5rem;">➕ Agregar</button>
+                <button class="btn-admin primary" id="addTarjetaBtn"><i class="fas fa-plus"></i> Agregar</button>
             </div>
             <div id="adminTarjetasMsg" class="admin-msg"></div>
         </div>
@@ -666,12 +801,12 @@
                 <select id="editRuletaActiva"><option value="1">Sí</option><option value="0">No</option></select>
             </div>
             <div class="admin-group"><label>Texto informativo (se muestra debajo de la ruleta):</label><textarea id="editRuletaTextoInfo" rows="3" placeholder="Condiciones, premios, etc."></textarea></div>
-            <button class="btn-save-edit" id="saveRuletaBtn" style="display:inline-block;padding:0.5rem 1.5rem;">💾 Guardar Ruleta</button>
+            <button class="btn-admin primary" id="saveRuletaBtn"><i class="fas fa-save"></i> Guardar Ruleta</button>
             <div id="adminRuletaMsg" class="admin-msg"></div>
-            <hr />
-            <h4>Registro de códigos generados</h4>
-            <div id="ruletaRegistroList" style="max-height:200px;overflow-y:auto;background:#fff;padding:0.5rem;border-radius:8px;border:1px solid #ddd;font-size:0.85rem;"></div>
-            <button class="btn-danger" id="limpiarRegistroBtn" style="margin-top:0.5rem;">🗑️ Limpiar registro</button>
+            <hr style="margin:1.5rem 0;" />
+            <h4>Registro de códigos generados (solo visible aquí)</h4>
+            <div id="ruletaRegistroList"></div>
+            <button class="btn-admin danger" id="limpiarRegistroBtn" style="margin-top:0.5rem;"><i class="fas fa-trash"></i> Limpiar registro</button>
         </div>
 
         <!-- COLORES -->
@@ -682,7 +817,7 @@
             <div class="admin-group"><label>Color primario (azul):</label><input type="color" id="editPrimaryColor" /></div>
             <div class="admin-group"><label>Color secundario (gris oscuro):</label><input type="color" id="editSecondaryColor" /></div>
             <div class="admin-group"><label>Color gris claro:</label><input type="color" id="editGrisColor" /></div>
-            <button class="btn-save-edit" id="saveColoresBtn" style="display:inline-block;padding:0.5rem 1.5rem;">💾 Guardar Colores</button>
+            <button class="btn-admin primary" id="saveColoresBtn"><i class="fas fa-save"></i> Guardar Colores</button>
             <div id="adminColoresMsg" class="admin-msg"></div>
         </div>
 
@@ -694,7 +829,7 @@
             <div class="admin-group"><label>Duración del giro de ruleta (segundos):</label><input type="number" id="editRuletaDuracion" step="0.5" min="1" max="10" /></div>
             <div class="admin-group"><label>Vueltas mínimas de ruleta:</label><input type="number" id="editRuletaVueltasMin" min="1" max="10" /></div>
             <div class="admin-group"><label>Vueltas máximas de ruleta:</label><input type="number" id="editRuletaVueltasMax" min="1" max="15" /></div>
-            <button class="btn-save-edit" id="saveAnimacionesBtn" style="display:inline-block;padding:0.5rem 1.5rem;">💾 Guardar Animaciones</button>
+            <button class="btn-admin primary" id="saveAnimacionesBtn"><i class="fas fa-save"></i> Guardar Animaciones</button>
             <div id="adminAnimacionesMsg" class="admin-msg"></div>
         </div>
 
@@ -709,7 +844,7 @@
             <div class="admin-group"><label>Mensaje de pedido (WhatsApp):</label><input type="text" id="editMensajePedido" /></div>
             <div class="admin-group"><label>Texto del botón WhatsApp:</label><input type="text" id="editWhatsAppText" /></div>
             <div class="admin-group"><label>Texto del footer:</label><input type="text" id="editFooterText" /></div>
-            <button class="btn-save-edit" id="saveTextosBtn" style="display:inline-block;padding:0.5rem 1.5rem;">💾 Guardar Textos</button>
+            <button class="btn-admin primary" id="saveTextosBtn"><i class="fas fa-save"></i> Guardar Textos</button>
             <div id="adminTextosMsg" class="admin-msg"></div>
         </div>
 
@@ -724,20 +859,20 @@
                 <label>Confirmar contraseña:</label>
                 <input type="password" id="confirmPass" placeholder="Repite la contraseña" />
             </div>
-            <button class="btn-save-edit" id="saveSecurityBtn">🔐 Cambiar contraseña</button>
+            <button class="btn-admin primary" id="saveSecurityBtn"><i class="fas fa-key"></i> Cambiar contraseña</button>
             <div id="adminSecurityMsg" class="admin-msg"></div>
-            <hr />
-            <button class="btn-danger" id="lockPanelBtn">🔒 Bloquear panel ahora</button>
+            <hr style="margin:1.5rem 0;" />
+            <button class="btn-admin danger" id="lockPanelBtn"><i class="fas fa-lock"></i> Bloquear panel ahora</button>
             <p style="font-size:0.85rem;color:#666;margin-top:0.5rem;">El panel se bloqueará automáticamente después de 5 minutos de inactividad.</p>
             <div id="adminLockMsg" class="admin-msg"></div>
         </div>
 
-        <!-- EXPORT/IMPORT (complementario) -->
+        <!-- EXPORT/IMPORT -->
         <div id="tabExport" class="admin-tab-content">
             <h3>Exportar / Importar Datos</h3>
-            <div class="admin-row" style="margin-bottom:1rem;">
-                <button class="btn-edit" id="exportJsonBtn">📥 Exportar JSON</button>
-                <button class="btn-edit" id="importJsonBtn">📤 Importar JSON</button>
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;">
+                <button class="btn-admin warning" id="exportJsonBtn"><i class="fas fa-download"></i> Exportar JSON</button>
+                <button class="btn-admin ghost" id="importJsonBtn"><i class="fas fa-upload"></i> Importar JSON</button>
                 <input type="file" id="importJsonInput" accept=".json" style="display:none;" />
             </div>
             <div id="adminExportMsg" class="admin-msg"></div>
@@ -771,10 +906,10 @@
             let appData = {};
             let isAdminLogged = false;
             let inactivityTimer = null;
-            const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutos
+            const INACTIVITY_TIMEOUT = 5 * 60 * 1000;
 
             // ============================================================
-            // DATOS POR DEFECTO (con nuevas configuraciones)
+            // DATOS POR DEFECTO
             // ============================================================
             const DEFAULT_DATA = {
                 titulo: 'MULTIPUNTO',
@@ -809,8 +944,8 @@
                     mensajeGanador: '¡Felicidades! Has ganado un premio. Usa tu código para reclamarlo.',
                     prefijo: 'MULTI',
                     longitud: 12,
-                    maxUsos: 0, // 0 = ilimitado
-                    limiteFecha: '', // formato "YYYY-MM-DD HH:MM"
+                    maxUsos: 0,
+                    limiteFecha: '',
                     activa: true,
                     textoInfo: 'Participa y gana premios. Un intento por día.'
                 },
@@ -818,7 +953,7 @@
                     logo: '',
                     fondo: '',
                     favicon: '',
-                    font: '' // URL de la fuente subida (base64)
+                    font: ''
                 },
                 pestanas: [
                     {
@@ -921,12 +1056,9 @@
             }
 
             function getCubaTime() {
-                // Obtener fecha y hora actual en la zona horaria de Cuba (UTC-4 o UTC-5 según horario de verano)
-                // Usamos la API de TimeZoneDB o simplemente calculamos con la zona horaria de La Habana
                 try {
                     return new Date().toLocaleString('es-CU', { timeZone: 'America/Havana' });
                 } catch (e) {
-                    // Fallback: restar 4 horas a UTC (aproximado)
                     const now = new Date();
                     now.setHours(now.getHours() - 4);
                     return now.toISOString().replace('T', ' ').slice(0, 16);
@@ -958,7 +1090,6 @@
                     appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
                     saveData();
                 }
-                // Cargar registro de ruleta
                 if (!localStorage.getItem(REGISTRO_RULETA_KEY)) {
                     localStorage.setItem(REGISTRO_RULETA_KEY, JSON.stringify([]));
                 }
@@ -993,7 +1124,6 @@
                 document.getElementById('heroTitulo').textContent = data.textos.heroTitulo || data.titulo;
                 document.getElementById('heroDesc').textContent = data.textos.heroDesc || data.descripcion;
                 document.getElementById('footerText').textContent = data.textos.footerText || '© 2026 MULTIPUNTO';
-                // Fuente personalizada
                 if (data.imagenes.font) {
                     const fontStyle = document.getElementById('fontStyle');
                     if (!fontStyle) {
@@ -1161,7 +1291,6 @@
                         </div>
                     `;
                     grid.appendChild(card);
-                    // Texto informativo
                     if (ruleta.textoInfo) {
                         const info = document.createElement('div');
                         info.style.cssText =
@@ -1169,7 +1298,6 @@
                         info.textContent = ruleta.textoInfo;
                         grid.appendChild(info);
                     }
-                    // Mensaje legal
                     const legal = document.createElement('div');
                     legal.style.cssText =
                         'grid-column:1/-1;font-size:0.75rem;color:var(--color-gris, #888);margin-top:0.5rem;text-align:center;line-height:1.4;padding:0 1rem;';
@@ -1177,9 +1305,7 @@
                         'Solo puede existir un ganador. Ante cualquier intento de incumplir las normas, la empresa se reserva el derecho de entregar o no el premio.';
                     grid.appendChild(legal);
 
-                    // Evento de la ruleta
                     card.addEventListener('click', function(e) {
-                        // Si está desactivada o expirada, mostrar mensaje
                         if (!isActive) {
                             const msg = document.getElementById('mensaje-sorpresa');
                             msg.textContent = '⛔ Esta promoción está temporalmente desactivada.';
@@ -1192,10 +1318,8 @@
                             msg.style.color = '#FF6B6B';
                             return;
                         }
-                        // Mostrar formulario
                         const form = document.getElementById('ruletaFormulario');
                         form.style.display = 'block';
-                        // Esperar a que el usuario confirme
                         const confirmBtn = document.getElementById('ruletaConfirmarBtn');
                         const nombreInput = document.getElementById('ruletaNombre');
                         const telefonoInput = document.getElementById('ruletaTelefono');
@@ -1206,7 +1330,6 @@
                                 alert('Por favor, completa tu nombre y número de teléfono.');
                                 return;
                             }
-                            // Ocultar formulario y procesar
                             form.style.display = 'none';
                             verificarSorpresaDiaria(nombre, telefono);
                         };
@@ -1318,9 +1441,7 @@
                 if (!list) return;
                 const registro = JSON.parse(localStorage.getItem(REGISTRO_RULETA_KEY) || '[]');
                 list.innerHTML = registro.map(item =>
-                    `<div style="border-bottom:1px solid #eee;padding:0.3rem 0;font-size:0.8rem;">
-                        <strong>${item.codigo}</strong> - ${item.nombre} (${item.telefono}) - ${item.fecha} - IP: ${item.ip}
-                    </div>`
+                    `<div><strong>${item.codigo}</strong> - ${item.nombre} (${item.telefono}) - ${item.fecha} - IP: ${item.ip}</div>`
                 ).join('');
                 if (registro.length === 0) list.innerHTML = '<div style="color:#888;padding:0.5rem;">No hay registros aún.</div>';
             }
@@ -1360,7 +1481,6 @@
                 const data = appData;
                 const ruleta = data.ruleta || {};
 
-                // Verificar límite de usos (si maxUsos > 0)
                 const maxUsos = ruleta.maxUsos || 0;
                 const registro = JSON.parse(localStorage.getItem(REGISTRO_RULETA_KEY) || '[]');
                 if (maxUsos > 0 && registro.length >= maxUsos) {
@@ -1370,7 +1490,6 @@
                     return;
                 }
 
-                // Verificar límite diario por IP (hora de Cuba)
                 getIP().then(ip => {
                     const hoy = new Date().toLocaleDateString('es-CU', { timeZone: 'America/Havana' });
                     const clave = 'multipunto_sorpresa_' + ip;
@@ -1383,14 +1502,11 @@
                         return;
                     }
 
-                    // Generar código único
                     try {
                         const codigo = generarCodigoUnico();
-                        // Guardar registro
                         guardarRegistro(nombre, telefono, codigo, ip);
                         localStorage.setItem(clave, hoy);
 
-                        // Mostrar animación
                         giroActivo = true;
                         mensajeElement.textContent = '🎡 ¡Girando...!';
                         mensajeElement.style.color = '#888';
@@ -1464,7 +1580,6 @@
                 } else {
                     document.getElementById('logoPreview').innerHTML = '';
                 }
-                // Estado de la fuente
                 if (data.imagenes.font) {
                     document.getElementById('fontStatus').textContent = '✅ Fuente personalizada cargada';
                 } else {
@@ -1499,9 +1614,9 @@
                         <i class="fas ${p.icono}"></i>
                         <span>${p.tipo}</span>
                         <label>Activa: <input type="checkbox" ${p.activa?'checked':''} data-index="${index}" class="check-activa"></label>
-                        <button class="btn-danger" data-index="${index}" onclick="eliminarPestana(${index})">Eliminar</button>
-                        <button class="btn-edit" data-index="${index}" onclick="editarPestana(${index})">✏️</button>
-                        ${p.tipo === 'tarjetas' ? `<button class="btn-edit" data-index="${index}" onclick="editarTextosPestana(${index})">📝 Textos</button>` : ''}
+                        <button class="btn-admin danger" data-index="${index}" onclick="eliminarPestana(${index})"><i class="fas fa-trash"></i></button>
+                        <button class="btn-admin warning" data-index="${index}" onclick="editarPestana(${index})"><i class="fas fa-edit"></i></button>
+                        ${p.tipo === 'tarjetas' ? `<button class="btn-admin primary" data-index="${index}" onclick="editarTextosPestana(${index})"><i class="fas fa-font"></i></button>` : ''}
                     `;
                     list.appendChild(div);
                     div.querySelector('.check-activa').addEventListener('change', function() {
@@ -1542,7 +1657,6 @@
             window.editarTextosPestana = function(index) {
                 const p = appData.pestanas[index];
                 if (!p.tarjetas) return;
-                // Buscar la CTA (si existe)
                 const cta = p.tarjetas.find(t => t.tipo === 'cta');
                 if (cta) {
                     const nuevoTexto = prompt('Texto principal de la CTA:', cta.texto || '');
@@ -1575,8 +1689,8 @@
                         <input type="text" id="tarjetaIcono_${index}" value="${item.icono || ''}" placeholder="Icono" style="flex:1;min-width:80px;">
                         <input type="text" id="tarjetaTexto_${index}" value="${item.desc || item.texto || item.usuario || ''}" placeholder="Texto" style="flex:2;min-width:100px;">
                         <input type="text" id="tarjetaUrl_${index}" value="${item.url || ''}" placeholder="URL" style="flex:2;min-width:100px;">
-                        <button class="btn-save-edit" data-index="${index}" style="display:inline-block;padding:0.3rem 0.8rem;" onclick="guardarTarjeta(${index})">💾</button>
-                        <button class="btn-danger" data-index="${index}" onclick="eliminarTarjeta(${index})">Eliminar</button>
+                        <button class="btn-admin success" data-index="${index}" onclick="guardarTarjeta(${index})"><i class="fas fa-save"></i></button>
+                        <button class="btn-admin danger" data-index="${index}" onclick="eliminarTarjeta(${index})"><i class="fas fa-trash"></i></button>
                     `;
                     list.appendChild(div);
                 });
@@ -1628,7 +1742,6 @@
             // EVENTOS ADMIN
             // ============================================================
             function initAdminEvents() {
-                // Login
                 document.getElementById('loginBtn').addEventListener('click', function() {
                     const pass = document.getElementById('adminPassword').value;
                     if (pass === getAdminPassword()) {
@@ -1672,12 +1785,12 @@
                     clearTimeout(inactivityTimer);
                 });
 
-                // Seguridad
                 document.getElementById('saveSecurityBtn').addEventListener('click', function() {
                     const newPass = document.getElementById('newPass').value;
                     const confirmPass = document.getElementById('confirmPass').value;
                     if (!newPass || newPass.length < 4) {
-                        showAdminMsg('adminSecurityMsg', '⚠️ La contraseña debe tener al menos 4 caracteres.', 'error');
+                        showAdminMsg('adminSecurityMsg', '⚠️ La contraseña debe tener al menos 4 caracteres.',
+                        'error');
                         return;
                     }
                     if (newPass !== confirmPass) {
@@ -1697,7 +1810,6 @@
                     showAdminMsg('adminLockMsg', '🔒 Panel bloqueado manualmente.', 'success');
                 });
 
-                // Inactividad automática (resetear en interacciones)
                 document.addEventListener('click', function() {
                     if (isAdminLogged && document.getElementById('adminPanel').classList.contains('open')) {
                         resetInactivityTimer();
@@ -1720,7 +1832,6 @@
                     }, INACTIVITY_TIMEOUT);
                 }
 
-                // Tabs del panel
                 document.querySelectorAll('.admin-tab-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove(
@@ -1733,7 +1844,6 @@
                     });
                 });
 
-                // Guardar General
                 document.getElementById('saveGeneralBtn').addEventListener('click', function() {
                     appData.titulo = document.getElementById('editTitulo').value.trim() || 'MULTIPUNTO';
                     appData.descripcion = document.getElementById('editDescripcion').value.trim() || '';
@@ -1743,7 +1853,6 @@
                     resetInactivityTimer();
                 });
 
-                // Guardar Colores
                 document.getElementById('saveColoresBtn').addEventListener('click', function() {
                     appData.colores.bg = document.getElementById('editBgColor').value;
                     appData.colores.texto = document.getElementById('editTextColor').value;
@@ -1756,7 +1865,6 @@
                     resetInactivityTimer();
                 });
 
-                // Guardar Animaciones
                 document.getElementById('saveAnimacionesBtn').addEventListener('click', function() {
                     appData.animaciones.pulsoDuracion = parseFloat(document.getElementById('editPulsoDuracion')
                         .value) || 3;
@@ -1774,7 +1882,6 @@
                     resetInactivityTimer();
                 });
 
-                // Guardar Textos
                 document.getElementById('saveTextosBtn').addEventListener('click', function() {
                     appData.textos.heroTitulo = document.getElementById('editHeroTitulo').value.trim();
                     appData.textos.heroItalico = document.getElementById('editHeroItalico').value.trim();
@@ -1790,7 +1897,6 @@
                     resetInactivityTimer();
                 });
 
-                // Guardar Ruleta
                 document.getElementById('saveRuletaBtn').addEventListener('click', function() {
                     appData.ruleta.mensajeDefault = document.getElementById('editRuletaMensajeDefault').value
                         .trim();
@@ -1809,7 +1915,6 @@
                     resetInactivityTimer();
                 });
 
-                // Agregar pestaña
                 document.getElementById('addPestanaBtn').addEventListener('click', function() {
                     const nombre = document.getElementById('newPestanaNombre').value.trim();
                     const icono = document.getElementById('newPestanaIcono').value.trim() || 'fa-circle';
@@ -1822,7 +1927,7 @@
                         nombre: nombre,
                         icono: icono,
                         activa: false,
-                        tipo: 'tarjetas', // Por defecto tarjetas, pero se puede cambiar después
+                        tipo: 'tarjetas',
                         contenido: {},
                         tarjetas: []
                     };
@@ -1836,7 +1941,6 @@
                     resetInactivityTimer();
                 });
 
-                // Tarjetas
                 document.getElementById('cargarTarjetasBtn').addEventListener('click', function() {
                     cargarTarjetasAdmin();
                     resetInactivityTimer();
@@ -1860,7 +1964,7 @@
                     const newCard = {
                         tipo: 'enlace',
                         nombre: nombre || 'Sin nombre',
-                        icono: 'fas fa-circle', // icono por defecto
+                        icono: 'fas fa-circle',
                         usuario: texto || '',
                         url: url || '#',
                         imagenes: imgUrl ? [imgUrl] : []
@@ -1877,7 +1981,6 @@
                     resetInactivityTimer();
                 });
 
-                // Imágenes
                 document.getElementById('cargarLogoBtn').addEventListener('click', function() {
                     const file = document.getElementById('editLogoFile').files[0];
                     const url = document.getElementById('editLogoUrl').value.trim();
@@ -1946,7 +2049,6 @@
                     resetInactivityTimer();
                 });
 
-                // Export/Import
                 document.getElementById('exportJsonBtn').addEventListener('click', function() {
                     const json = JSON.stringify(appData, null, 2);
                     const blob = new Blob([json], { type: 'application/json' });
@@ -1986,7 +2088,6 @@
                     resetInactivityTimer();
                 });
 
-                // Exportar HTML (nuevo)
                 document.getElementById('exportHtmlBtn').addEventListener('click', function() {
                     const htmlContent = document.documentElement.outerHTML;
                     const blob = new Blob(['<!DOCTYPE html>\n' + htmlContent], { type: 'text/html' });
@@ -2002,7 +2103,6 @@
                     resetInactivityTimer();
                 });
 
-                // Importar HTML (nuevo)
                 document.getElementById('importHtmlBtn').addEventListener('click', function() {
                     document.getElementById('importHtmlInput').click();
                 });
@@ -2012,24 +2112,21 @@
                     const reader = new FileReader();
                     reader.onload = function(ev) {
                         try {
-                            // Sobrescribir la página actual con el contenido importado
                             const importedHtml = ev.target.result;
-                            // Extraer el contenido entre <body> y </body> y también el <style>
                             const bodyMatch = importedHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
                             const styleMatch = importedHtml.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
                             if (bodyMatch) {
                                 document.body.innerHTML = bodyMatch[1];
-                                // Reinsertar el script y el estilo
                                 if (styleMatch) {
                                     const styleTag = document.createElement('style');
                                     styleTag.textContent = styleMatch[1];
                                     document.head.appendChild(styleTag);
                                 }
-                                // Re-ejecutar scripts (forzar recarga de la página para cargar los datos)
                                 alert('HTML importado. La página se recargará para aplicar los cambios.');
                                 location.reload();
                             } else {
-                                showAdminMsg('adminGeneralMsg2', '❌ No se pudo extraer el contenido del HTML.', 'error');
+                                showAdminMsg('adminGeneralMsg2', '❌ No se pudo extraer el contenido del HTML.',
+                                    'error');
                             }
                         } catch (err) {
                             showAdminMsg('adminGeneralMsg2', '❌ Error al importar: ' + err.message, 'error');
@@ -2040,7 +2137,6 @@
                     resetInactivityTimer();
                 });
 
-                // GitHub
                 document.getElementById('saveGithubConfig').addEventListener('click', function() {
                     const config = {
                         token: document.getElementById('githubToken').value.trim(),
@@ -2106,7 +2202,6 @@
                     resetInactivityTimer();
                 });
 
-                // Limpiar registro de ruleta
                 document.getElementById('limpiarRegistroBtn').addEventListener('click', function() {
                     if (confirm('¿Eliminar todo el registro de códigos generados?')) {
                         localStorage.setItem(REGISTRO_RULETA_KEY, JSON.stringify([]));
@@ -2116,7 +2211,6 @@
                     }
                 });
 
-                // Cerrar modal con ESC
                 document.addEventListener('keydown', function(e) {
                     if (e.key === 'Escape') {
                         document.getElementById('loginModal').classList.remove('open');
